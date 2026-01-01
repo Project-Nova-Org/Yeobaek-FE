@@ -1,0 +1,28 @@
+name: refactor
+description: 로직 개선 및 구조 변경
+title: '[REFACTOR] '
+labels: ['refactor']
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: 이슈 내용 (Description)
+      placeholder: 어떤 부분을 리팩토링하는지 작성해주세요
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: 상세 내용 (Details)
+      placeholder: 개선 방향, 변경 이유 등을 작성해주세요
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: 체크리스트 (Tasks)
+      placeholder: |
+        - [ ] 구조 개선
+        - [ ] 코드 정리
+        - [ ] 기존 기능 정상 동작 확인
+        - [ ] 리뷰 반영

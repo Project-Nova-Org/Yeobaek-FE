@@ -1,0 +1,28 @@
+name: feat
+description: 새로운 UI/UX 또는 기능 추가
+title: '[FEAT] '
+labels: ['feat']
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: 이슈 내용 (Description)
+      placeholder: 어떤 기능을 추가하는지 간단히 작성해주세요
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: 상세 내용 (Details)
+      placeholder: 기능의 동작 방식, 화면 흐름 등을 작성해주세요
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: 체크리스트 (Tasks)
+      placeholder: |
+        - [ ] 기능 구현
+        - [ ] UI 반영
+        - [ ] 테스트
+        - [ ] 리뷰 반영

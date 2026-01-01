@@ -1,0 +1,27 @@
+name: chore
+description: 설정, 패키지, 빌드 관련 작업
+title: '[CHORE] '
+labels: ['chore']
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: 이슈 내용 (Description)
+      placeholder: 어떤 설정을 변경하는지 작성해주세요
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: 상세 내용 (Details)
+      placeholder: 변경 이유 및 영향 범위를 작성해주세요
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: 체크리스트 (Tasks)
+      placeholder: |
+        - [ ] 설정 변경
+        - [ ] 빌드 확인
+        - [ ] 팀 공유

@@ -1,0 +1,28 @@
+name: fix
+description: 버그 수정
+title: '[FIX] '
+labels: ['fix']
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: 이슈 내용 (Description)
+      placeholder: 어떤 문제가 발생하는지 작성해주세요
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: 상세 내용 (Details)
+      placeholder: 재현 방법, 원인 추정 등을 작성해주세요
+
+  - type: textarea
+    id: tasks
+    attributes:
+      label: 체크리스트 (Tasks)
+      placeholder: |
+        - [ ] 원인 파악
+        - [ ] 수정
+        - [ ] 재현 테스트
+        - [ ] 회귀 테스트
