@@ -1,4 +1,4 @@
-name: refactor
+name: ♻️ refactor
 description: 로직 개선 및 구조 변경
 title: '[REFACTOR] '
 labels: ['refactor']

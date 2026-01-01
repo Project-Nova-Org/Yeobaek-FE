@@ -1,4 +1,4 @@
-name: fix
+name: 🐞 fix
 description: 버그 수정
 title: '[FIX] '
 labels: ['fix']

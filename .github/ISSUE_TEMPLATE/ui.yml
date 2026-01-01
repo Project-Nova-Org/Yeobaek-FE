@@ -1,13 +1,13 @@
-name: fix
-description: 버그 수정
-title: '[FIX] '
-labels: ['fix']
+name: 🎨 ui
+description: UI / 스타일 / 레이아웃 수정
+title: '[UI] '
+labels: ['ui']
 body:
   - type: textarea
     id: description
     attributes:
       label: 이슈 내용 (Description)
-      placeholder: 어떤 문제가 발생하는지 작성해주세요
+      placeholder: 수정이 필요한 UI 요소를 작성해주세요
     validations:
       required: true
 
@@ -15,14 +15,14 @@ body:
     id: details
     attributes:
       label: 상세 내용 (Details)
-      placeholder: 재현 방법, 원인 추정 등을 작성해주세요
+      placeholder: 디자인 시안, 변경 포인트 등을 작성해주세요
 
   - type: textarea
     id: tasks
     attributes:
       label: 체크리스트 (Tasks)
       placeholder: |
-        - [ ] 원인 파악
-        - [ ] 수정
-        - [ ] 재현 테스트
-        - [ ] 회귀 테스트
+        - [ ] UI 수정
+        - [ ] 반응형 확인
+        - [ ] 다크모드 확인
+        - [ ] 디자인 검수
