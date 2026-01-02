@@ -8,15 +8,12 @@ import { Colors } from "@/theme/colors";
 export function FloatingMenu() {
   const { anim, isOpen, toggle, close, plusRotation } = useFloatingMenu();
   const handleItemPress = () => {
-    // 아이템 선택 시 메뉴 닫기
     close();
   };
   const handleOOTDPress = () => {
-    // OOTD 선택 시 메뉴 닫기
     close();
   };
   const handleClosetPress = () => {
-    // 옷장 선택 시 메뉴 닫기
     close();
   };
 

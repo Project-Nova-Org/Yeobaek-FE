@@ -30,7 +30,7 @@ export function useFloatingMenu() {
       duration: 220,
       useNativeDriver: true,
     });
-    animationRef.current.start();
+    animationRef.current.start(() => setIsOpen(false));
   };
 
   const toggle = () => {
