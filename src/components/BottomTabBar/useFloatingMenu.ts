@@ -15,6 +15,7 @@ export function useFloatingMenu() {
   }, []);
 
   const open = () => {
+    animationRef.current?.stop();
     setIsOpen(true);
     animationRef.current = Animated.timing(anim, {
       toValue: 1,
@@ -25,12 +26,17 @@ export function useFloatingMenu() {
   };
 
   const close = () => {
+    animationRef.current?.stop();
     animationRef.current = Animated.timing(anim, {
       toValue: 0,
       duration: 220,
       useNativeDriver: true,
     });
-    animationRef.current.start(() => setIsOpen(false));
+    animationRef.current.start(({ finished }) => {
+      if (finished) {
+        setIsOpen(false);
+      }
+    });
   };
 
   const toggle = () => {
