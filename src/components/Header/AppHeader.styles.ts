@@ -3,18 +3,18 @@ import { Colors } from "@/theme/colors";
 
 export const styles = StyleSheet.create({
   container: {
-    height: 52,
+    height: 55,
     backgroundColor: Colors.background,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 12,
     borderRadius: 12,
   },
 
   side: {
     width: 88,
+    paddingLeft: 19,
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "flex-start",
   },
 
   center: {
@@ -23,28 +23,30 @@ export const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: "600",
     color: Colors.primary,
   },
 
   leftButton: {
     backgroundColor: Colors.primary,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    paddingHorizontal: 13,
+    paddingTop: 8,
+    paddingBottom: 9,
     borderRadius: 12,
   },
 
   leftButtonText: {
     color: Colors.white,
-    fontSize: 12,
-    fontWeight: "600",
+    fontSize: 10,
+    fontWeight: "400",
   },
 
   rightButton: {
     backgroundColor: Colors.primary,
-    paddingHorizontal: 14,
-    paddingVertical: 6,
+    paddingHorizontal: 13,
+    paddingTop: 8,
+    paddingBottom: 9,
     borderRadius: 12,
   },
 
@@ -64,6 +66,6 @@ export const styles = StyleSheet.create({
 
   iconGroup: {
     flexDirection: "row",
-    gap: 12,
+    gap: 20,
   },
 });
