@@ -7,10 +7,29 @@ import { Colors } from "@/theme/colors";
 
 export function FloatingMenu() {
   const { anim, isOpen, toggle, close, plusRotation } = useFloatingMenu();
+  const handleItemPress = () => {
+    // 아이템 선택 시 메뉴 닫기
+    close();
+  };
+  const handleOOTDPress = () => {
+    // OOTD 선택 시 메뉴 닫기
+    close();
+  };
+  const handleClosetPress = () => {
+    // 옷장 선택 시 메뉴 닫기
+    close();
+  };
 
   return (
     <>
-      {isOpen && <Pressable style={StyleSheet.absoluteFill} onPress={close} />}
+      {isOpen && (
+        <Pressable
+          style={StyleSheet.absoluteFill}
+          onPress={close}
+          accessibilityLabel="메뉴닫기"
+          accessibilityRole="button"
+        />
+      )}
 
       <View style={barStyles.actionsLayer} pointerEvents="box-none">
         <FloatingActionItem
@@ -18,6 +37,7 @@ export function FloatingMenu() {
           start={{ x: 120, y: 70 }}
           mid={{ x: 55, y: -20 }}
           end={{ x: 0, y: -66 }}
+          onPress={handleItemPress}
         >
           <ItemIcon color={Colors.white} />
         </FloatingActionItem>
@@ -27,6 +47,7 @@ export function FloatingMenu() {
           start={{ x: 120, y: 70 }}
           mid={{ x: 0, y: -66 }}
           end={{ x: -78, y: -26 }}
+          onPress={handleOOTDPress}
         >
           <OOTDIcon color={Colors.white} />
         </FloatingActionItem>
@@ -36,12 +57,19 @@ export function FloatingMenu() {
           start={{ x: 120, y: 70 }}
           mid={{ x: 95, y: -5 }}
           end={{ x: 78, y: -26 }}
+          onPress={handleClosetPress}
         >
           <ClosetIcon color={Colors.white} />
         </FloatingActionItem>
       </View>
 
-      <Pressable onPress={toggle} style={barStyles.floatingButton}>
+      <Pressable
+        onPress={toggle}
+        style={barStyles.floatingButton}
+        accessibilityLabel={isOpen ? "메뉴 닫기" : "메뉴 열기"}
+        accessibilityRole="button"
+        accessibilityState={{ expanded: isOpen }}
+      >
         <View style={barStyles.floatingInner}>
           <Animated.View style={{ transform: [{ rotate: plusRotation }] }}>
             <PlusIcon color={Colors.primary} />

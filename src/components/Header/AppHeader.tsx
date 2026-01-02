@@ -1,5 +1,6 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { styles } from "./AppHeader.styles";
+import { AppText } from "@/components/common/AppText";
 
 interface AppHeaderProps {
   title: string;
@@ -13,7 +14,7 @@ export function AppHeader({ title, left, right }: AppHeaderProps) {
       <View style={styles.side}>{left}</View>
 
       <View style={styles.center}>
-        <Text style={styles.title}>{title}</Text>
+        <AppText style={styles.title}>{title}</AppText>
       </View>
 
       <View style={styles.side}>{right}</View>

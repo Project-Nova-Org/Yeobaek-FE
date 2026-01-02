@@ -3,7 +3,7 @@ import { ProfileIcon } from "@/assets/icons";
 import { Colors } from "@/theme/colors.ts";
 import { AppText } from "@/components/common/AppText.tsx";
 
-interface SimpleTopBarProps {
+export interface SimpleTopBarProps {
   title: string;
   onProfilePress?: () => void;
 }

@@ -22,7 +22,7 @@ export const barStyles = StyleSheet.create({
     left: "50%",
     width: 54,
     height: 54,
-    borderRadius: 30,
+    borderRadius: 27,
     backgroundColor: Colors.white,
     alignItems: "center",
     justifyContent: "center",

@@ -61,7 +61,7 @@ export const styles = StyleSheet.create({
   },
 
   rightButtonTextDisabled: {
-    color: Colors.disable,
+    color: Colors.textDisabled,
   },
 
   iconGroup: {
