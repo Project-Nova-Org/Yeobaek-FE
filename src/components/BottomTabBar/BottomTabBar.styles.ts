@@ -17,14 +17,16 @@ export const barStyles = StyleSheet.create({
     justifyContent: "flex-start",
     elevation: 10,
   },
+
   floatingWrapper: {
     position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    top: -20,
+    left: "50%",
+    marginLeft: -27,
+    width: 54,
+    height: 54,
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     zIndex: 10,
   },
 
