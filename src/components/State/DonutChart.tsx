@@ -17,8 +17,6 @@ const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 const GAP_LENGTH = 3;
 
 export function DonutChart({ items }: DonutChartProps) {
-  const total = items.reduce((sum, item) => sum + item.value, 0);
-
   const progress = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -29,6 +27,10 @@ export function DonutChart({ items }: DonutChartProps) {
       useNativeDriver: false,
     }).start();
   }, [progress]);
+
+  if (!items || items.length === 0) return null;
+  const total = items.reduce((sum, item) => sum + item.value, 0);
+  if (total === 0) return null;
 
   let offset = 0;
 
