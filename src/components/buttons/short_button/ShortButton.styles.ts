@@ -1,38 +1,39 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
+import { FontSize, FontWeight } from "@/theme/typography.ts";
+import { Colors } from "@/theme/colors.ts";
 
 export const shortButtonStyles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   buttonBase: {
     width: 45,
     height: 27,
     borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   buttonText: {
-    fontSize: 10,
-    fontWeight: '500',
-    letterSpacing: -0.5,
+    fontSize: FontSize.xxs,
+    fontWeight: FontWeight.medium,
   },
 
   // 활성화 상태
   activeButton: {
-    backgroundColor: '#1B2A41',
+    backgroundColor: Colors.primary,
   },
   activeText: {
-    color: '#FFFFFF',
+    color: Colors.white,
   },
 
   // 비활성화 상태
   disabledButton: {
-    backgroundColor: '#C8CCD3',
+    backgroundColor: Colors.disable,
   },
   disabledText: {
-    color: '#A9AFB8',
+    color: Colors.textDisabled,
   },
 });

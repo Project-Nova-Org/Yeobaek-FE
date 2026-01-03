@@ -1,9 +1,11 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
+import { FontSize, FontWeight } from "@/theme/typography.ts";
+import { Colors } from "@/theme/colors.ts";
 
 export const LongButtonStyles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 10,
   },
 
@@ -11,29 +13,28 @@ export const LongButtonStyles = StyleSheet.create({
     width: 327,
     height: 40,
     borderRadius: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   buttonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    letterSpacing: -0.3,
+    fontSize: FontSize.md,
+    fontWeight: FontWeight.semibold,
   },
 
   // 활성화 상태 (클릭 가능)
   activeButton: {
-    backgroundColor: '#1B2A41',
+    backgroundColor: Colors.primary,
   },
   activeText: {
-    color: '#FFFFFF',
+    color: Colors.white,
   },
 
   // 비활성화 상태 (클릭 불가능)
   disabledButton: {
-    backgroundColor: '#C8CCD3',
+    backgroundColor: Colors.disable,
   },
   disabledText: {
-    color: '#A9AFB8',
+    color: Colors.textDisabled,
   },
 });

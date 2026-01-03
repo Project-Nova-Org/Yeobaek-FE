@@ -8,9 +8,9 @@ interface DoneShortButtonProps {
   label?: string;
 }
 
-const DoneShortButton = ({ onPress, isActive, label = '완료' }: DoneShortButtonProps) => {
+const DoneShortButton = ({ onPress, isActive, label = "완료" }: DoneShortButtonProps) => {
   return (
-    <View style={shortButtonStyles.container} pointerEvents={isActive ? 'auto' : 'none'}>
+    <View style={shortButtonStyles.container} pointerEvents={isActive ? "auto" : "none"}>
       <Pressable
         onPress={onPress}
         disabled={!isActive}

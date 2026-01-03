@@ -1,17 +1,19 @@
-import React from 'react';
-import { View, Text } from 'react-native';
-import { alertStyles } from './Alert.styles';
-import SelectionButtons from '../buttons/alert_button/ButtonAlert'; // 파일 경로 확인 필요
+import React from "react";
+import { View, Text } from "react-native";
+import { alertStyles } from "./Alert.styles";
+import SelectionButtons from "@/components/buttons/alert_button/ButtonAlert";
 
-interface CustomAlertProps {
+interface AlertProps {
   message: string;
 }
 
-const CustomAlert = ({ message }: CustomAlertProps) => {
+const Alert = ({ message }: AlertProps) => {
   return (
     <View style={alertStyles.absolutePosition}>
       <View style={alertStyles.alertContainer}>
-        <Text style={alertStyles.messageText}>{message}</Text>
+        <View style={alertStyles.textWrapper}>
+          <Text style={alertStyles.messageText}>{message}</Text>
+        </View>
         <View style={alertStyles.buttonWrapper}>
           <SelectionButtons />
         </View>
@@ -20,4 +22,4 @@ const CustomAlert = ({ message }: CustomAlertProps) => {
   );
 };
 
-export default CustomAlert;
+export default Alert;

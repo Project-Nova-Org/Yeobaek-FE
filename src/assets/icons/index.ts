@@ -29,3 +29,5 @@ export { default as StarIcon } from "./star.svg";
 export { default as TimeIcon } from "./time.svg";
 export { default as UnCheckIcon } from "./uncheck.svg";
 export { default as UndoIcon } from "./undo.svg";
+export { default as SignedIcon } from "./signed.svg";
+export { default as PickerIcon } from "./picker.svg";
