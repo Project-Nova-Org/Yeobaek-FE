@@ -1,4 +1,5 @@
 import { View, Pressable, Animated, StyleSheet } from "react-native";
+import { Shadow } from "react-native-shadow-2";
 import { useFloatingMenu } from "./useFloatingMenu";
 import { FloatingActionItem } from "./FloatingActionItem";
 import { barStyles } from "./BottomTabBar.styles";
@@ -7,26 +8,10 @@ import { Colors } from "@/theme/colors";
 
 export function FloatingMenu() {
   const { anim, isOpen, toggle, close, plusRotation } = useFloatingMenu();
-  const handleItemPress = () => {
-    close();
-  };
-  const handleOOTDPress = () => {
-    close();
-  };
-  const handleClosetPress = () => {
-    close();
-  };
 
   return (
     <>
-      {isOpen && (
-        <Pressable
-          style={StyleSheet.absoluteFill}
-          onPress={close}
-          accessibilityLabel="메뉴닫기"
-          accessibilityRole="button"
-        />
-      )}
+      {isOpen && <Pressable style={StyleSheet.absoluteFill} onPress={close} />}
 
       <View style={barStyles.actionsLayer} pointerEvents="box-none">
         <FloatingActionItem
@@ -34,7 +19,7 @@ export function FloatingMenu() {
           start={{ x: 120, y: 70 }}
           mid={{ x: 55, y: -20 }}
           end={{ x: 0, y: -66 }}
-          onPress={handleItemPress}
+          onPress={close}
         >
           <ItemIcon color={Colors.white} />
         </FloatingActionItem>
@@ -44,7 +29,7 @@ export function FloatingMenu() {
           start={{ x: 120, y: 70 }}
           mid={{ x: 0, y: -66 }}
           end={{ x: -78, y: -26 }}
-          onPress={handleOOTDPress}
+          onPress={close}
         >
           <OOTDIcon color={Colors.white} />
         </FloatingActionItem>
@@ -54,25 +39,29 @@ export function FloatingMenu() {
           start={{ x: 120, y: 70 }}
           mid={{ x: 95, y: -5 }}
           end={{ x: 78, y: -26 }}
-          onPress={handleClosetPress}
+          onPress={close}
         >
           <ClosetIcon color={Colors.white} />
         </FloatingActionItem>
       </View>
 
-      <Pressable
-        onPress={toggle}
-        style={barStyles.floatingButton}
-        accessibilityLabel={isOpen ? "메뉴 닫기" : "메뉴 열기"}
-        accessibilityRole="button"
-        accessibilityState={{ expanded: isOpen }}
-      >
-        <View style={barStyles.floatingInner}>
-          <Animated.View style={{ transform: [{ rotate: plusRotation }] }}>
-            <PlusIcon color={Colors.primary} />
-          </Animated.View>
-        </View>
-      </Pressable>
+      <View style={barStyles.floatingWrapper} pointerEvents="box-none">
+        <Shadow
+          startColor="rgba(0,0,0,0.1)"
+          endColor="rgba(0,0,0,0)"
+          distance={2}
+          offset={[0, -34]}
+          style={barStyles.floatingShadow}
+        >
+          <Pressable onPress={toggle} style={barStyles.floatingButton}>
+            <View style={barStyles.floatingInner}>
+              <Animated.View style={{ transform: [{ rotate: plusRotation }] }}>
+                <PlusIcon color={Colors.primary} />
+              </Animated.View>
+            </View>
+          </Pressable>
+        </Shadow>
+      </View>
     </>
   );
 }
