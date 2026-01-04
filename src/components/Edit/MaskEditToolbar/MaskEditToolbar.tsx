@@ -15,7 +15,7 @@ import { Colors } from "@/theme/colors";
 type Tool = "brush" | "eraser";
 
 const ACTIVE = Colors.primary;
-const INACTIVE = Colors.gray400;
+const INACTIVE = Colors.inactive;
 
 interface Props {
     size: number;
@@ -60,7 +60,7 @@ export function MaskEditToolbar({
                     value={size}
                     onValueChange={onChangeSize}
                     minimumTrackTintColor={ACTIVE}
-                    maximumTrackTintColor={Colors.disable}
+                    maximumTrackTintColor={Colors.primary}
                     thumbTintColor={ACTIVE}
                 />
 

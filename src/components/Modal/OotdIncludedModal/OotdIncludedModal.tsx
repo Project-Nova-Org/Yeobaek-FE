@@ -15,7 +15,6 @@ interface Props {
     items: OotdItem[];
 }
 
-/** ===== 고정 수치 (절대 건들지 말 것) ===== */
 const PAGE_SIZE = 4;
 const MODAL_WIDTH = 320;
 const MODAL_PADDING = 16;
@@ -88,7 +87,6 @@ export function OotdIncludedModal({ visible, onClose, items }: Props) {
                                         );
                                     })}
 
-                                    {/* 빈칸 채우기 */}
                                     {item.length < 4 &&
                                         Array.from({ length: 4 - item.length }).map((_, i) => {
                                             const idx = item.length + i;

@@ -117,10 +117,8 @@ export function TransformEditor({ children, minSize = 60 }: Props) {
                     { width: size.width, height: size.height },
                 ]}
             >
-                {/* 회전 연결선 */}
                 <View style={styles.rotateLine} />
 
-                {/* 회전 핸들 */}
                 <View
                     style={styles.rotateHandle}
                     {...rotateResponder.panHandlers}

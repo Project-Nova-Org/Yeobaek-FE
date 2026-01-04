@@ -1,14 +1,15 @@
 import { StyleSheet } from "react-native";
+import { Colors } from "@/theme/colors";
 
 export const styles = StyleSheet.create({
     overlay: {
         flex: 1,
         justifyContent: "flex-end",
-        backgroundColor: "rgba(0,0,0,0.3)",
+        backgroundColor: "rgba(17, 17, 17, 0.4)",
     },
 
     sheet: {
-        backgroundColor: "white",
+        backgroundColor: Colors.white,
         borderTopLeftRadius: 24,
         borderTopRightRadius: 24,
         paddingHorizontal: 20,
@@ -20,7 +21,7 @@ export const styles = StyleSheet.create({
         width: 40,
         height: 4,
         borderRadius: 2,
-        backgroundColor: "#D0D0D0",
+        backgroundColor:Colors.silder,
         alignSelf: "center",
         marginBottom: 16,
     },
@@ -32,7 +33,7 @@ export const styles = StyleSheet.create({
 
     card: {
         flex: 1,
-        backgroundColor: "#F4F6FA",
+        backgroundColor: Colors.background,
         borderRadius: 16,
         padding: 16,
         height: 120,                 // 카드 높이 고정 (디자인 안정)
@@ -42,10 +43,11 @@ export const styles = StyleSheet.create({
     label: {
         fontSize: 14,
         fontWeight: "500",
-        color: "#111",
+        color: Colors.darkgray,
     },
 
     iconWrap: {
         alignSelf: "flex-end",        //  오른쪽 정렬
+        color: Colors.darkgray,
     },
 });

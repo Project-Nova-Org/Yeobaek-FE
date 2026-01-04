@@ -1,4 +1,5 @@
 import { StyleSheet, ViewStyle } from "react-native";
+import { Colors } from "@/theme/colors";
 
 export const styles = StyleSheet.create<Record<string, ViewStyle>>({
     container: {
@@ -8,7 +9,7 @@ export const styles = StyleSheet.create<Record<string, ViewStyle>>({
     box: {
         borderWidth: 1.5,
         borderStyle: "dashed",
-        borderColor: "#000",
+        borderColor: Colors.black,
         justifyContent: "center",
         alignItems: "center",
     },
@@ -25,7 +26,7 @@ export const styles = StyleSheet.create<Record<string, ViewStyle>>({
         left: "50%" as const,
         width: 1,
         height: 16,
-        backgroundColor: "#000",
+        backgroundColor: Colors.black,
     },
 
     rotateHandle: {
@@ -36,7 +37,7 @@ export const styles = StyleSheet.create<Record<string, ViewStyle>>({
         width: 16,
         height: 16,
         borderRadius: 8,
-        backgroundColor: "#000",
+        backgroundColor: Colors.black,
     },
 
     /* ===== 핸들 ===== */
@@ -45,9 +46,9 @@ export const styles = StyleSheet.create<Record<string, ViewStyle>>({
         width: 12,
         height: 12,
         borderRadius: 6,
-        backgroundColor: "white",
+        backgroundColor: Colors.white,
         borderWidth: 1,
-        borderColor: "#000",
+        borderColor: Colors.black,
     },
 
     top: {
@@ -55,16 +56,19 @@ export const styles = StyleSheet.create<Record<string, ViewStyle>>({
         left: "50%" as const,
         marginLeft: -6,
     },
+
     bottom: {
         bottom: -6,
         left: "50%" as const,
         marginLeft: -6,
     },
+
     left: {
         left: -6,
         top: "50%" as const,
         marginTop: -6,
     },
+
     right: {
         right: -6,
         top: "50%" as const,
@@ -75,14 +79,17 @@ export const styles = StyleSheet.create<Record<string, ViewStyle>>({
         top: -6,
         left: -6,
     },
+
     topRight: {
         top: -6,
         right: -6,
     },
+
     bottomLeft: {
         bottom: -6,
         left: -6,
     },
+
     bottomRight: {
         bottom: -6,
         right: -6,

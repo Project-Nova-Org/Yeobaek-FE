@@ -1,15 +1,15 @@
 import { StyleSheet } from "react-native";
-
+import { Colors } from "@/theme/colors";
 export const styles = StyleSheet.create({
     overlay: {
         flex: 1,
-        backgroundColor: "rgba(0,0,0,0.4)",
+        backgroundColor: "rgba(17, 17, 17, 0.4)",
         justifyContent: "center",
         alignItems: "center",
     },
 
     modal: {
-        backgroundColor: "#9E9E9E",
+        backgroundColor: "rgba(17, 17, 17, 0.4)",
         borderRadius: 20,
         paddingVertical: 16,
     },
@@ -23,13 +23,13 @@ export const styles = StyleSheet.create({
     },
 
     title: {
-        color: "white",
+        color: Colors.white,
         fontSize: 15,
         fontWeight: "600",
     },
 
     closeText: {
-        color: "white",
+        color: Colors.white,
         fontSize: 18,
         fontWeight: "700",
     },
@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
     },
 
     card: {
-        backgroundColor: "white",
+        backgroundColor:Colors.white,
         borderRadius: 16,
         alignItems: "center",
         justifyContent: "center",
@@ -69,10 +69,10 @@ export const styles = StyleSheet.create({
         width: 6,
         height: 6,
         borderRadius: 3,
-        backgroundColor: "#D0D0D0",
+        backgroundColor: Colors.silder,
     },
 
     dotActive: {
-        backgroundColor: "white",
+        backgroundColor: Colors.white,
     },
 });

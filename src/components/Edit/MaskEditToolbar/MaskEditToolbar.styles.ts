@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
 
-        backgroundColor: Colors.background,
+        backgroundColor: Colors.background2,
         borderRadius: 22,
 
         paddingHorizontal: 4,
@@ -49,7 +49,7 @@ export const styles = StyleSheet.create({
     divider: {
         width: 1,
         height: 20,
-        backgroundColor: Colors.disable,
+        backgroundColor: Colors.inactive,
         marginHorizontal: 8,
     },
 });
