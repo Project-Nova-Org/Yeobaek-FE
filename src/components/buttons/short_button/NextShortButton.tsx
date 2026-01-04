@@ -1,6 +1,6 @@
-import React from 'react';
-import { Pressable, Text, View } from 'react-native';
-import { shortButtonStyles } from './ShortButton.styles';
+import React from "react";
+import { Pressable, Text, View } from "react-native";
+import { shortButtonStyles } from "./ShortButton.styles";
 
 interface NextShortButtonProps {
   onPress: () => void;
@@ -8,15 +8,16 @@ interface NextShortButtonProps {
   label?: string;
 }
 
-const NextShortButton = ({ onPress, isActive, label = '다음' }: NextShortButtonProps) => {
+const NextShortButton = ({ onPress, isActive, label = "다음" }: NextShortButtonProps) => {
   return (
-    <View style={shortButtonStyles.container} pointerEvents={isActive ? 'auto' : 'none'}>
+    <View style={shortButtonStyles.container} pointerEvents={isActive ? "auto" : "none"}>
       <Pressable
         onPress={onPress}
         disabled={!isActive}
-        style={[
+        style={({ pressed }) => [
           shortButtonStyles.buttonBase,
           isActive ? shortButtonStyles.activeButton : shortButtonStyles.disabledButton,
+          isActive && pressed && shortButtonStyles.buttonPressed,
         ]}
       >
         <Text

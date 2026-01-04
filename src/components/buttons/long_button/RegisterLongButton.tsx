@@ -1,6 +1,6 @@
-import React from 'react';
-import { Pressable, Text, View } from 'react-native';
-import { LongButtonStyles } from './LongButton.styles';
+import React from "react";
+import { Pressable, Text, View } from "react-native";
+import { LongButtonStyles } from "./LongButton.styles";
 
 interface RegisterLongButtonProps {
   onPress: () => void;
@@ -8,19 +8,20 @@ interface RegisterLongButtonProps {
   label?: string;
 }
 
-const RegisterLongButton = ({ onPress, isActive, label = '등 록' }: RegisterLongButtonProps) => {
+const RegisterLongButton = ({ onPress, isActive, label = "등 록" }: RegisterLongButtonProps) => {
   return (
     <View
       style={LongButtonStyles.container}
       // 비활성화 시 터치 이벤트가 아예 발생x
-      pointerEvents={isActive ? 'auto' : 'none'}
+      pointerEvents={isActive ? "auto" : "none"}
     >
       <Pressable
         onPress={onPress}
         disabled={!isActive}
-        style={[
+        style={({ pressed }) => [
           LongButtonStyles.buttonBase,
           isActive ? LongButtonStyles.activeButton : LongButtonStyles.disabledButton,
+          isActive && pressed && LongButtonStyles.buttonPressed,
         ]}
       >
         <Text

@@ -14,9 +14,10 @@ const NicknameButton = ({ onPress, isActive, label = "닉네임 변경하기" }:
       <Pressable
         onPress={onPress}
         disabled={!isActive}
-        style={[
+        style={({ pressed }) => [
           nicknameButtonStyles.buttonBase,
           isActive ? nicknameButtonStyles.activeButton : nicknameButtonStyles.disabledButton,
+          isActive && pressed && nicknameButtonStyles.buttonPressed,
         ]}
       >
         <Text

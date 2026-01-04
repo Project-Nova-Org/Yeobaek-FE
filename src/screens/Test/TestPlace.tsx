@@ -2,6 +2,7 @@ import { View, StyleSheet } from "react-native";
 import { useState } from "react";
 import { BottomTabBar } from "@/components/BottomTabBar/BottomTabBar";
 import { TopByTab } from "@/components/Top";
+import { Colors } from "@/theme/colors.ts";
 
 type TabKey = "calendar" | "ootd" | "home" | "dressroom" | "stats";
 
@@ -26,7 +27,7 @@ export default function TestPlace() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F5F5",
+    backgroundColor: Colors.background,
   },
   body: {
     flex: 1,

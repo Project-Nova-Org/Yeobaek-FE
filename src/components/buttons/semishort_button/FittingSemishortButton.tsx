@@ -1,6 +1,6 @@
-import React from 'react';
-import { Pressable, Text, View } from 'react-native';
-import { semishortButtonStyles } from './SemishortButton.styles';
+import React from "react";
+import { Pressable, Text, View } from "react-native";
+import { semishortButtonStyles } from "./SemishortButton.styles";
 
 interface FittingSemishortButtonProps {
   onPress: () => void;
@@ -11,16 +11,17 @@ interface FittingSemishortButtonProps {
 const FittingSemishortButton = ({
   onPress,
   isActive,
-  label = '피팅하기',
+  label = "피팅하기",
 }: FittingSemishortButtonProps) => {
   return (
-    <View style={semishortButtonStyles.container} pointerEvents={isActive ? 'auto' : 'none'}>
+    <View style={semishortButtonStyles.container} pointerEvents={isActive ? "auto" : "none"}>
       <Pressable
         onPress={onPress}
         disabled={!isActive}
-        style={[
+        style={({ pressed }) => [
           semishortButtonStyles.buttonBase,
           isActive ? semishortButtonStyles.activeButton : semishortButtonStyles.disabledButton,
+          isActive && pressed && semishortButtonStyles.buttonPressed,
         ]}
       >
         <Text

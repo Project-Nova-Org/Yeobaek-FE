@@ -14,9 +14,10 @@ const SignupButton = ({ onPress, isActive, label = "회원가입 완료하기" }
       <Pressable
         onPress={onPress}
         disabled={!isActive}
-        style={[
+        style={({ pressed }) => [
           signupButtonStyles.buttonBase,
           isActive ? signupButtonStyles.activeButton : signupButtonStyles.disabledButton,
+          isActive && pressed && signupButtonStyles.buttonPressed,
         ]}
       >
         <Text

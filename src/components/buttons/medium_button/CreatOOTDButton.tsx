@@ -10,7 +10,13 @@ interface CreateOOTDButtonProps {
 const CreateOOTDButton = ({ onPress, label = "OOTD 생성하기" }: CreateOOTDButtonProps) => {
   return (
     <View style={MediumButtonIconStyles.container}>
-      <Pressable onPress={onPress} style={[MediumButtonIconStyles.buttonBase]}>
+      <Pressable
+        onPress={onPress}
+        style={({ pressed }) => [
+          MediumButtonIconStyles.buttonBase,
+          pressed && MediumButtonIconStyles.buttonPressed,
+        ]}
+      >
         <PlusIcon width={10} height={10} color={MediumButtonIconStyles.buttonText.color} />
         <Text style={MediumButtonIconStyles.buttonText}>{label}</Text>
       </Pressable>

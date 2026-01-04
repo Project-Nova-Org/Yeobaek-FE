@@ -1,6 +1,6 @@
-import React from 'react';
-import { Pressable, Text, View } from 'react-native';
-import { shortButtonStyles } from './ShortButton.styles';
+import React from "react";
+import { Pressable, Text, View } from "react-native";
+import { shortButtonStyles } from "./ShortButton.styles";
 
 interface DoneShortButtonProps {
   onPress: () => void;
@@ -14,9 +14,10 @@ const DoneShortButton = ({ onPress, isActive, label = "완료" }: DoneShortButto
       <Pressable
         onPress={onPress}
         disabled={!isActive}
-        style={[
+        style={({ pressed }) => [
           shortButtonStyles.buttonBase,
           isActive ? shortButtonStyles.activeButton : shortButtonStyles.disabledButton,
+          isActive && pressed && shortButtonStyles.buttonPressed,
         ]}
       >
         <Text

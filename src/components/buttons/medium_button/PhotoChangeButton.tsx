@@ -10,7 +10,13 @@ interface PhotoChangeButtonProps {
 const PhotoChangeButton = ({ onPress, label = "사진 변경하기" }: PhotoChangeButtonProps) => {
   return (
     <View style={MediumButtonStyles.container}>
-      <Pressable onPress={onPress} style={[MediumButtonStyles.buttonBase]}>
+      <Pressable
+        onPress={onPress}
+        style={({ pressed }) => [
+          MediumButtonStyles.buttonBase,
+          pressed && MediumButtonStyles.buttonPressed,
+        ]}
+      >
         <Text style={MediumButtonStyles.buttonText}>{label}</Text>
       </Pressable>
     </View>

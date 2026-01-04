@@ -24,4 +24,8 @@ export const MediumButtonIconStyles = StyleSheet.create({
     fontWeight: FontWeight.medium,
     includeFontPadding: false,
   },
+  // 버튼이 눌렸을 때
+  buttonPressed: {
+    backgroundColor: Colors.yesPressed,
+  },
 });

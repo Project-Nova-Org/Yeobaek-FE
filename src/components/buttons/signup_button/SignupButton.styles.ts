@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import { Colors } from "@/theme/colors";
 import { FontSize, FontWeight } from "@/theme/typography";
 
@@ -35,5 +35,9 @@ export const signupButtonStyles = StyleSheet.create({
   },
   disabledText: {
     color: Colors.textDisabled,
+  },
+  // 버튼이 눌렸을 때
+  buttonPressed: {
+    backgroundColor: Colors.yesPressed,
   },
 });

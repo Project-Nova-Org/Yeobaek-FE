@@ -37,4 +37,8 @@ export const LongButtonStyles = StyleSheet.create({
   disabledText: {
     color: Colors.textDisabled,
   },
+  // 버튼이 눌렸을 때
+  buttonPressed: {
+    backgroundColor: Colors.yesPressed,
+  },
 });

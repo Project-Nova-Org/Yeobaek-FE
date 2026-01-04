@@ -21,4 +21,8 @@ export const MediumButtonStyles = StyleSheet.create({
     fontSize: FontSize.xxxs,
     fontWeight: FontWeight.medium,
   },
+  // 버튼이 눌렸을 때
+  buttonPressed: {
+    backgroundColor: Colors.yesPressed,
+  },
 });
