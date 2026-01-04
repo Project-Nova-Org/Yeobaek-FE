@@ -2,7 +2,6 @@ import {
     View,
     Animated,
     PanResponder,
-    PanResponderGestureState,
 } from "react-native";
 import { useRef, useState } from "react";
 import { styles } from "./TransformEditor.styles";
@@ -13,7 +12,6 @@ interface Props {
 }
 
 export function TransformEditor({ children, minSize = 60 }: Props) {
-    /* ================= 이동 ================= */
     const translate = useRef(new Animated.ValueXY()).current;
 
     const moveResponder = useRef(
@@ -29,8 +27,9 @@ export function TransformEditor({ children, minSize = 60 }: Props) {
         })
     ).current;
 
-    /* ================= 크기 ================= */
+
     const [size, setSize] = useState({ width: 140, height: 140 });
+    const lastGesture = useRef({ dx: 0, dy: 0 });
 
     const clamp = (v: number) => Math.max(minSize, v);
 
@@ -47,14 +46,36 @@ export function TransformEditor({ children, minSize = 60 }: Props) {
         }));
 
     const createResizeResponder = (
-        handler: (g: PanResponderGestureState) => void
+        handler: (dx: number, dy: number) => void
     ) =>
         PanResponder.create({
             onStartShouldSetPanResponder: () => true,
-            onPanResponderMove: (_, g) => handler(g),
+
+            onPanResponderGrant: () => {
+                lastGesture.current = { dx: 0, dy: 0 };
+            },
+
+            onPanResponderMove: (_, g) => {
+                const deltaDx = g.dx - lastGesture.current.dx;
+                const deltaDy = g.dy - lastGesture.current.dy;
+
+                lastGesture.current = { dx: g.dx, dy: g.dy };
+
+                handler(deltaDx, deltaDy);
+            },
         });
 
-    /* ================= 회전 ================= */
+    const resizeResponders = useRef({
+        top: createResizeResponder((_, dy) => resizeH(-dy)),
+        bottom: createResizeResponder((_, dy) => resizeH(dy)),
+        left: createResizeResponder((dx) => resizeW(-dx)),
+        right: createResizeResponder((dx) => resizeW(dx)),
+        topLeft: createResizeResponder((dx, dy) => resize(-dx, -dy)),
+        topRight: createResizeResponder((dx, dy) => resize(dx, -dy)),
+        bottomLeft: createResizeResponder((dx, dy) => resize(-dx, dy)),
+        bottomRight: createResizeResponder((dx, dy) => resize(dx, dy)),
+    }).current;
+
     const rotation = useRef(new Animated.Value(0)).current;
     const lastRotation = useRef(0);
 
@@ -73,9 +94,10 @@ export function TransformEditor({ children, minSize = 60 }: Props) {
     const rotateInterpolate = rotation.interpolate({
         inputRange: [-180, 180],
         outputRange: ["-180deg", "180deg"],
+        extrapolate: 'extend',
     });
 
-    /* ================= Render ================= */
+
     return (
         <Animated.View
             style={[
@@ -104,47 +126,44 @@ export function TransformEditor({ children, minSize = 60 }: Props) {
                     {...rotateResponder.panHandlers}
                 />
 
-                {/* ===== 8개 리사이즈 핸들 ===== */}
-
                 {/* 상 / 하 */}
                 <View
                     style={[styles.handle, styles.top]}
-                    {...createResizeResponder((g) => resizeH(-g.dy)).panHandlers}
+                    {...resizeResponders.top.panHandlers}
                 />
                 <View
                     style={[styles.handle, styles.bottom]}
-                    {...createResizeResponder((g) => resizeH(g.dy)).panHandlers}
+                    {...resizeResponders.bottom.panHandlers}
                 />
 
                 {/* 좌 / 우 */}
                 <View
                     style={[styles.handle, styles.left]}
-                    {...createResizeResponder((g) => resizeW(-g.dx)).panHandlers}
+                    {...resizeResponders.left.panHandlers}
                 />
                 <View
                     style={[styles.handle, styles.right]}
-                    {...createResizeResponder((g) => resizeW(g.dx)).panHandlers}
+                    {...resizeResponders.right.panHandlers}
                 />
 
-                {/* 모서리 4개 */}
+                {/* 모서리 */}
                 <View
                     style={[styles.handle, styles.topLeft]}
-                    {...createResizeResponder((g) => resize(-g.dx, -g.dy)).panHandlers}
+                    {...resizeResponders.topLeft.panHandlers}
                 />
                 <View
                     style={[styles.handle, styles.topRight]}
-                    {...createResizeResponder((g) => resize(g.dx, -g.dy)).panHandlers}
+                    {...resizeResponders.topRight.panHandlers}
                 />
                 <View
                     style={[styles.handle, styles.bottomLeft]}
-                    {...createResizeResponder((g) => resize(-g.dx, g.dy)).panHandlers}
+                    {...resizeResponders.bottomLeft.panHandlers}
                 />
                 <View
                     style={[styles.handle, styles.bottomRight]}
-                    {...createResizeResponder((g) => resize(g.dx, g.dy)).panHandlers}
+                    {...resizeResponders.bottomRight.panHandlers}
                 />
 
-                {/* 실제 이미지 */}
                 <View style={styles.content}>{children}</View>
             </View>
         </Animated.View>

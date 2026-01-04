@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
         backgroundColor: "#E9EBEF",
         borderRadius: 22,
 
-        paddingHorizontal: 10,
+        paddingHorizontal: 4,
         paddingVertical: 8,
     },
 
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     },
 
     slider: {
-        width: 180,          // 슬라이더 길이 늘린 상태
+        width: 160,
     },
 
     sizeText: {
@@ -48,7 +48,7 @@ export const styles = StyleSheet.create({
     divider: {
         width: 1,
         height: 20,
-        backgroundColor: "#D0D4DB", // 이미지와 유사한 연한 회색
+        backgroundColor: "#D0D4DB",
         marginHorizontal: 8,
     },
 });

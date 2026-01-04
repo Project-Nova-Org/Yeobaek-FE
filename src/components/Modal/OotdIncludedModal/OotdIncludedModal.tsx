@@ -64,7 +64,7 @@ export function OotdIncludedModal({ visible, onClose, items }: Props) {
                             );
                             setPage(index);
                         }}
-                        renderItem={({ item }) => (
+                        renderItem={({ item, index: pageIndex }) => (
                             <View style={[styles.page, { width: MODAL_WIDTH }]}>
                                 <View style={styles.grid}>
                                     {item.map((it, idx) => {
@@ -94,7 +94,7 @@ export function OotdIncludedModal({ visible, onClose, items }: Props) {
                                             const isRight = idx % 2 === 1;
                                             return (
                                                 <View
-                                                    key={`empty-${page}-${idx}`}
+                                                    key={`empty-${pageIndex}-${idx}`}
                                                     style={[
                                                         styles.card,
                                                         {
