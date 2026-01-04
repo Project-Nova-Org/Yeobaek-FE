@@ -1,6 +1,7 @@
-import { Modal, View, Text, Pressable, FlatList } from "react-native";
+import { Modal, View, Pressable, FlatList } from "react-native";
 import { useMemo, useState } from "react";
 import { styles } from "./OotdIncludedModal.styles";
+import { AppText } from "@/components/common/AppText";
 
 interface OotdItem {
     id: number;
@@ -44,9 +45,9 @@ export function OotdIncludedModal({ visible, onClose, items }: Props) {
                 <View style={[styles.modal, { width: MODAL_WIDTH }]}>
                     {/* ===== Header ===== */}
                     <View style={styles.header}>
-                        <Text style={styles.title}>아이템이 포함된 OOTD</Text>
+                        <AppText style={styles.title}>아이템이 포함된 OOTD</AppText>
                         <Pressable onPress={onClose} hitSlop={10}>
-                            <Text style={styles.closeText}>✕</Text>
+                            <AppText style={styles.closeText}>✕</AppText>
                         </Pressable>
                     </View>
 
@@ -82,7 +83,7 @@ export function OotdIncludedModal({ visible, onClose, items }: Props) {
                                                 ]}
                                             >
                                                 <it.Icon width={36} height={36} />
-                                                <Text style={styles.label}>{it.label}</Text>
+                                                <AppText style={styles.label}>{it.label}</AppText>
                                             </View>
                                         );
                                     })}

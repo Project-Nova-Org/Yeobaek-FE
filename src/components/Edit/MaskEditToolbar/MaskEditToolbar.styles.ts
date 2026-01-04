@@ -1,11 +1,12 @@
 import { StyleSheet } from "react-native";
+import { Colors } from "@/theme/colors";
 
 export const styles = StyleSheet.create({
     container: {
         flexDirection: "row",
         alignItems: "center",
 
-        backgroundColor: "#E9EBEF",
+        backgroundColor: Colors.background,
         borderRadius: 22,
 
         paddingHorizontal: 4,
@@ -42,14 +43,13 @@ export const styles = StyleSheet.create({
         textAlign: "left",
         fontSize: 14,
         fontWeight: "600",
-        color: "#1B2A41",
+        color: Colors.primary,
     },
 
     divider: {
         width: 1,
         height: 20,
-        backgroundColor: "#D0D4DB",
+        backgroundColor: Colors.disable,
         marginHorizontal: 8,
     },
 });
-

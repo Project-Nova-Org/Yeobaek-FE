@@ -1,18 +1,21 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Pressable } from "react-native";
 import { useState } from "react";
 import Slider from "@react-native-community/slider";
 import { styles } from "./MaskEditToolbar.styles";
 import {
     EditIcon,
     EraserIcon,
-    BackIcon,   // ↶
-    FrontIcon,  // ↷
+    BackIcon,
+    FrontIcon,
 } from "@/assets/icons";
+
+import { AppText } from "@/components/common/AppText";
+import { Colors } from "@/theme/colors";
 
 type Tool = "brush" | "eraser";
 
-const ACTIVE = "#1B2A41";
-const INACTIVE = "#767676";
+const ACTIVE = Colors.primary;
+const INACTIVE = Colors.gray400;
 
 interface Props {
     size: number;
@@ -31,7 +34,7 @@ export function MaskEditToolbar({
 
     return (
         <View style={styles.container}>
-            {/* 왼쪽 영역 */}
+
             <View style={styles.leftGroup}>
                 <Pressable onPress={() => setTool("brush")} style={styles.iconBtn}>
                     <EditIcon
@@ -41,7 +44,7 @@ export function MaskEditToolbar({
                     />
                 </Pressable>
 
-                <Pressable onPress={() => setTool("eraser")} style={styles.iconBtn} >
+                <Pressable onPress={() => setTool("eraser")} style={styles.iconBtn}>
                     <EraserIcon
                         width={15}
                         height={15}
@@ -57,17 +60,15 @@ export function MaskEditToolbar({
                     value={size}
                     onValueChange={onChangeSize}
                     minimumTrackTintColor={ACTIVE}
-                    maximumTrackTintColor="#D0D0D0"
+                    maximumTrackTintColor={Colors.disable}
                     thumbTintColor={ACTIVE}
                 />
 
-                <Text style={styles.sizeText}>{size}</Text>
+                <AppText style={styles.sizeText}>{size}</AppText>
             </View>
-
-            {/* 구분선 */}
+            {/* 구분선*/}
             <View style={styles.divider} />
 
-            {/* 오른쪽 영역 */}
             <View style={styles.rightGroup}>
                 <Pressable onPress={onBack} style={styles.iconBtn}>
                     <BackIcon width={20} height={20} color={INACTIVE} />
