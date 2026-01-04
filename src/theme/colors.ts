@@ -9,6 +9,6 @@ export const Colors = {
   inactive: "#767676",
   darkgray: "#505050",
   disable: "#CECECE",
-  silder:"#C4C4C4",
+  slider:"#C4C4C4",
   textDisabled: "#999999",
 };

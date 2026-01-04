@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
         width: 40,
         height: 4,
         borderRadius: 2,
-        backgroundColor:Colors.silder,
+        backgroundColor:Colors.slider,
         alignSelf: "center",
         marginBottom: 16,
     },

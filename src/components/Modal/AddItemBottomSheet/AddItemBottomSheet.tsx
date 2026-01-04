@@ -21,7 +21,11 @@ export function AddItemBottomSheet({
             {/* 배경 (누르면 닫힘) */}
             <Pressable style={styles.overlay} onPress={onClose}>
                 {/* 바텀시트 (이벤트 전파 차단) */}
-                <Pressable onPress={(e) => e.stopPropagation()}>
+                <View
+                    style={styles.sheet}
+                    onStartShouldSetResponder={() => true}
+                    onTouchEnd={(e) => e.stopPropagation()}
+                >
                     <View style={styles.sheet}>
                         {/* 핸들 */}
                         <View style={styles.handle} />
@@ -45,7 +49,7 @@ export function AddItemBottomSheet({
                             </Pressable>
                         </View>
                     </View>
-                </Pressable>
+                </View>
             </Pressable>
         </Modal>
     );
