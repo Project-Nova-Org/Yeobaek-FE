@@ -49,7 +49,7 @@ const ToastMessage = ({ type, onHide }: ToastMessageProps) => {
     }, 1800);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [opacity]);
 
   return (
     <Animated.View style={[toastStyles.container, { opacity }]}>
