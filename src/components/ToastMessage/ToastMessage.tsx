@@ -17,8 +17,8 @@ const ToastMessage = ({ type, onHide }: ToastMessageProps) => {
     onHideRef.current = onHide;
   }, [onHide]);
 
-  const getToastConfig = (type: ToastType) => {
-    switch (type) {
+  const getToastConfig = (toastType: ToastType) => {
+    switch (toastType) {
       case "star":
         return { icon: <StarIcon width={17} height={17} />, text: "즐겨찾기 등록 되었습니다" };
       case "empty_star":
