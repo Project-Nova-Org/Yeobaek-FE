@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
+import { AppText as Text } from "@/components/common/Apptext";
 import { loginButtonStyles } from "./LoginButton.styles";
 import { KakaoIcon, AppleIcon, GoogleIcon } from "@/assets/icons";
 

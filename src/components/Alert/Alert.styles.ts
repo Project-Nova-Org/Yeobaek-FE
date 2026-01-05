@@ -12,7 +12,7 @@ export const alertStyles = StyleSheet.create({
     right: 0,
     bottom: 0,
     //  다른 요소보다 위에
-    zIndex: 1000,
+    zIndex: 10,
   },
 
   alertContainer: {

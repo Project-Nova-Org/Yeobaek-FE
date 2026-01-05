@@ -1,5 +1,6 @@
 import React from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, View } from "react-native";
+import { AppText as Text } from "@/components/common/Apptext";
 import { LongButtonStyles } from "./LongButton.styles";
 
 interface AddLongButtonProps {

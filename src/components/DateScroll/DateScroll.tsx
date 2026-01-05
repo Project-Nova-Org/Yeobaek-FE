@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Text,
   FlatList,
   Modal,
   Pressable,
@@ -11,6 +10,7 @@ import {
 } from "react-native";
 import { dateStyles } from "./DateScroll.styles";
 import { PickerIcon } from "@/assets/icons";
+import { AppText as Text } from "@/components/common/Apptext";
 
 const ITEM_HEIGHT = 40;
 const YEARS = Array.from({ length: 20 }, (_, i) => 2015 + i); // 2015 ~ 2034
