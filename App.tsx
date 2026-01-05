@@ -1,10 +1,10 @@
 import { SafeAreaView } from "react-native";
-import ToastMessageTest from "@/screens/Test/ToastMessageTest.tsx";
+import ModalTest from "./src/screens/Test/ModalTest";
 
 export default function App() {
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ToastMessageTest />
-    </SafeAreaView>
-  );
+    return (
+        <SafeAreaView style={{ flex: 1 }}>
+            <ModalTest />
+        </SafeAreaView>
+    );
 }

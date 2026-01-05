@@ -31,3 +31,6 @@ export { default as UnCheckIcon } from "./uncheck.svg";
 export { default as UndoIcon } from "./undo.svg";
 export { default as SignedIcon } from "./signed.svg";
 export { default as PickerIcon } from "./picker.svg";
+export { default as BackIcon } from "./back.svg";
+export { default as FrontIcon } from "./front.svg";
+export { default as EraserIcon } from "./eraser.svg";

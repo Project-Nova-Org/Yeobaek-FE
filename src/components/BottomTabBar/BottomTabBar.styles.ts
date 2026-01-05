@@ -15,19 +15,35 @@ export const barStyles = StyleSheet.create({
     overflow: "hidden",
     zIndex: 9,
     justifyContent: "flex-start",
+    elevation: 10,
   },
-  floatingButton: {
+
+  floatingWrapper: {
     position: "absolute",
-    top: -35,
+    top: -20,
     left: "50%",
+    marginLeft: -27,
+    width: 54,
+    height: 54,
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 10,
+  },
+
+  floatingShadow: {
+    marginTop: -35,
+    width: 54,
+    height: 54,
+    borderRadius: 27,
+  },
+
+  floatingButton: {
     width: 54,
     height: 54,
     borderRadius: 27,
     backgroundColor: Colors.white,
     alignItems: "center",
     justifyContent: "center",
-    transform: [{ translateX: -27.5 }],
-    zIndex: 10,
   },
   floatingInner: {
     width: 38,
