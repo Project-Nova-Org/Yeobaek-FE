@@ -3,8 +3,8 @@ import { View, Text, Pressable } from "react-native";
 import { buttonStyles } from "./ButtonAlert.styles.ts";
 
 export interface SelectionButtonsProps {
-  onYesPress?: () => void;
-  onNoPress?: () => void;
+  onYesPress: () => void;
+  onNoPress: () => void;
 }
 const SelectionButtons = ({ onYesPress, onNoPress }: SelectionButtonsProps) => {
   return (
