@@ -43,21 +43,16 @@ const DateScroll = ({
     );
     return clampedIndex;
   };
-
   const initialYearIndex = getClampedIndex(currentYear, YEARS, "year");
   const initialMonthIndex = getClampedIndex(currentMonth, MONTHS, "month");
-
-  // 보정된 초기값으로 상태 설정
   const [year, setYear] = useState(YEARS[initialYearIndex]);
   const [month, setMonth] = useState(MONTHS[initialMonthIndex]);
-
-  // 런타임 Prop 변경 감시 (선택 사항)
   useEffect(() => {
     if (visible) {
       setYear(YEARS[initialYearIndex]);
       setMonth(MONTHS[initialMonthIndex]);
     }
-  }, [visible, currentYear, currentMonth]);
+  }, [visible, initialYearIndex, initialMonthIndex]);
 
   const handleScroll = (e: NativeSyntheticEvent<NativeScrollEvent>, type: "year" | "month") => {
     const y = e.nativeEvent.contentOffset.y;
