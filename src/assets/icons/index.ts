@@ -29,3 +29,6 @@ export { default as StarIcon } from "./star.svg";
 export { default as TimeIcon } from "./time.svg";
 export { default as UnCheckIcon } from "./uncheck.svg";
 export { default as UndoIcon } from "./undo.svg";
+export { default as BackIcon } from "./back.svg";
+export { default as FrontIcon } from "./front.svg";
+export { default as EraserIcon } from "./eraser.svg";
