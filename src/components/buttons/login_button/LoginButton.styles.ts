@@ -44,7 +44,7 @@ export const loginButtonStyles = StyleSheet.create({
   googleButton: {
     backgroundColor: Colors.white,
     borderWidth: 1,
-    borderColor: Colors.GoogleLine,
+    borderColor: Colors.googleLine,
   },
   googleText: {
     color: Colors.black,

@@ -14,7 +14,7 @@ export const dateStyles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: 20,
     borderWidth: 0.5,
-    borderColor: Colors.GoogleLine,
+    borderColor: Colors.googleLine,
     overflow: "hidden",
     elevation: 8,
     shadowColor: Colors.shadow,
@@ -24,10 +24,10 @@ export const dateStyles = StyleSheet.create({
   },
   pickerContent: {
     flex: 1,
-    paddingRight: 10,
     flexDirection: "row",
     alignItems: "center",
-    paddingHorizontal: 20,
+    paddingLeft: 20,
+    paddingRight: 10,
     justifyContent: "center",
   },
   indicatorContainer: {

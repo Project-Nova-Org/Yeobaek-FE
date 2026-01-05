@@ -1,32 +1,36 @@
 import React, { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { loginButtonStyles } from "./LoginButton.styles";
-import { KakaoIcon } from "@/assets/icons";
-import { AppleIcon } from "@/assets/icons";
-import { GoogleIcon } from "@/assets/icons";
+import { KakaoIcon, AppleIcon, GoogleIcon } from "@/assets/icons";
 
 interface LoginButtonsProps {
-  onPress: () => void;
+  onPress: (type: "kakao" | "apple" | "google") => void | Promise<void>;
 }
 
 const LoginButtons = ({ onPress }: LoginButtonsProps) => {
-  const [activeType, setActiveType] = useState<"none" | "kakao" | "apple" | "google">("none");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const handlePress = async (type: "kakao" | "apple" | "google") => {
+    if (isSubmitting) return;
 
-  const handlePress = (type: "kakao" | "apple" | "google") => {
-    setActiveType(type);
-    onPress();
-    setTimeout(() => setActiveType("none"), 500);
+    setIsSubmitting(true);
+    try {
+      await onPress(type);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <View style={loginButtonStyles.container}>
       {/* 카카오 로그인 */}
       <Pressable
-        disabled={activeType !== "none" && activeType !== "kakao"}
-        onPressIn={() => setActiveType("kakao")}
-        onPressOut={() => setActiveType("none")}
+        disabled={isSubmitting}
         onPress={() => handlePress("kakao")}
-        style={[loginButtonStyles.buttonBase, loginButtonStyles.kakaoButton]}
+        style={({ pressed }) => [
+          loginButtonStyles.buttonBase,
+          loginButtonStyles.kakaoButton,
+          pressed && { opacity: 0.7 },
+        ]}
       >
         <KakaoIcon width={24} height={24} style={loginButtonStyles.icon} />
         <Text style={[loginButtonStyles.buttonText, loginButtonStyles.kakaoText]}>
@@ -36,11 +40,13 @@ const LoginButtons = ({ onPress }: LoginButtonsProps) => {
 
       {/* 애플 로그인 */}
       <Pressable
-        disabled={activeType !== "none" && activeType !== "apple"}
-        onPressIn={() => setActiveType("apple")}
-        onPressOut={() => setActiveType("none")}
+        disabled={isSubmitting}
         onPress={() => handlePress("apple")}
-        style={[loginButtonStyles.buttonBase, loginButtonStyles.appleButton]}
+        style={({ pressed }) => [
+          loginButtonStyles.buttonBase,
+          loginButtonStyles.appleButton,
+          pressed && { opacity: 0.7 },
+        ]}
       >
         <AppleIcon width={24} height={24} style={loginButtonStyles.icon} />
         <Text style={[loginButtonStyles.buttonText, loginButtonStyles.appleText]}>
@@ -50,11 +56,13 @@ const LoginButtons = ({ onPress }: LoginButtonsProps) => {
 
       {/* 구글 로그인 */}
       <Pressable
-        disabled={activeType !== "none" && activeType !== "google"}
-        onPressIn={() => setActiveType("google")}
-        onPressOut={() => setActiveType("none")}
+        disabled={isSubmitting}
         onPress={() => handlePress("google")}
-        style={[loginButtonStyles.buttonBase, loginButtonStyles.googleButton]}
+        style={({ pressed }) => [
+          loginButtonStyles.buttonBase,
+          loginButtonStyles.googleButton,
+          pressed && { opacity: 0.7 },
+        ]}
       >
         <GoogleIcon width={24} height={24} style={loginButtonStyles.icon} />
         <Text style={[loginButtonStyles.buttonText, loginButtonStyles.googleText]}>

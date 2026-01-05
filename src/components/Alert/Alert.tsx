@@ -5,9 +5,11 @@ import SelectionButtons from "@/components/buttons/alert_button/ButtonAlert";
 
 interface AlertProps {
   message: string;
+  onConfirm?: () => void;
+  onCancel?: () => void;
 }
 
-const Alert = ({ message }: AlertProps) => {
+const Alert = ({ message, onConfirm, onCancel }: AlertProps) => {
   return (
     <View style={alertStyles.absolutePosition}>
       <View style={alertStyles.alertContainer}>
@@ -15,7 +17,7 @@ const Alert = ({ message }: AlertProps) => {
           <Text style={alertStyles.messageText}>{message}</Text>
         </View>
         <View style={alertStyles.buttonWrapper}>
-          <SelectionButtons />
+          <SelectionButtons onYesPress={onConfirm} onNoPress={onCancel} />
         </View>
       </View>
     </View>

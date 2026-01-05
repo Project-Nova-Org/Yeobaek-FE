@@ -1,6 +1,5 @@
 import React from "react";
-import { Pressable, Text, View } from "react-native";
-import { semishortButtonStyles } from "./SemishortButton.styles";
+import { BaseSemishortButton } from "./BaseSemishortButton";
 
 interface SaveSemishortButtonProps {
   onPress: () => void;
@@ -13,28 +12,7 @@ const SaveSemishortButton = ({
   isActive,
   label = "저장하기",
 }: SaveSemishortButtonProps) => {
-  return (
-    <View style={semishortButtonStyles.container} pointerEvents={isActive ? "auto" : "none"}>
-      <Pressable
-        onPress={onPress}
-        disabled={!isActive}
-        style={({ pressed }) => [
-          semishortButtonStyles.buttonBase,
-          isActive ? semishortButtonStyles.activeButton : semishortButtonStyles.disabledButton,
-          isActive && pressed && semishortButtonStyles.buttonPressed,
-        ]}
-      >
-        <Text
-          style={[
-            semishortButtonStyles.buttonText,
-            isActive ? semishortButtonStyles.activeText : semishortButtonStyles.disabledText,
-          ]}
-        >
-          {label}
-        </Text>
-      </Pressable>
-    </View>
-  );
+  return <BaseSemishortButton onPress={onPress} isActive={isActive} label={label} />;
 };
 
 export default SaveSemishortButton;

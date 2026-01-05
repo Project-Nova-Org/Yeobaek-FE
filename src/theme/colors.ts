@@ -15,5 +15,5 @@ export const Colors = {
   noStandard: "#707070",
 
   kakaoYellow: "#FEE500",
-  GoogleLine: "#C2C2C2",
+  googleLine: "#C2C2C2",
 };
