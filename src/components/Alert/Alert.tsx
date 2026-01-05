@@ -5,8 +5,8 @@ import SelectionButtons from "@/components/buttons/alert_button/ButtonAlert";
 
 interface AlertProps {
   message: string;
-  onConfirm?: () => void;
-  onCancel?: () => void;
+  onConfirm: () => void;
+  onCancel: () => void;
 }
 
 const Alert = ({ message, onConfirm, onCancel }: AlertProps) => {
