@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Pressable } from "react-native";
-import { AppText as Text } from "@/components/common/Apptext";
+import { AppText as Text } from "@/components/common/AppText";
 import { buttonStyles } from "./ButtonAlert.styles.ts";
 
 export interface SelectionButtonsProps {

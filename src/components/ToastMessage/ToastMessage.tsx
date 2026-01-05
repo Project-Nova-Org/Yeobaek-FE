@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Animated, View } from "react-native";
-import { AppText as Text } from "@/components/common/Apptext";
+import { AppText as Text } from "@/components/common/AppText";
 import { toastStyles } from "./ToastMessage.styles";
 import { StarIcon, EmptyStarIcon, SignedIcon, DeleteIcon } from "@/assets/icons";
 

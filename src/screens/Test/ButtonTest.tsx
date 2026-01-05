@@ -1,21 +1,29 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import NicknameButton from "@/components/buttons/nickname_button/NicknameButton";
+import AddPhotoButton from "@/components/buttons/medium_button/AddPhotoButton";
 import { Colors } from "@/theme/colors.ts";
 
 const ButtonTest = () => {
-  const handlePress = () => {
-    console.log("버튼이 클릭되었습니다!");
+  const handlePress = (message: string) => {
+    console.log(message);
+    Alert.alert("클릭 알림", message);
   };
 
   return (
     <View style={styles.testContainer}>
-      {/* 활성화된 버튼 테스트 */}
-      <NicknameButton isActive={true} onPress={handlePress} label="그림자 테스트" />
-
-      {/* 비활성화된 버튼 테스트 */}
-      <View style={{ marginTop: 20 }}>
-        <NicknameButton isActive={false} onPress={handlePress} label="비활성 버튼" />
+      <View style={styles.section}>
+        <NicknameButton
+          isActive={true}
+          onPress={() => handlePress("닉네임 버튼 클릭!")}
+          label="그림자 테스트"
+        />
+      </View>
+      <View style={styles.section}>
+        <AddPhotoButton onPress={() => handlePress("사진 추가 버튼 클릭!")} label="사진 등록하기" />
+      </View>
+      <View style={styles.section}>
+        <NicknameButton isActive={false} onPress={() => {}} label="비활성 버튼" />
       </View>
     </View>
   );
@@ -26,7 +34,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.background || "#FFFFFF",
+    padding: 20,
+  },
+  section: {
+    marginBottom: 30,
+    width: "100%",
+    alignItems: "center",
   },
 });
 

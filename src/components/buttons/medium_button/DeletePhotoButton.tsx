@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, View } from "react-native";
-import { AppText as Text } from "@/components/common/Apptext";
+import { AppText as Text } from "@/components/common/AppText";
 import { MediumButtonIconStyles } from "./MediumButtonIcon.styles";
 import { DeleteIcon } from "@/assets/icons";
 interface DeletePhotoButtonProps {
@@ -9,6 +9,7 @@ interface DeletePhotoButtonProps {
 }
 
 const DeletePhotoButton = ({ onPress, label = "사진 삭제하기" }: DeletePhotoButtonProps) => {
+  const iconColor = MediumButtonIconStyles.buttonText.color;
   return (
     <View style={MediumButtonIconStyles.container}>
       <Pressable
@@ -18,7 +19,7 @@ const DeletePhotoButton = ({ onPress, label = "사진 삭제하기" }: DeletePho
           pressed && MediumButtonIconStyles.buttonPressed,
         ]}
       >
-        <DeleteIcon width={10} height={10} color={MediumButtonIconStyles.buttonText.color} />
+        <DeleteIcon width={10} height={10} color={iconColor} />
         <Text style={MediumButtonIconStyles.buttonText}>{label}</Text>
       </Pressable>
     </View>

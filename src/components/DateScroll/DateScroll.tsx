@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { dateStyles } from "./DateScroll.styles";
 import { PickerIcon } from "@/assets/icons";
-import { AppText as Text } from "@/components/common/Apptext";
+import { AppText as Text } from "@/components/common/AppText";
 
 const ITEM_HEIGHT = 40;
 const YEARS = Array.from({ length: 20 }, (_, i) => 2015 + i); // 2015 ~ 2034

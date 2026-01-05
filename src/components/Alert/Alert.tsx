@@ -1,5 +1,5 @@
 import React from "react";
-import { AppText as Text } from "@/components/common/Apptext";
+import { AppText as Text } from "@/components/common/AppText";
 import { View } from "react-native";
 import { alertStyles } from "./Alert.styles";
 import SelectionButtons from "@/components/buttons/alert_button/ButtonAlert";

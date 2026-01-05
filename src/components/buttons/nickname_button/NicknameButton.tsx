@@ -1,6 +1,6 @@
 import React from "react";
 import { Pressable, View } from "react-native";
-import { AppText as Text } from "@/components/common/Apptext";
+import { AppText as Text } from "@/components/common/AppText";
 import { nicknameButtonStyles } from "./NicknameButton.styles";
 
 interface NicknameButtonProps {
