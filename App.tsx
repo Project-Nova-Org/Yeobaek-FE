@@ -1,10 +1,11 @@
 import { SafeAreaView } from "react-native";
-import ButtonTest from "./src/screens/Test/ButtonTest";
+import TestPlace from "./src/screens/Test/TestPlace";
+import ModalTest from "./src/screens/Test/ModalTest";
 
 export default function App() {
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ButtonTest />
-    </SafeAreaView>
-  );
+    return (
+        <SafeAreaView style={{ flex: 1 }}>
+            <TestPlace />
+        </SafeAreaView>
+    );
 }

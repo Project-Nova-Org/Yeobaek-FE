@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "@/theme/colors";
-
+import {FontSize} from "@/theme/typography";
 export const styles = StyleSheet.create({
     overlay: {
         flex: 1,
@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     },
 
     label: {
-        fontSize: 14,
+        fontSize: FontSize.sm,
         fontWeight: "500",
         color: Colors.darkgray,
     },
