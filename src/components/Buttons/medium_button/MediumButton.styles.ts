@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "@/theme/colors.ts";
-import { FontSize, FontWeight } from "@/theme/typography.ts";
+import { FontSize } from "@/theme/typography.ts";
 
 export const MediumButtonStyles = StyleSheet.create({
   container: {
@@ -19,7 +19,7 @@ export const MediumButtonStyles = StyleSheet.create({
   buttonText: {
     color: Colors.white,
     fontSize: FontSize.xxxs,
-    fontWeight: FontWeight.medium,
+    fontWeight: "medium",
   },
   // 버튼이 눌렸을 때
   buttonPressed: {

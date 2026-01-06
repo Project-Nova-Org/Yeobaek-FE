@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { FontSize, FontWeight } from "@/theme/typography.ts";
+import { FontSize } from "@/theme/typography.ts";
 import { Colors } from "@/theme/colors";
 
 export const buttonStyles = StyleSheet.create({
@@ -34,7 +34,7 @@ export const buttonStyles = StyleSheet.create({
 
   buttonText: {
     fontSize: FontSize.sm,
-    fontWeight: FontWeight.medium,
+    fontWeight: "medium",
     color: Colors.white,
   },
 

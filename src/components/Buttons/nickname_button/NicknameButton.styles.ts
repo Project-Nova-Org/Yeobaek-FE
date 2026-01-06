@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "@/theme/colors";
-import { FontSize, FontWeight } from "@/theme/typography";
+import { FontSize } from "@/theme/typography";
 
 export const nicknameButtonStyles = StyleSheet.create({
   container: {
@@ -19,7 +19,7 @@ export const nicknameButtonStyles = StyleSheet.create({
 
   buttonText: {
     fontSize: FontSize.lg,
-    fontWeight: FontWeight.semibold,
+    fontWeight: "semibold",
   },
 
   // 활성화 상태

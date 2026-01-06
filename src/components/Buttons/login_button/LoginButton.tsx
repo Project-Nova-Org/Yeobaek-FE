@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { Pressable, View } from "react-native";
 import { AppText as Text } from "@/components/common/AppText";
 import { loginButtonStyles } from "./LoginButton.styles";
-import { KakaoIcon, AppleIcon, GoogleIcon } from "@/assets/icons";
+import { KakaoIcon, GoogleIcon } from "@/assets/icons";
 
 interface LoginButtonsProps {
-  onPress: (type: "kakao" | "apple" | "google") => void | Promise<void>;
+  onPress: (type: "kakao" | "google") => void | Promise<void>;
 }
 
 const LoginButtons = ({ onPress }: LoginButtonsProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const handlePress = async (type: "kakao" | "apple" | "google") => {
+  const handlePress = async (type: "kakao" | "google") => {
     if (isSubmitting) return;
 
     setIsSubmitting(true);
@@ -34,25 +34,7 @@ const LoginButtons = ({ onPress }: LoginButtonsProps) => {
         ]}
       >
         <KakaoIcon width={24} height={24} style={loginButtonStyles.icon} />
-        <Text style={[loginButtonStyles.buttonText, loginButtonStyles.kakaoText]}>
-          카카오로 계속하기
-        </Text>
-      </Pressable>
-
-      {/* 애플 로그인 */}
-      <Pressable
-        disabled={isSubmitting}
-        onPress={() => handlePress("apple")}
-        style={({ pressed }) => [
-          loginButtonStyles.buttonBase,
-          loginButtonStyles.appleButton,
-          pressed && { opacity: 0.7 },
-        ]}
-      >
-        <AppleIcon width={24} height={24} style={loginButtonStyles.icon} />
-        <Text style={[loginButtonStyles.buttonText, loginButtonStyles.appleText]}>
-          Apple로 계속하기
-        </Text>
+        <Text style={[loginButtonStyles.kakaoButtonText]}>카카오로 계속하기</Text>
       </Pressable>
 
       {/* 구글 로그인 */}
@@ -66,9 +48,7 @@ const LoginButtons = ({ onPress }: LoginButtonsProps) => {
         ]}
       >
         <GoogleIcon width={24} height={24} style={loginButtonStyles.icon} />
-        <Text style={[loginButtonStyles.buttonText, loginButtonStyles.googleText]}>
-          Google로 계속하기
-        </Text>
+        <Text style={[loginButtonStyles.googleButtonText]}>Google로 계속하기</Text>
       </Pressable>
     </View>
   );

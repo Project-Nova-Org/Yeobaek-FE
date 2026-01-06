@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "@/theme/colors.ts";
-import { FontSize, FontWeight } from "@/theme/typography.ts";
+import { FontSize } from "@/theme/typography.ts";
 
 export const dateStyles = StyleSheet.create({
   modalOverlay: {
@@ -51,13 +51,13 @@ export const dateStyles = StyleSheet.create({
     color: Colors.black,
     height: 40,
     lineHeight: 40,
-    fontWeight: FontWeight.regular,
+    fontWeight: "normal",
     textAlign: "center",
     paddingLeft: 5,
   },
   selectedItemText: {
     fontSize: FontSize.xl,
     color: Colors.primary,
-    fontWeight: FontWeight.bold,
+    fontWeight: "bold",
   },
 });

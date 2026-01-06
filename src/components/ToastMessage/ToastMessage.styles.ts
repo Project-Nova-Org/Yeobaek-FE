@@ -1,6 +1,6 @@
 import { StyleSheet, Platform } from "react-native";
 import { Colors } from "@/theme/colors.ts";
-import { FontSize, FontWeight } from "@/theme/typography.ts";
+import { FontSize } from "@/theme/typography.ts";
 
 export const toastStyles = StyleSheet.create({
   container: {
@@ -34,7 +34,7 @@ export const toastStyles = StyleSheet.create({
   },
   messageText: {
     fontSize: FontSize.xxs,
-    fontWeight: FontWeight.semibold,
+    fontWeight: "semibold",
     color: Colors.primary,
   },
 });

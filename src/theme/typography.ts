@@ -1,16 +1,14 @@
 export const FontSize = {
+  xxxxs: 5,
   xxxs: 8,
   xxs: 10,
   xs: 12,
+  s: 13,
   sm: 14,
+  base: 15,
   md: 16,
   lg: 18,
   xl: 20,
-};
-
-export const FontWeight = {
-  regular: "400" as const,
-  medium: "500" as const,
-  semibold: "600" as const,
-  bold: "700" as const,
+  xxl: 22,
+  xxxl: 28,
 };
