@@ -4,7 +4,7 @@ import { Colors } from "@/theme/colors.ts";
 
 export const styles = StyleSheet.create({
   inputWrapper: {
-    width: 370,
+    width: 360,
     position: "relative",
     borderWidth: 1.5,
     borderColor: Colors.primary,
@@ -49,6 +49,7 @@ export const styles = StyleSheet.create({
 
   helperText: {
     marginTop: 8,
+    marginLeft: 10,
     fontSize: FontSize.xs,
     color: Colors.placeholder,
   },

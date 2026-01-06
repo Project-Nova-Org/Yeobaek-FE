@@ -35,3 +35,24 @@ export const authStyles = StyleSheet.create({
     marginBottom: 40,
   },
 });
+
+export const sinupStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.white,
+    paddingHorizontal: 20,
+    alignItems: "center",
+  },
+
+  content: {
+    flex: 1,
+    justifyContent: "center",
+  },
+
+  title: {
+    fontSize: FontSize.xl,
+    color: Colors.black,
+    textAlign: "center",
+    marginBottom: 35,
+  },
+});

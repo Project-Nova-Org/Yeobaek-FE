@@ -1,5 +1,5 @@
-import LoginScreen from "@/screens/Auth/LoginScreen";
+import SignupScreen from "@/screens/Auth/SignupScreen.tsx";
 
 export default function App() {
-  return <LoginScreen />;
+  return <SignupScreen />;
 }

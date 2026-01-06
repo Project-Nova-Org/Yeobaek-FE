@@ -6,18 +6,18 @@ export const signupButtonStyles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: 10,
+    marginVertical: 22,
   },
 
   buttonBase: {
-    width: 320,
+    width: 360,
     height: 48,
     borderRadius: 10,
     justifyContent: "center",
     alignItems: "center",
   },
   buttonText: {
-    fontSize: FontSize.sm,
+    fontSize: FontSize.md,
     fontWeight: "medium",
   },
 
