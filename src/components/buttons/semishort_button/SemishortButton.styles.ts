@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { FontSize, FontWeight } from "@/theme/typography.ts";
+import { FontSize } from "@/theme/typography.ts";
 import { Colors } from "@/theme/colors.ts";
 
 export const semishortButtonStyles = StyleSheet.create({
@@ -18,7 +18,7 @@ export const semishortButtonStyles = StyleSheet.create({
 
   buttonText: {
     fontSize: FontSize.xxs,
-    fontWeight: FontWeight.medium,
+    fontWeight: "500",
   },
 
   // 활성화 상태

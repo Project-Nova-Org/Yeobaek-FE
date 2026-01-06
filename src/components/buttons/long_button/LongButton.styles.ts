@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { FontSize, FontWeight } from "@/theme/typography.ts";
+import { FontSize } from "@/theme/typography.ts";
 import { Colors } from "@/theme/colors.ts";
 
 export const LongButtonStyles = StyleSheet.create({
@@ -19,7 +19,7 @@ export const LongButtonStyles = StyleSheet.create({
 
   buttonText: {
     fontSize: FontSize.md,
-    fontWeight: FontWeight.semibold,
+    fontWeight: "600",
   },
 
   // 활성화 상태 (클릭 가능)

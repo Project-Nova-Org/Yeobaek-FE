@@ -1,6 +1,6 @@
-import { StyleSheet, Platform } from "react-native";
+import { StyleSheet } from "react-native";
 import { Colors } from "@/theme/colors";
-import { FontSize, FontWeight } from "@/theme/typography";
+import { FontSize } from "@/theme/typography";
 
 export const signupButtonStyles = StyleSheet.create({
   container: {
@@ -18,7 +18,7 @@ export const signupButtonStyles = StyleSheet.create({
   },
   buttonText: {
     fontSize: FontSize.sm,
-    fontWeight: FontWeight.medium,
+    fontWeight: "500",
   },
 
   // 활성화 상태
