@@ -19,7 +19,7 @@ export const MediumButtonStyles = StyleSheet.create({
   buttonText: {
     color: Colors.white,
     fontSize: FontSize.xxxs,
-    fontWeight: "medium",
+    fontWeight: "500",
   },
   // 버튼이 눌렸을 때
   buttonPressed: {

@@ -41,7 +41,7 @@ export function NicknameInput({ value, onChange }: NicknameInputProps) {
 
         {hasValue && (
           <Pressable style={styles.clearButton} onPress={() => onChange("")}>
-            <AllDeleteIcon color={Colors.white} />
+            <AllDeleteIcon />
           </Pressable>
         )}
       </View>

@@ -18,7 +18,7 @@ export const shortButtonStyles = StyleSheet.create({
 
   buttonText: {
     fontSize: FontSize.xxs,
-    fontWeight: "medium",
+    fontWeight: "500",
   },
 
   // 활성화 상태

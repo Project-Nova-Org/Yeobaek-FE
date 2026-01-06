@@ -21,7 +21,7 @@ export const MediumButtonIconStyles = StyleSheet.create({
   buttonText: {
     color: Colors.white,
     fontSize: FontSize.xxs,
-    fontWeight: "medium",
+    fontWeight: "500",
     includeFontPadding: false,
   },
   // 버튼이 눌렸을 때

@@ -26,7 +26,7 @@ export const loginButtonStyles = StyleSheet.create({
   },
   kakaoButtonText: {
     fontSize: FontSize.md,
-    fontWeight: "medium",
+    fontWeight: "500",
     includeFontPadding: false,
     color: Colors.black,
   },
@@ -37,7 +37,7 @@ export const loginButtonStyles = StyleSheet.create({
   },
   googleButtonText: {
     fontSize: FontSize.md,
-    fontWeight: "medium",
+    fontWeight: "500",
     includeFontPadding: false,
     color: Colors.inactive,
   },

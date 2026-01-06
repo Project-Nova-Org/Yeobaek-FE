@@ -34,7 +34,7 @@ export const buttonStyles = StyleSheet.create({
 
   buttonText: {
     fontSize: FontSize.sm,
-    fontWeight: "medium",
+    fontWeight: "500",
     color: Colors.white,
   },
 

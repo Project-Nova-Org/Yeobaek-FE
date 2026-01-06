@@ -34,7 +34,7 @@ export const toastStyles = StyleSheet.create({
   },
   messageText: {
     fontSize: FontSize.xxs,
-    fontWeight: "semibold",
+    fontWeight: "600",
     color: Colors.primary,
   },
 });

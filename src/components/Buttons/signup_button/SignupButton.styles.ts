@@ -18,7 +18,7 @@ export const signupButtonStyles = StyleSheet.create({
   },
   buttonText: {
     fontSize: FontSize.md,
-    fontWeight: "medium",
+    fontWeight: 500,
   },
 
   // 활성화 상태

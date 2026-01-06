@@ -51,13 +51,13 @@ export const dateStyles = StyleSheet.create({
     color: Colors.black,
     height: 40,
     lineHeight: 40,
-    fontWeight: "normal",
+    fontWeight: "400",
     textAlign: "center",
     paddingLeft: 5,
   },
   selectedItemText: {
     fontSize: FontSize.xl,
     color: Colors.primary,
-    fontWeight: "bold",
+    fontWeight: "700",
   },
 });

@@ -19,7 +19,7 @@ export const nicknameButtonStyles = StyleSheet.create({
 
   buttonText: {
     fontSize: FontSize.lg,
-    fontWeight: "semibold",
+    fontWeight: "600",
   },
 
   // 활성화 상태

@@ -2,7 +2,7 @@ import { View } from "react-native";
 import { TabItem } from "./TabItem";
 import { barStyles } from "./BottomTabBar.styles";
 import { FloatingMenu } from "./FloatingMenu";
-import { FloatingHidden } from "@/components/BottomTabBar/FloatingHidden.tsx";
+import { FloatingHidden } from "@/components/BottomTabBar/FloatingHidden";
 import { Shadow } from "react-native-shadow-2";
 
 type TabKey = "calendar" | "ootd" | "home" | "dressroom" | "stats";

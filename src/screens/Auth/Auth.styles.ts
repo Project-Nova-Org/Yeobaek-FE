@@ -54,5 +54,6 @@ export const sinupStyles = StyleSheet.create({
     color: Colors.black,
     textAlign: "center",
     marginBottom: 35,
+    fontWeight: "500",
   },
 });

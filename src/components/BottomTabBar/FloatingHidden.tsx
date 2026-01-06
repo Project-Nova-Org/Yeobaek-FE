@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { barStyles } from "@/components/BottomTabBar/BottomTabBar.styles.ts";
+import { barStyles } from "@/components/BottomTabBar/BottomTabBar.styles";
 import { Shadow } from "react-native-shadow-2";
 
 export function FloatingHidden() {

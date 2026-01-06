@@ -19,7 +19,7 @@ export const LongButtonStyles = StyleSheet.create({
 
   buttonText: {
     fontSize: FontSize.md,
-    fontWeight: "semibold",
+    fontWeight: "600",
   },
 
   // 활성화 상태 (클릭 가능)

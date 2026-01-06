@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "@/theme/colors";
+import { FontSize } from "@/theme/typography.ts";
 
 export const styles = StyleSheet.create({
   container: {
@@ -23,7 +24,7 @@ export const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 20,
+    fontSize: FontSize.xl,
     fontWeight: "600",
     color: Colors.primary,
   },
@@ -38,7 +39,7 @@ export const styles = StyleSheet.create({
 
   leftButtonText: {
     color: Colors.white,
-    fontSize: 10,
+    fontSize: FontSize.xxs,
     fontWeight: "400",
   },
 
@@ -56,7 +57,7 @@ export const styles = StyleSheet.create({
 
   rightButtonText: {
     color: Colors.white,
-    fontSize: 12,
+    fontSize: FontSize.xs,
     fontWeight: "600",
   },
 
