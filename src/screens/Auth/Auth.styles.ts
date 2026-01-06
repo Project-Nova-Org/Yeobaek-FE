@@ -14,10 +14,17 @@ export const authStyles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  /* 로고 */
   logoSection: {
     alignItems: "center",
     marginBottom: 80,
+  },
+  title: {
+    marginTop: 16,
+  },
+  subtitle: {
+    marginTop: 8,
+    fontSize: FontSize.sm,
+    color: Colors.inactive,
   },
   description: {
     fontSize: FontSize.xxs,
@@ -25,6 +32,6 @@ export const authStyles = StyleSheet.create({
     textAlign: "center",
     lineHeight: 18,
     marginTop: 120,
-    marginBottom: 80,
+    marginBottom: 40,
   },
 });
