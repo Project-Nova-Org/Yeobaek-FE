@@ -4,11 +4,11 @@ import { Colors } from "@/theme/colors.ts";
 
 export const styles = StyleSheet.create({
   inputWrapper: {
-    width: 380,
+    width: 370,
     position: "relative",
     borderWidth: 1.5,
     borderColor: Colors.primary,
-    borderRadius: 12,
+    borderRadius: 5,
     paddingHorizontal: 16,
     justifyContent: "center",
   },
