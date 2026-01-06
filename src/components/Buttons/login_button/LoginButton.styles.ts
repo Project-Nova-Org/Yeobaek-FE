@@ -9,7 +9,7 @@ export const loginButtonStyles = StyleSheet.create({
   },
   buttonBase: {
     width: 280,
-    height: 44,
+    height: 48,
     borderRadius: 20,
     flexDirection: "row",
     alignItems: "center",
