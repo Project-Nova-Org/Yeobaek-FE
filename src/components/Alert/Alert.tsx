@@ -2,7 +2,7 @@ import React from "react";
 import { AppText as Text } from "@/components/common/AppText";
 import { View } from "react-native";
 import { alertStyles } from "./Alert.styles";
-import SelectionButtons from "@/components/buttons/alert_button/ButtonAlert";
+import SelectionButtons from "@/components/Buttons/alert_button/ButtonAlert";
 
 interface AlertProps {
   message: string;

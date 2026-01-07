@@ -12,5 +12,3 @@ export const FontSize = {
   xxl: 22,
   xxxl: 28,
 };
-
-

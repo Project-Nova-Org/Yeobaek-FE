@@ -15,12 +15,22 @@ export const barStyles = StyleSheet.create({
     overflow: "hidden",
     zIndex: 9,
     justifyContent: "flex-start",
-    elevation: 10,
+  },
+  shadowLayer: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1,
+  },
+  tabBarShadow: {
+    width: "100%",
+    height: 72,
   },
 
   floatingWrapper: {
     position: "absolute",
-    top: -20,
+    top: -36,
     left: "50%",
     marginLeft: -27,
     width: 54,
@@ -29,14 +39,23 @@ export const barStyles = StyleSheet.create({
     justifyContent: "center",
     zIndex: 10,
   },
-
-  floatingShadow: {
-    marginTop: -35,
+  floatingWrapperHidden: {
+    position: "absolute",
+    bottom: 50,
+    left: "50%",
+    marginLeft: -27,
     width: 54,
     height: 54,
-    borderRadius: 27,
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1,
   },
 
+  floatingHiddenShadow: {
+    width: 54,
+    height: 54,
+    borderRadius: 100,
+  },
   floatingButton: {
     width: 54,
     height: 54,
@@ -71,13 +90,7 @@ export const barStyles = StyleSheet.create({
     backgroundColor: Colors.primary,
     alignItems: "center",
     justifyContent: "center",
-    elevation: 8,
-  },
-  actionIconDummy: {
-    width: 22,
-    height: 22,
-    borderRadius: 4,
-    backgroundColor: Colors.white,
+    elevation: 4,
   },
 });
 

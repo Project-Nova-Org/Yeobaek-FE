@@ -1,0 +1,17 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/Eulyoo1945-Regular.ttf",
+      "sha1": "07f081324e0163f64d39135bb28e2ea7e7dd2152"
+    },
+    {
+      "path": "src/assets/fonts/Eulyoo1945-SemiBold.ttf",
+      "sha1": "d530ee7c3a026374267ad880b33b23cd47d6cba9"
+    },
+    {
+      "path": "src/assets/fonts/PretendardVariable.ttf",
+      "sha1": "89b05a2f18c76f8deb577505d48237127ccfc908"
+    }
+  ]
+}

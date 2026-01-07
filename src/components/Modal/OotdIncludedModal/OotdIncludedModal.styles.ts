@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "@/theme/colors";
-import {FontSize} from "@/theme/typography";
+import { FontSize } from "@/theme/typography.ts";
+
 export const styles = StyleSheet.create({
     overlay: {
         flex: 1,
@@ -35,45 +36,45 @@ export const styles = StyleSheet.create({
         fontWeight: "700",
     },
 
-    page: {
-        overflow: "hidden", // 다음 페이지 안 보이게
-    },
+  page: {
+    overflow: "hidden", // 다음 페이지 안 보이게
+  },
 
-    grid: {
-        padding: 16,
-        flexDirection: "row",
-        flexWrap: "wrap",
-    },
+  grid: {
+    padding: 16,
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
 
-    card: {
-        backgroundColor:Colors.white,
-        borderRadius: 16,
-        alignItems: "center",
-        justifyContent: "center",
-        marginRight: 12,
-        marginBottom: 12,
-    },
+  card: {
+    backgroundColor: Colors.white,
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 12,
+    marginBottom: 12,
+  },
 
     label: {
         marginTop: 6,
         fontSize: FontSize.xs,
     },
 
-    indicator: {
-        flexDirection: "row",
-        justifyContent: "center",
-        marginTop: 12,
-        gap: 6,
-    },
+  indicator: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 12,
+    gap: 6,
+  },
 
-    dot: {
-        width: 6,
-        height: 6,
-        borderRadius: 3,
-        backgroundColor: Colors.slider,
-    },
+  dot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: Colors.slider,
+  },
 
-    dotActive: {
-        backgroundColor: Colors.white,
-    },
+  dotActive: {
+    backgroundColor: Colors.white,
+  },
 });
