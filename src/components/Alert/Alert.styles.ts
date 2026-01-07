@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "@/theme/colors.ts";
-import { FontSize, FontWeight } from "@/theme/typography.ts";
+import { FontSize } from "@/theme/typography.ts";
 
 export const alertStyles = StyleSheet.create({
   absolutePosition: {
@@ -36,7 +36,7 @@ export const alertStyles = StyleSheet.create({
 
   messageText: {
     fontSize: FontSize.md,
-    fontWeight: FontWeight.medium,
+    fontWeight: "500",
     color: Colors.black,
     textAlign: "center",
     marginTop: 10,

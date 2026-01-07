@@ -1,10 +1,5 @@
-import { SafeAreaView } from "react-native";
-import ButtonTest from "./src/screens/Test/ButtonTest";
+import SignupScreen from "@/screens/Auth/SignupScreen.tsx";
 
 export default function App() {
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <ButtonTest />
-    </SafeAreaView>
-  );
+  return <SignupScreen />;
 }

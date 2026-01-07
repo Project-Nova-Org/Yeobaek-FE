@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Alert } from "react-native";
-import NicknameButton from "@/components/buttons/nickname_button/NicknameButton";
-import AddPhotoButton from "@/components/buttons/medium_button/AddPhotoButton";
+import NicknameButton from "@/components/Buttons/nickname_button/NicknameButton";
+import AddPhotoButton from "@/components/Buttons/medium_button/AddPhotoButton";
 import { Colors } from "@/theme/colors.ts";
 
 const ButtonTest = () => {

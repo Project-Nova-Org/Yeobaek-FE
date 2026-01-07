@@ -9,9 +9,11 @@ export const Colors = {
   inactive: "#767676",
   darkgray: "#505050",
   disable: "#CECECE",
-  slider:"#C4C4C4",
+  slider: "#C4C4C4",
   textDisabled: "#999999",
   shadow: "#8B8B8B",
+  placeholder: "#767676",
+  error: "#E50000",
 
   yesPressed: "#5B7397",
   noPressed: "#B0B0B0",

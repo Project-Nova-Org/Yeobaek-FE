@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "@/theme/colors";
+import { FontSize } from "@/theme/typography.ts";
 
 export const styles = StyleSheet.create({
   card: {
@@ -16,7 +17,7 @@ export const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 12,
+    fontSize: FontSize.xs,
     fontWeight: "600",
     marginBottom: 12,
   },
@@ -54,7 +55,7 @@ export const styles = StyleSheet.create({
   },
 
   legendText: {
-    fontSize: 10,
+    fontSize: FontSize.xxs,
     color: Colors.black,
     textAlign: "center",
     fontWeight: "400",

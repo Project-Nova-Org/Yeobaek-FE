@@ -2,6 +2,7 @@ import { View, StyleSheet, Pressable } from "react-native";
 import { ProfileIcon } from "@/assets/icons";
 import { Colors } from "@/theme/colors.ts";
 import { AppText } from "@/components/common/AppText.tsx";
+import { FontSize } from "@/theme/typography.ts";
 
 export interface SimpleTopBarProps {
   title: string;
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   title: {
-    fontSize: 22,
+    fontSize: FontSize.xxl,
     fontWeight: "900",
     color: Colors.primary,
   },

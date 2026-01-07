@@ -34,3 +34,8 @@ export { default as PickerIcon } from "./picker.svg";
 export { default as BackIcon } from "./back.svg";
 export { default as FrontIcon } from "./front.svg";
 export { default as EraserIcon } from "./eraser.svg";
+export { default as FirstLogoIcon } from "./first_logo.svg";
+export { default as SecondLogoIcon } from "./second_logo.svg";
+export { default as ThirdLogoIcon } from "./third_logo.svg";
+export { default as LoginLogoIcon } from "./login_logo.svg";
+export { default as TitleIcon } from "./title.svg";
