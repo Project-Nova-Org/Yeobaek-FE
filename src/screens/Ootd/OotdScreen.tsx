@@ -10,12 +10,7 @@ import { styles } from "./OotdScreen.styles";
 import { AppText } from "@/components/common/AppText";
 import { Colors } from "@/theme/colors";
 
-// 아이콘
-import EmptyStarIcon from "@/assets/icons/empty_star.svg";
-import StarIcon from "@/assets/icons/star.svg";
-import SortIcon from "@/assets/icons/sort.svg";
-import SearchIcon from "@/assets/icons/search.svg";
-import ItemPlusImage from "@/assets/icons/itemplus.svg";
+import { EmptyStarIcon, StarIcon, SortIcon,SearchIcon,ItemPlus } from "@/assets/icons/index"
 
 const TPO_LIST = ["데일리", "포멀", "데이트", "여행", "레저", "파티", "하객룩", "기타"];
 const STYLE_LIST = ["캐주얼", "클래식", "빈티지", "스트릿", "스포티", "힙합", "기타"];
@@ -123,7 +118,7 @@ export function OotdScreen() {
             <View style={styles.grid}>
               <Pressable style={styles.card}>
                 <View style={styles.cardImage}>
-                  <ItemPlusImage width="100%" height="100%" />
+                  <ItemPlus width="100%" height="100%" />
                 </View>
                 <View style={styles.cardLabel} />
               </Pressable>
