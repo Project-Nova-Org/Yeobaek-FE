@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
+
 import { Colors } from "@/theme/colors.ts";
+
 import { FontSize } from "@/theme/typography.ts";
 
 export const alertStyles = StyleSheet.create({
@@ -11,7 +13,7 @@ export const alertStyles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    //  다른 요소보다 위에
+    // 다른 요소보다 위에
     zIndex: 10,
   },
 

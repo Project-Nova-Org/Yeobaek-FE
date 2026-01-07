@@ -40,3 +40,5 @@ export { default as SecondLogoIcon } from "./second_logo.svg";
 export { default as ThirdLogoIcon } from "./third_logo.svg";
 export { default as LoginLogoIcon } from "./login_logo.svg";
 export { default as TitleIcon } from "./title.svg";
+export { default as MaleIcon } from "./male.svg";
+export { default as FemaleIcon } from "./female.svg";
