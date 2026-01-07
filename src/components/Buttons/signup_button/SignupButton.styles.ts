@@ -17,8 +17,8 @@ export const signupButtonStyles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    fontSize: FontSize.md,
-    fontWeight: 500,
+    fontSize: FontSize.sm,
+    fontWeight: "500",
   },
 
   // 활성화 상태

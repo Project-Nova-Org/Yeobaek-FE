@@ -39,13 +39,13 @@ export const styles = StyleSheet.create({
     width: 160,
   },
 
-  sizeText: {
-    minWidth: 16,
-    textAlign: "left",
-    fontSize: FontSize.sm,
-    fontWeight: "600",
-    color: Colors.primary,
-  },
+    sizeText: {
+        minWidth: 16,
+        textAlign: "left",
+        fontSize: FontSize.sm,
+        fontWeight: "600",
+        color: Colors.primary,
+    },
 
   divider: {
     width: 1,

@@ -3,11 +3,11 @@ import { Colors } from "@/theme/colors";
 import { FontSize } from "@/theme/typography.ts";
 
 export const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    justifyContent: "flex-end",
-    backgroundColor: Colors.black,
-  },
+    overlay: {
+        flex: 1,
+        justifyContent: "flex-end",
+        backgroundColor: "rgba(17, 17, 17, 0.4)",
+    },
 
   sheet: {
     backgroundColor: Colors.white,
@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.background,
     borderRadius: 16,
     padding: 16,
-    height: 120, // 카드 높이 고정 (디자인 안정)
+    height: 120,
     justifyContent: "space-between",
   },
 

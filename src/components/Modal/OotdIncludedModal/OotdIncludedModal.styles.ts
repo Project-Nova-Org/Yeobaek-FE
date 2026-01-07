@@ -3,38 +3,38 @@ import { Colors } from "@/theme/colors";
 import { FontSize } from "@/theme/typography.ts";
 
 export const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: Colors.black,
-    justifyContent: "center",
-    alignItems: "center",
-  },
+    overlay: {
+        flex: 1,
+        backgroundColor: "rgba(17, 17, 17, 0.4)",
+        justifyContent: "center",
+        alignItems: "center",
+    },
 
-  modal: {
-    backgroundColor: Colors.black,
-    borderRadius: 20,
-    paddingVertical: 16,
-  },
+    modal: {
+        backgroundColor: "rgba(17, 17, 17, 0.4)",
+        borderRadius: 20,
+        paddingVertical: 16,
+    },
 
-  header: {
-    paddingHorizontal: 16,
-    marginBottom: 12,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
+    header: {
+        paddingHorizontal: 16,
+        marginBottom: 12,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
 
-  title: {
-    color: Colors.white,
-    fontSize: FontSize.base,
-    fontWeight: "600",
-  },
+    title: {
+        color: Colors.white,
+        fontSize: FontSize.base,
+        fontWeight: "600",
+    },
 
-  closeText: {
-    color: Colors.white,
-    fontSize: FontSize.lg,
-    fontWeight: "700",
-  },
+    closeText: {
+        color: Colors.white,
+        fontSize: FontSize.lg,
+        fontWeight: "700",
+    },
 
   page: {
     overflow: "hidden", // 다음 페이지 안 보이게
@@ -55,10 +55,10 @@ export const styles = StyleSheet.create({
     marginBottom: 12,
   },
 
-  label: {
-    marginTop: 6,
-    fontSize: 12,
-  },
+    label: {
+        marginTop: 6,
+        fontSize: FontSize.xs,
+    },
 
   indicator: {
     flexDirection: "row",
