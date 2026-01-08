@@ -30,7 +30,7 @@ const InfoScreen = ({ navigation, initialData }: any) => {
   const [gender, setGender] = useState<"male" | "female" | null>(defaultData.gender);
   const [height, setHeight] = useState(defaultData.height);
   const [weight, setWeight] = useState(defaultData.weight);
-  const [image, setImage] = useState<string | null>(defaultData.image);
+  const [image, _setImage] = useState<string | null>(defaultData.image);
   const isDataChanged =
     gender !== defaultData.gender ||
     height !== defaultData.height ||

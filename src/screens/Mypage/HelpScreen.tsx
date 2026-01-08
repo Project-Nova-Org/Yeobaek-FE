@@ -29,7 +29,7 @@ const HelpScreen = ({ navigation }: any) => {
         <View>
           <Text style={styles.subTitle}>• 로그아웃</Text>
           <Text style={styles.description}>우측 위 마이페이지 아이콘 {">"} 하단 로그아웃</Text>
-          <Text style={[styles.subTitle, { marginTop: 22 }]}>• 계정 삭제</Text>
+          <Text style={[styles.subTitle]}>• 계정 삭제</Text>
           <Pressable onPress={() => console.log("계정 삭제하기 클릭")}>
             <Text style={styles.linkText}>계정 삭제하기</Text>
           </Pressable>

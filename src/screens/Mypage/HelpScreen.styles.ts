@@ -54,6 +54,7 @@ export const helpScreenStyles = StyleSheet.create({
     fontWeight: "600",
     color: Colors.black,
     marginBottom: 4,
+    marginTop: 22,
   },
   description: {
     fontSize: FontSize.xs,
