@@ -65,7 +65,7 @@ const MyPageScreen = ({ navigation }: any) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.profileSection}>
           <View style={styles.logoContainer}>
-            <ProfileLogo width={97} height={105} />
+            <ProfileLogo width={120} height={120} />
           </View>
           <Text style={styles.gradeText}>{gradeLabel}</Text>
           <View style={styles.nicknameRow}>
@@ -105,10 +105,7 @@ const MyPageScreen = ({ navigation }: any) => {
               </Pressable>
             </View>
           </View>
-          <Pressable
-            style={styles.menuItem}
-            onPress={() => navigation.navigate("MyinfoScreen")} // 이동할 스택 이름
-          >
+          <Pressable style={styles.menuItem} onPress={() => navigation.navigate("MyinfoScreen")}>
             <Text style={styles.menuLabel}>맞춤 정보</Text>
             <View style={styles.chevronRotate}>
               <UndoIcon width={8} height={13} color={Colors.primary} />

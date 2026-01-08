@@ -1,27 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { View, ScrollView, Pressable, Image, TextInput } from "react-native";
 import { AppHeader } from "@/components/Header/AppHeader";
 import { HeaderLeft } from "@/components/Header/HeaderLeft";
+import { HeaderRight } from "@/components/Header/HeaderRight";
 import { AppText as Text } from "@/components/common/AppText";
 import { MyinfoScreenStyles as styles } from "./MyinfoScreen.styles";
 import Alert from "@/components/Alert/Alert";
 import { AddItemBottomSheet } from "@/components/Modal/AddItemBottomSheet/AddItemBottomSheet";
 import { Colors } from "@/theme/colors";
 import { HelpIcon, MaleIcon, FemaleIcon } from "@/assets/icons";
+import FullbodyRegisterButton from "@/components/Buttons/medium_button/FullbodyRegisterButton";
+import AddLongButton from "@/components/Buttons/long_button/AddLongButton";
 
-const InfoScreen = ({ navigation }: any) => {
+const InfoScreen = ({ navigation, initialData }: any) => {
+  const defaultData = useMemo(
+    () => ({
+      gender: initialData?.gender || null,
+      height: initialData?.height || "",
+      weight: initialData?.weight || "",
+      image: initialData?.image || null,
+    }),
+    [initialData],
+  );
+
   const [isExitAlertVisible, setIsExitAlertVisible] = useState(false);
   const [isSheetVisible, setIsSheetVisible] = useState(false);
-  const [gender, setGender] = useState<"male" | "female" | null>(null);
-  const [height, setHeight] = useState("");
-  const [weight, setWeight] = useState("");
-  const [image, setImage] = useState<string | null>(null);
+  const [showTooltip, setShowTooltip] = useState(false);
 
-  const handleBack = () => {
-    setIsExitAlertVisible(true);
+  const [gender, setGender] = useState<"male" | "female" | null>(defaultData.gender);
+  const [height, setHeight] = useState(defaultData.height);
+  const [weight, setWeight] = useState(defaultData.weight);
+  const [image, setImage] = useState<string | null>(defaultData.image);
+  const isDataChanged =
+    gender !== defaultData.gender ||
+    height !== defaultData.height ||
+    weight !== defaultData.weight ||
+    image !== defaultData.image;
+
+  const canSubmit = isDataChanged;
+
+  const handleNumericInput = (text: string, setter: (val: string) => void) => {
+    const cleaned = text.replace(/[^0-9]/g, "");
+    setter(cleaned);
   };
 
-  const isFormValid = height && weight && gender && image;
+  const handleBack = () => {
+    if (isDataChanged) {
+      setIsExitAlertVisible(true);
+    } else {
+      navigation.goBack();
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -29,29 +58,40 @@ const InfoScreen = ({ navigation }: any) => {
         title="맞춤 정보"
         left={<HeaderLeft type="icon" onPress={handleBack} />}
         right={
-          <Pressable onPress={() => {}} hitSlop={10}>
-            <HelpIcon width={24} height={24} />
-          </Pressable>
+          <HeaderRight
+            type="icon"
+            onPress={() => setShowTooltip(!showTooltip)}
+            icons={[<HelpIcon key="help" width={24} height={24} />]}
+          />
         }
       />
 
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
         <View style={styles.imageSection}>
+          {showTooltip && (
+            <View style={styles.tooltipContainer}>
+              <Text style={styles.tooltipText}>
+                전신 사진을 등록해주면 가상피팅에서 사용할 수 있어요!{"\n"}
+                여러분의 개인정보는 필수가 아니에요!
+              </Text>
+            </View>
+          )}
           <View style={styles.imagePlaceholder}>
             {image ? (
               <Image source={{ uri: image }} style={styles.fullImage} />
             ) : (
               <View style={styles.emptyImage} />
             )}
-            <Pressable style={styles.imageButton} onPress={() => setIsSheetVisible(true)}>
-              <Text style={styles.imageButtonText}>
-                {image ? "전신 사진 변경하기" : "전신 사진 등록하기"}
-              </Text>
-            </Pressable>
+          </View>
+          <View style={{ marginTop: 16, width: "100%" }}>
+            <FullbodyRegisterButton
+              onPress={() => setIsSheetVisible(true)}
+              label={image ? "전신 사진 변경하기" : "전신 사진 등록하기"}
+            />
           </View>
         </View>
-        <Text style={styles.sectionTitle}>체형 정보</Text>
 
+        <Text style={styles.sectionTitle}>체형 정보</Text>
         <View style={styles.inputRow}>
           <Text style={styles.inputLabel}>키</Text>
           <View style={styles.inputContainer}>
@@ -60,12 +100,11 @@ const InfoScreen = ({ navigation }: any) => {
               placeholder="키를 입력해주세요..."
               keyboardType="numeric"
               value={height}
-              onChangeText={setHeight}
+              onChangeText={(text) => handleNumericInput(text, setHeight)}
             />
             <Text style={styles.unitText}>cm</Text>
           </View>
         </View>
-
         <View style={styles.inputRow}>
           <Text style={styles.inputLabel}>몸무게</Text>
           <View style={styles.inputContainer}>
@@ -74,7 +113,7 @@ const InfoScreen = ({ navigation }: any) => {
               placeholder="몸무게를 입력해주세요..."
               keyboardType="numeric"
               value={weight}
-              onChangeText={setWeight}
+              onChangeText={(text) => handleNumericInput(text, setWeight)}
             />
             <Text style={styles.unitText}>kg</Text>
           </View>
@@ -107,18 +146,20 @@ const InfoScreen = ({ navigation }: any) => {
               <FemaleIcon
                 width={16}
                 height={16}
-                color={gender === "female" ? Colors.white : Colors.primary}
+                color={gender === "female" ? "#FFFFFF" : Colors.primary}
               />
             </Pressable>
           </View>
         </View>
-
-        <Pressable
-          style={[styles.submitButton, isFormValid ? styles.submitActive : styles.submitDisabled]}
-          disabled={!isFormValid}
-        >
-          <Text style={styles.submitButtonText}>등 록</Text>
-        </Pressable>
+        <View style={styles.addButton}>
+          <AddLongButton
+            label="등 록"
+            isActive={canSubmit}
+            onPress={() => {
+              console.log("저장 데이터:", { height, weight, gender, image });
+            }}
+          />
+        </View>
       </ScrollView>
 
       <Alert
@@ -131,14 +172,8 @@ const InfoScreen = ({ navigation }: any) => {
       <AddItemBottomSheet
         visible={isSheetVisible}
         onClose={() => setIsSheetVisible(false)}
-        onCamera={() => {
-          setIsSheetVisible(false);
-          // 카메라 로직
-        }}
-        onGallery={() => {
-          setIsSheetVisible(false);
-          // 갤러리 로직
-        }}
+        onCamera={() => setIsSheetVisible(false)}
+        onGallery={() => setIsSheetVisible(false)}
       />
     </View>
   );

@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native";
-import Myscreen from "./src/screens/Mypage/MyinfoScreen.tsx";
+import Myscreen from "./src/screens/Mypage/HelpScreen";
 
 export default function App() {
   return (

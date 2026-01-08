@@ -1,20 +1,13 @@
 import { StyleSheet } from "react-native";
-
 import { Colors } from "@/theme/colors.ts";
-
 import { FontSize } from "@/theme/typography.ts";
 
 export const alertStyles = StyleSheet.create({
-  absolutePosition: {
-    position: "absolute",
+  overlay: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    // 다른 요소보다 위에
-    zIndex: 10,
+    backgroundColor: "rgba(17, 17, 17, 0.4)",
   },
 
   alertContainer: {
@@ -33,15 +26,14 @@ export const alertStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    paddingBottom: 40,
+    paddingBottom: 35,
   },
 
   messageText: {
     fontSize: FontSize.md,
-    fontWeight: "500",
+    fontWeight: "700",
     color: Colors.black,
     textAlign: "center",
-    marginTop: 10,
     lineHeight: 25,
   },
 

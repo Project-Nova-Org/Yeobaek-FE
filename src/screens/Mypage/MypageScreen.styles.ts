@@ -16,13 +16,15 @@ export const MyPageStyles = StyleSheet.create({
     height: 120,
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 8,
+    marginBottom: 10,
+    marginTop: 20,
   },
   gradeText: {
     fontSize: FontSize.xxs,
     fontWeight: "600",
     color: Colors.primary,
-    marginBottom: 8,
+    alignItems: "center",
+    marginBottom: 10,
   },
   nicknameRow: {
     flexDirection: "row",
@@ -38,6 +40,7 @@ export const MyPageStyles = StyleSheet.create({
     height: 11,
     backgroundColor: Colors.border,
     width: "100%",
+    marginTop: 15,
   },
   menuSection: {
     paddingHorizontal: 30,
