@@ -14,7 +14,11 @@ const NicknameEditScreen = ({ navigation, route }: any) => {
   const [isExitAlertVisible, setIsExitAlertVisible] = useState(false);
 
   const handleBack = () => {
-    // if (nickname !== currentNickname) { ... }
+    if (nickname !== currentNickname) {
+      setIsExitAlertVisible(true);
+    } else {
+      navigation.goBack();
+    }
     setIsExitAlertVisible(true);
   };
 

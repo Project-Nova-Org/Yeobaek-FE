@@ -23,7 +23,7 @@ export const MyPageStyles = StyleSheet.create({
     fontSize: FontSize.xxs,
     fontWeight: "600",
     color: Colors.primary,
-    alignItems: "center",
+    textAlign: "center",
     marginBottom: 10,
   },
   nicknameRow: {

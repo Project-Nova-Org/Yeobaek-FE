@@ -36,7 +36,7 @@ const MyPageScreen = ({ navigation }: any) => {
   };
   const translateX = slideAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, 1],
+    outputRange: [0, 3],
   });
 
   const userData = {

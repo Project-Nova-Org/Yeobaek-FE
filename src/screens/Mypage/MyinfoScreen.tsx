@@ -146,7 +146,7 @@ const InfoScreen = ({ navigation, initialData }: any) => {
               <FemaleIcon
                 width={16}
                 height={16}
-                color={gender === "female" ? "#FFFFFF" : Colors.primary}
+                color={gender === "female" ? Colors.white : Colors.primary}
               />
             </Pressable>
           </View>
