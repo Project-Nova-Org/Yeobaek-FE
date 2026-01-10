@@ -36,7 +36,7 @@ export const authStyles = StyleSheet.create({
   },
 });
 
-export const sinupStyles = StyleSheet.create({
+export const signupStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,

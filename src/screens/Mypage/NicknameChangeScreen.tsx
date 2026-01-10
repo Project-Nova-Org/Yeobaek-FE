@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View } from "react-native";
-import { sinupStyles as styles } from "@/screens/Auth/Auth.styles";
+import { signupStyles as styles } from "@/screens/Auth/Auth.styles";
 import { AppText } from "@/components/common/AppText";
 import { NicknameInput } from "@/components/Input/NicknameInput";
 import { HeaderLeft } from "@/components/Header/HeaderLeft";
