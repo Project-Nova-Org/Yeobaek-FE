@@ -13,7 +13,7 @@ import { RootStackParamList } from "../../../App";
 type Props = NativeStackScreenProps<RootStackParamList, "NicknameEdit">;
 
 const NicknameEditScreen = ({ navigation, route }: Props) => {
-  const currentNickname = route.params?.currentNickname || "";
+  const currentNickname = route.params.currentNickname;
   const [nickname, setNickname] = useState(currentNickname);
   const [isExitAlertVisible, setIsExitAlertVisible] = useState(false);
 
@@ -51,7 +51,14 @@ const NicknameEditScreen = ({ navigation, route }: Props) => {
         <NicknameInput value={nickname} onChange={setNickname} />
       </View>
 
-      <NicknameButton onPress={() => navigation.goBack()} isActive={isValidNickname} />
+      <NicknameButton
+        onPress={async () => {
+          // TODO: API 호출로 닉네임 저장
+          // await saveNickname(nickname);
+          navigation.goBack();
+        }}
+        isActive={isValidNickname}
+      />
 
       <Alert
         visible={isExitAlertVisible}
