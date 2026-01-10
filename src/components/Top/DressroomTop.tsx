@@ -1,5 +1,5 @@
-import { SimpleTopBar } from "./SimpleTopBar";
+import { SimpleTopBar, SimpleTopBarProps } from "./SimpleTopBar";
 
-export function DressroomTop() {
-  return <SimpleTopBar title="드레스룸" />;
+export function DressroomTop({ onProfilePress }: SimpleTopBarProps) {
+  return <SimpleTopBar title="드레스룸" onProfilePress={onProfilePress} />;
 }

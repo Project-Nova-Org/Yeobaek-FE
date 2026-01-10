@@ -19,7 +19,8 @@ import {
   UndoIcon,
 } from "@/assets/icons";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../../App";
+import { RootStackParamList } from "@/screens/Test/TestPlace";
+import { INITIAL_USER_DATA } from "./MypageData";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Mypage">;
 
@@ -44,12 +45,7 @@ const MyPageScreen = ({ navigation }: Props) => {
     outputRange: [0, 3],
   });
 
-  const userData = {
-    email: "yeobeak@gachon.ac.kr",
-    provider: "kakao",
-    itemCount: 45,
-    nickname: "동르반 99세",
-  };
+  const userData = INITIAL_USER_DATA;
 
   const getGradeInfo = (count: number) => {
     if (count >= 100) return { Icon: LoginLogoIcon, label: "패셔니스타" };

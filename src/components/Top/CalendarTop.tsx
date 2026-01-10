@@ -1,5 +1,5 @@
-import { SimpleTopBar } from "./SimpleTopBar";
+import { SimpleTopBar, SimpleTopBarProps } from "./SimpleTopBar";
 
-export function CalendarTop() {
-  return <SimpleTopBar title="달력" />;
+export function CalendarTop({ onProfilePress }: SimpleTopBarProps) {
+  return <SimpleTopBar title="달력" onProfilePress={onProfilePress} />;
 }
