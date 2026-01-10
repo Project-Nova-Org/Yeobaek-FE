@@ -11,8 +11,14 @@ import { Colors } from "@/theme/colors";
 import { HelpIcon, MaleIcon, FemaleIcon } from "@/assets/icons";
 import FullbodyRegisterButton from "@/components/Buttons/medium_button/FullbodyRegisterButton";
 import AddLongButton from "@/components/Buttons/long_button/AddLongButton";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../../App";
 
-const InfoScreen = ({ navigation, initialData }: any) => {
+type Props = NativeStackScreenProps<RootStackParamList, "Myinfo">;
+
+const InfoScreen = ({ navigation, route }: Props) => {
+  const initialData = route.params?.initialData;
+
   const defaultData = useMemo(
     () => ({
       gender: initialData?.gender || null,
@@ -31,6 +37,7 @@ const InfoScreen = ({ navigation, initialData }: any) => {
   const [height, setHeight] = useState(defaultData.height);
   const [weight, setWeight] = useState(defaultData.weight);
   const [image, _setImage] = useState<string | null>(defaultData.image);
+
   const isDataChanged =
     gender !== defaultData.gender ||
     height !== defaultData.height ||
@@ -151,12 +158,14 @@ const InfoScreen = ({ navigation, initialData }: any) => {
             </Pressable>
           </View>
         </View>
+
         <View style={styles.addButton}>
           <AddLongButton
             label="등 록"
             isActive={canSubmit}
             onPress={() => {
               console.log("저장 데이터:", { height, weight, gender, image });
+              navigation.goBack(); // 저장 후 이동
             }}
           />
         </View>
@@ -165,13 +174,17 @@ const InfoScreen = ({ navigation, initialData }: any) => {
       <Alert
         visible={isExitAlertVisible}
         message={"맞춤정보 편집을\n중단하시겠습니까?"}
-        onConfirm={() => navigation.goBack()}
+        onConfirm={() => {
+          setIsExitAlertVisible(false);
+          navigation.goBack();
+        }}
         onCancel={() => setIsExitAlertVisible(false)}
       />
 
       <AddItemBottomSheet
         visible={isSheetVisible}
         onClose={() => setIsSheetVisible(false)}
+        // ESLint 오류 방지를 위해 임시로 setImage 연결
         onCamera={() => setIsSheetVisible(false)}
         onGallery={() => setIsSheetVisible(false)}
       />

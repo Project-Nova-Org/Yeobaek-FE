@@ -5,7 +5,7 @@ import { MyPageStyles as styles } from "./MypageScreen.styles";
 import { AppHeader } from "@/components/Header/AppHeader";
 import { HeaderLeft } from "@/components/Header/HeaderLeft";
 import Alert from "@/components/Alert/Alert";
-import { Colors } from "@/theme/colors.ts";
+import { Colors } from "@/theme/colors";
 import {
   EditIcon,
   KakaoIcon,
@@ -18,8 +18,12 @@ import {
   LoginLogoIcon,
   UndoIcon,
 } from "@/assets/icons";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../../App";
 
-const MyPageScreen = ({ navigation }: any) => {
+type Props = NativeStackScreenProps<RootStackParamList, "Mypage">;
+
+const MyPageScreen = ({ navigation }: Props) => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isLogoutAlertVisible, setIsLogoutAlertVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(0)).current;
@@ -34,6 +38,7 @@ const MyPageScreen = ({ navigation }: any) => {
     }).start();
     setIsDarkMode(!isDarkMode);
   };
+
   const translateX = slideAnim.interpolate({
     inputRange: [0, 1],
     outputRange: [0, 3],
@@ -70,7 +75,14 @@ const MyPageScreen = ({ navigation }: any) => {
           <Text style={styles.gradeText}>{gradeLabel}</Text>
           <View style={styles.nicknameRow}>
             <Text style={styles.nicknameText}>{userData.nickname}</Text>
-            <Pressable onPress={() => navigation.navigate("NicknameEditScreen")} hitSlop={15}>
+            <Pressable
+              onPress={() =>
+                navigation.navigate("NicknameEdit", { currentNickname: userData.nickname })
+              }
+              hitSlop={15}
+              accessibilityRole="button"
+              accessibilityLabel="닉네임 수정 페이지로 이동"
+            >
               <EditIcon width={14} height={14} color={Colors.primary} />
             </Pressable>
           </View>
@@ -92,7 +104,12 @@ const MyPageScreen = ({ navigation }: any) => {
             <Text style={styles.menuLabel}>다크모드</Text>
             <View style={styles.darkModeRight}>
               <View style={styles.verticalBar} />
-              <Pressable onPress={toggleDarkMode} hitSlop={10}>
+              <Pressable
+                onPress={toggleDarkMode}
+                hitSlop={10}
+                accessibilityRole="button"
+                accessibilityLabel={`다크모드 ${isDarkMode ? "끄기" : "켜기"}`}
+              >
                 <View style={styles.switchBase}>
                   <Animated.View style={{ transform: [{ translateX }] }}>
                     {isDarkMode ? (
@@ -105,26 +122,43 @@ const MyPageScreen = ({ navigation }: any) => {
               </Pressable>
             </View>
           </View>
-          <Pressable style={styles.menuItem} onPress={() => navigation.navigate("MyinfoScreen")}>
+
+          <Pressable
+            style={styles.menuItem}
+            onPress={() => navigation.navigate("Myinfo")}
+            accessibilityRole="button"
+            accessibilityLabel="맞춤 정보 페이지로 이동"
+          >
             <Text style={styles.menuLabel}>맞춤 정보</Text>
             <View style={styles.chevronRotate}>
               <UndoIcon width={8} height={13} color={Colors.primary} />
             </View>
           </Pressable>
 
-          <Pressable style={styles.menuItem} onPress={() => navigation.navigate("HelpScreen")}>
+          <Pressable
+            style={styles.menuItem}
+            onPress={() => navigation.navigate("Help")}
+            accessibilityRole="button"
+            accessibilityLabel="도움말 페이지로 이동"
+          >
             <Text style={styles.menuLabel}>도움말</Text>
             <View style={styles.chevronRotate}>
               <UndoIcon width={8} height={13} color={Colors.primary} />
             </View>
           </Pressable>
+
           <View style={styles.menuItem}>
             <Text style={styles.menuLabel}>버전</Text>
             <Text style={styles.versionText}>0.0.1</Text>
           </View>
         </View>
         <View style={styles.logoutButtonContainer}>
-          <Pressable onPress={() => setIsLogoutAlertVisible(true)} hitSlop={20}>
+          <Pressable
+            onPress={() => setIsLogoutAlertVisible(true)}
+            hitSlop={20}
+            accessibilityRole="button"
+            accessibilityLabel="로그아웃 알림창 열기"
+          >
             <Text style={styles.logoutText}>로그아웃</Text>
           </Pressable>
         </View>

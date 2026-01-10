@@ -5,6 +5,10 @@ import { HeaderLeft } from "@/components/Header/HeaderLeft";
 import { AppText as Text } from "@/components/common/AppText";
 import { UndoIcon, UserIcon, PenIcon, RobotIcon } from "@/assets/icons"; // 아이콘 임포트
 import { helpScreenStyles as styles } from "./HelpScreen.styles";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../../../App";
+
+type Props = NativeStackScreenProps<RootStackParamList, "Help">;
 
 if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -17,7 +21,7 @@ interface HelpItem {
   content: React.ReactNode;
 }
 
-const HelpScreen = ({ navigation }: any) => {
+const HelpScreen = ({ navigation }: Props) => {
   const [expandedId, setExpandedId] = useState<number | null>(null);
 
   const helpData: HelpItem[] = [
@@ -29,7 +33,7 @@ const HelpScreen = ({ navigation }: any) => {
         <View>
           <Text style={styles.subTitle}>• 로그아웃</Text>
           <Text style={styles.description}>우측 위 마이페이지 아이콘 {">"} 하단 로그아웃</Text>
-          <Text style={[styles.subTitle, { marginTop: 22 }]}>• 계정 삭제</Text>
+          <Text style={[styles.subTitle]}>• 계정 삭제</Text>
           <Pressable onPress={() => console.log("계정 삭제하기 클릭")}>
             <Text style={styles.linkText}>계정 삭제하기</Text>
           </Pressable>
@@ -48,7 +52,6 @@ const HelpScreen = ({ navigation }: any) => {
       Icon: RobotIcon,
       content: <Text style={styles.description}>AI 추천 및 피팅 기능에 대한 설명입니다.</Text>,
     },
-    // 설계서의 반복되는 항목들
     {
       id: 4,
       title: "드레스룸",
@@ -87,7 +90,7 @@ const HelpScreen = ({ navigation }: any) => {
         left={<HeaderLeft type="icon" onPress={() => navigation.goBack()} />}
       />
 
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+      <ScrollView contentContainerStyle={styles.scrollContent}>
         {helpData.map((item) => (
           <View key={item.id} style={styles.itemWrapper}>
             <Pressable
