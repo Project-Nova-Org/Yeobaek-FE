@@ -1,5 +1,5 @@
-import { SimpleTopBar, SimpleTopBarProps } from "./SimpleTopBar";
+import { SimpleTopBar } from "./SimpleTopBar";
 
-export function OotdTop({ onProfilePress }: Omit<SimpleTopBarProps, "title">) {
-  return <SimpleTopBar title="OOTD" onProfilePress={onProfilePress} />;
+export function OotdTop() {
+  return <SimpleTopBar title="OOTD" />;
 }

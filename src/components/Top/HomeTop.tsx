@@ -1,5 +1,5 @@
-import { SimpleTopBar, SimpleTopBarProps } from "./SimpleTopBar";
+import { SimpleTopBar } from "./SimpleTopBar";
 
-export function HomeTop({ onProfilePress }: SimpleTopBarProps) {
-  return <SimpleTopBar title="여백 : 餘白" onProfilePress={onProfilePress} />;
+export function HomeTop() {
+  return <SimpleTopBar title="여백 : 餘白" />;
 }

@@ -121,9 +121,12 @@ const MyPageScreen = ({ navigation }: Props) => {
 
           <Pressable
             style={styles.menuItem}
-            onPress={() => navigation.navigate("Myinfo")}
-            accessibilityRole="button"
-            accessibilityLabel="맞춤 정보 페이지로 이동"
+            onPress={() =>
+              navigation.navigate({
+                name: "Myinfo",
+                params: { initialData: userData },
+              })
+            }
           >
             <Text style={styles.menuLabel}>맞춤 정보</Text>
             <View style={styles.chevronRotate}>

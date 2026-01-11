@@ -70,12 +70,7 @@ function MainTabContent({ navigation }: MainTabContentProps) {
 
   return (
     <View style={styles.container}>
-      {TopComponent && (
-        <TopComponent
-          title={activeTab.toUpperCase()}
-          onProfilePress={() => navigation.navigate("Mypage")}
-        />
-      )}
+      {TopComponent && <TopComponent title={activeTab.toUpperCase()} />}
 
       <View style={styles.body}>
         <BodyComponent />
