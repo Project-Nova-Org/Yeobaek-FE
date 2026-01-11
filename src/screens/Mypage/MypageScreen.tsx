@@ -19,7 +19,7 @@ import {
   UndoIcon,
 } from "@/assets/icons";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "@/screens/Test/TestPlace";
+import { RootStackParamList } from "@/types/navigation";
 import { INITIAL_USER_DATA } from "./MypageData";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Mypage">;

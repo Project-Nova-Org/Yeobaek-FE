@@ -8,7 +8,7 @@ import NicknameButton from "@/components/Buttons/nickname_button/NicknameButton"
 import { Colors } from "@/theme/colors";
 import Alert from "@/components/Alert/Alert";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "@/screens/Test/TestPlace";
+import { RootStackParamList } from "@/types/navigation";
 
 type Props = NativeStackScreenProps<RootStackParamList, "NicknameEdit">;
 

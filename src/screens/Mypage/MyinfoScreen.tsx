@@ -12,7 +12,7 @@ import { HelpIcon, MaleIcon, FemaleIcon } from "@/assets/icons";
 import FullbodyRegisterButton from "@/components/Buttons/medium_button/FullbodyRegisterButton";
 import AddLongButton from "@/components/Buttons/long_button/AddLongButton";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "@/screens/Test/TestPlace";
+import { RootStackParamList } from "@/types/navigation";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Myinfo">;
 

@@ -17,24 +17,7 @@ import MypageScreen from "@/screens/Mypage/MypageScreen";
 import HelpScreen from "@/screens/Mypage/HelpScreen";
 import MyinfoScreen from "@/screens/Mypage/MyinfoScreen";
 import NicknameEditScreen from "@/screens/Mypage/NicknameChangeScreen";
-
-export interface UserInfo {
-  nickname?: string;
-  email?: string;
-  gender?: "male" | "female" | null;
-  height?: string;
-  weight?: string;
-  image?: string | null;
-  provider?: string;
-}
-
-export type RootStackParamList = {
-  HomeMain: undefined;
-  Mypage: undefined;
-  Help: undefined;
-  Myinfo: { initialData?: UserInfo };
-  NicknameEdit: { currentNickname: string };
-};
+import { RootStackParamList } from "@/types/navigation";
 
 interface MainTabContentProps {
   navigation: StackNavigationProp<RootStackParamList, "HomeMain">;

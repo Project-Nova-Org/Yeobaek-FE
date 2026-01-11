@@ -5,7 +5,7 @@ import { ProfileIcon } from "@/assets/icons";
 import { Colors } from "@/theme/colors.ts";
 import { AppText } from "@/components/common/AppText";
 import { FontSize } from "@/theme/typography.ts";
-import { RootStackParamList } from "@/screens/Test/TestPlace";
+import { RootStackParamList } from "@/types/navigation";
 
 export interface SimpleTopBarProps {
   title: string;
