@@ -35,7 +35,7 @@ const BodyByTab: Record<TabKey, React.ComponentType> = {
   stats: StatsScreen,
 };
 
-function MainTabContent({}: MainTabContentProps) {
+function MainTabContent() {
   const [activeTab, setActiveTab] = useState<TabKey>("home");
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
