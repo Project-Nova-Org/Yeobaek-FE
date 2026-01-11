@@ -1,20 +1,23 @@
 import { View, StyleSheet, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { ProfileIcon } from "@/assets/icons";
 import { Colors } from "@/theme/colors.ts";
-import { AppText } from "@/components/common/AppText.tsx";
+import { AppText } from "@/components/common/AppText";
 import { FontSize } from "@/theme/typography.ts";
+import { RootStackParamList } from "@/types/navigation";
 
 export interface SimpleTopBarProps {
   title: string;
-  onProfilePress?: () => void;
 }
 
-export function SimpleTopBar({ title, onProfilePress }: SimpleTopBarProps) {
+export function SimpleTopBar({ title }: SimpleTopBarProps) {
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
   return (
     <View style={styles.container}>
       <AppText style={styles.title}>{title}</AppText>
-
-      <Pressable onPress={onProfilePress}>
+      <Pressable onPress={() => navigation.navigate("Mypage")}>
         <ProfileIcon width={27} height={27} />
       </Pressable>
     </View>

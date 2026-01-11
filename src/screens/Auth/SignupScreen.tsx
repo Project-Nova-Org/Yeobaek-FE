@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { sinupStyles as styles } from "@/screens/Auth/Auth.styles.ts";
+import { signupStyles as styles } from "@/screens/Auth/Auth.styles.ts";
 import { View } from "react-native";
 import { AppText } from "@/components/common/AppText.tsx";
 import { NicknameInput } from "@/components/Input/NicknameInput.tsx";

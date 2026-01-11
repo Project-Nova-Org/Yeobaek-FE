@@ -4,6 +4,7 @@ import { FontSize } from "@/theme/typography";
 
 export const nicknameButtonStyles = StyleSheet.create({
   container: {
+    marginBottom: 30,
     alignItems: "center",
     justifyContent: "center",
     marginVertical: 10,

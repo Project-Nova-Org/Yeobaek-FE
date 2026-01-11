@@ -1,15 +1,29 @@
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Keyboard } from "react-native";
-import { useEffect, useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack"; // 1. StackNavigationProp 추가
 
 import { BottomTabBar } from "@/components/BottomTabBar/BottomTabBar";
 import { TopByTab } from "@/components/Top";
+import { Colors } from "@/theme/colors";
+import { SimpleTopBarProps } from "@/components/Top/SimpleTopBar.tsx";
 
 import { CalendarScreen } from "@/screens/Calendar/CalendarScreen";
 import { OotdScreen } from "@/screens/Ootd/OotdScreen";
 import { HomeScreen } from "@/screens/Home/HomeScreen";
 import { DressroomScreen } from "@/screens/Dressroom/DressroomScreen";
 import { StatsScreen } from "@/screens/Stats/StatsScreen";
-import { Colors } from "@/theme/colors";
+import MypageScreen from "@/screens/Mypage/MypageScreen";
+import HelpScreen from "@/screens/Mypage/HelpScreen";
+import MyinfoScreen from "@/screens/Mypage/MyinfoScreen";
+import NicknameEditScreen from "@/screens/Mypage/NicknameChangeScreen";
+import { RootStackParamList } from "@/types/navigation";
+
+interface MainTabContentProps {
+  navigation: StackNavigationProp<RootStackParamList, "HomeMain">;
+}
+
+const Stack = createStackNavigator<RootStackParamList>();
 
 type TabKey = "calendar" | "ootd" | "home" | "dressroom" | "stats";
 
@@ -21,21 +35,16 @@ const BodyByTab: Record<TabKey, React.ComponentType> = {
   stats: StatsScreen,
 };
 
-export default function TestPlace() {
+function MainTabContent({}: MainTabContentProps) {
   const [activeTab, setActiveTab] = useState<TabKey>("home");
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
-  const TopComponent = TopByTab[activeTab];
+  const TopComponent = TopByTab[activeTab] as React.ComponentType<SimpleTopBarProps>;
   const BodyComponent = BodyByTab[activeTab];
 
   useEffect(() => {
-    const show = Keyboard.addListener("keyboardDidShow", () =>
-        setIsKeyboardVisible(true)
-    );
-    const hide = Keyboard.addListener("keyboardDidHide", () =>
-        setIsKeyboardVisible(false)
-    );
-
+    const show = Keyboard.addListener("keyboardDidShow", () => setIsKeyboardVisible(true));
+    const hide = Keyboard.addListener("keyboardDidHide", () => setIsKeyboardVisible(false));
     return () => {
       show.remove();
       hide.remove();
@@ -43,21 +52,29 @@ export default function TestPlace() {
   }, []);
 
   return (
-      <View style={styles.container}>
-        {TopComponent && <TopComponent />}
+    <View style={styles.container}>
+      {TopComponent && <TopComponent title={activeTab.toUpperCase()} />}
 
-        <View style={styles.body}>
-          <BodyComponent />
-        </View>
-
-        {/* 키보드 열리면 하단바 숨김 */}
-        {!isKeyboardVisible && (
-            <BottomTabBar
-                activeTab={activeTab}
-                onChangeTab={setActiveTab}
-            />
-        )}
+      <View style={styles.body}>
+        <BodyComponent />
       </View>
+
+      {!isKeyboardVisible && <BottomTabBar activeTab={activeTab} onChangeTab={setActiveTab} />}
+    </View>
+  );
+}
+
+export default function TestPlace() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="HomeMain">
+        <Stack.Screen name="HomeMain" component={MainTabContent} />
+        <Stack.Screen name="Mypage" component={MypageScreen} />
+        <Stack.Screen name="Help" component={HelpScreen} />
+        <Stack.Screen name="Myinfo" component={MyinfoScreen} />
+        <Stack.Screen name="NicknameEdit" component={NicknameEditScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 

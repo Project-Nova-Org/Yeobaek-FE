@@ -14,6 +14,8 @@ export const Colors = {
   shadow: "#8B8B8B",
   placeholder: "#767676",
   error: "#E50000",
+  border: "#E5E6E8",
+  help: "#D5D5D5",
 
   yesPressed: "#5B7397",
   noPressed: "#B0B0B0",
