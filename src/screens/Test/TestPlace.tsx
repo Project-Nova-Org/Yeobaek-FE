@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Keyboard } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack"; // 1. StackNavigationProp 추가
 
 import { BottomTabBar } from "@/components/BottomTabBar/BottomTabBar";
 import { TopByTab } from "@/components/Top";
@@ -18,14 +18,27 @@ import HelpScreen from "@/screens/Mypage/HelpScreen";
 import MyinfoScreen from "@/screens/Mypage/MyinfoScreen";
 import NicknameEditScreen from "@/screens/Mypage/NicknameChangeScreen";
 
-// 내비게이션 타입 정의
+export interface UserInfo {
+  nickname?: string;
+  email?: string;
+  gender?: "male" | "female" | null;
+  height?: string;
+  weight?: string;
+  image?: string | null;
+  provider?: string;
+}
+
 export type RootStackParamList = {
   HomeMain: undefined;
   Mypage: undefined;
   Help: undefined;
-  Myinfo: { initialData?: any } | undefined;
+  Myinfo: { initialData?: UserInfo };
   NicknameEdit: { currentNickname: string };
 };
+
+interface MainTabContentProps {
+  navigation: StackNavigationProp<RootStackParamList, "HomeMain">;
+}
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -39,7 +52,7 @@ const BodyByTab: Record<TabKey, React.ComponentType> = {
   stats: StatsScreen,
 };
 
-function MainTabContent({ navigation }: any) {
+function MainTabContent({ navigation }: MainTabContentProps) {
   const [activeTab, setActiveTab] = useState<TabKey>("home");
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
