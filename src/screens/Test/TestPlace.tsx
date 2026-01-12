@@ -7,7 +7,7 @@ import { TopByTab } from "@/components/Top";
 import { CalendarScreen } from "@/screens/Calendar/CalendarScreen";
 import { OotdScreen } from "@/screens/Ootd/OotdScreen";
 import { HomeScreen } from "@/screens/Home/HomeScreen";
-import { DressroomScreen } from "@/screens/Dressroom/DressroomScreen";
+import  DressroomScreen  from "@/screens/Dressroom/DressroomScreen";
 import { StatsScreen } from "@/screens/Stats/StatsScreen";
 import { Colors } from "@/theme/colors";
 
