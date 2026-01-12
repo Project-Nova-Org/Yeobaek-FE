@@ -32,7 +32,7 @@ const NicknameEditScreen = ({ navigation, route }: Props) => {
     nickname !== currentNickname;
 
   return (
-    <View style={[styles.container, { backgroundColor: Colors.white }]}>
+    <View style={styles.container}>
       <View
         style={{
           width: "100%",

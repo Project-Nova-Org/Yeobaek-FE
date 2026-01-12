@@ -4,14 +4,13 @@ import { FontSize } from "@/theme/typography";
 
 export const nicknameButtonStyles = StyleSheet.create({
   container: {
-    marginBottom: 30,
     alignItems: "center",
     justifyContent: "center",
-    marginVertical: 10,
+    marginVertical: 22,
   },
 
   buttonBase: {
-    width: 320,
+    width: 360,
     height: 48,
     borderRadius: 10,
     justifyContent: "center",
@@ -19,8 +18,8 @@ export const nicknameButtonStyles = StyleSheet.create({
   },
 
   buttonText: {
-    fontSize: FontSize.lg,
-    fontWeight: "600",
+    fontSize: FontSize.sm,
+    fontWeight: "500",
   },
 
   // 활성화 상태
