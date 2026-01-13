@@ -1,15 +1,16 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "@/theme/colors";
+import { FontSize } from "@/theme/typography.ts";
 export const styles = StyleSheet.create({
   wrapper: {
-    padding: 16,
+    padding: 12,
   },
 
   row: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    marginBottom: 12,
+    marginBottom: 10,
     flexWrap: "wrap",
   },
 
@@ -30,7 +31,7 @@ export const styles = StyleSheet.create({
   },
 
   pillText: {
-    fontSize: 14,
+    fontSize: FontSize.sm,
     color: Colors.primary,
   },
 

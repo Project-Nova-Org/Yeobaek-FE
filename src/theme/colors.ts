@@ -17,6 +17,8 @@ export const Colors = {
   border: "#E5E6E8",
   help: "#D5D5D5",
 
+  tapText: "#607291",
+
   yesPressed: "#5B7397",
   noPressed: "#B0B0B0",
   noStandard: "#707070",
