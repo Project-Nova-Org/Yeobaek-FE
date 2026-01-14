@@ -7,9 +7,10 @@ export const homeStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.background,
   },
-  scrollContent: {
-    paddingBottom: 100,
+  fixedContent: {
+    flex: 1,
     paddingTop: 5,
+    paddingBottom: 20,
   },
   sectionHeader: {
     paddingHorizontal: 20,
@@ -69,6 +70,8 @@ export const homeStyles = StyleSheet.create({
     textAlign: "center",
   },
   weatherCard: {
+    height: 170,
+    alignSelf: "center",
     marginHorizontal: 20,
     marginTop: 10,
     backgroundColor: Colors.white,
@@ -89,14 +92,14 @@ export const homeStyles = StyleSheet.create({
     textAlign: "center",
   },
   weatherIconContainer: {
-    width: 120,
-    height: 120,
+    width: 100,
+    height: 100,
     justifyContent: "center",
     alignItems: "center",
   },
   weatherIcon: {
-    width: 120,
-    height: 120,
+    width: 100,
+    height: 100,
   },
 
   tempRow: {
@@ -119,7 +122,7 @@ export const homeStyles = StyleSheet.create({
     textAlign: "center",
   },
   recommendText: {
-    marginTop: -20,
+    marginTop: -16,
     marginLeft: 10,
     fontSize: FontSize.xxs,
     fontWeight: "600",
@@ -128,7 +131,7 @@ export const homeStyles = StyleSheet.create({
   },
   outfitImage: {
     width: 120,
-    height: 160,
+    height: 140,
     borderRadius: 10,
     overflow: "hidden",
     position: "relative",

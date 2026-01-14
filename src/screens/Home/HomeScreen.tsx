@@ -14,7 +14,7 @@ import { favoriteClosets, weatherData, fittingCount } from "./HomeData";
 export function HomeScreen() {
   return (
     <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+      <View style={styles.fixedContent}>
         {/* 즐겨찾기 옷장 */}
         <View style={styles.sectionHeader}>
           <Pressable
@@ -140,7 +140,7 @@ export function HomeScreen() {
             <UndoIcon width={7} height={16} />
           </View>
         </Pressable>
-      </ScrollView>
+      </View>
     </View>
   );
 }
