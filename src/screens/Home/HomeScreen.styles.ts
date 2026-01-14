@@ -30,11 +30,15 @@ export const homeStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  favoriteContainer: {
+    marginHorizontal: 20,
+    overflow: "hidden",
+    marginTop: 14,
+  },
   favoriteListContent: {
-    paddingTop: 14,
-    paddingLeft: 20,
-    paddingRight: 20,
     paddingBottom: 10,
+    paddingRight: 10,
+    paddingLeft: 2,
   },
   favoriteCard: {
     width: 58,
@@ -44,7 +48,7 @@ export const homeStyles = StyleSheet.create({
     padding: 8,
     marginRight: 7,
     alignItems: "center",
-    elevation: 4,
+    elevation: 2,
   },
   imageContainer: {
     width: 46,
@@ -142,8 +146,8 @@ export const homeStyles = StyleSheet.create({
         offsetX: 0,
         offsetY: 0,
         blurRadius: 10,
-        spreadDistance: 1,
-        color: Colors.background2,
+        spreadDistance: -2,
+        color: Colors.shadow,
         inset: true,
       },
     ],

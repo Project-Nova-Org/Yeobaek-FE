@@ -1,6 +1,6 @@
 export { default as DressRoomImage } from "./dressroom.png";
 export { default as ChatbotImage } from "./baekmom.png";
-export { default as PersonalParingImage } from "./personalpairing.png";
+export { default as PersonalPairingImage } from "./personalpairing.png";
 export { default as VirtualFittingImage } from "./virtualfitting.png";
 export { default as SampleOOTDImage } from "./sampleootd.png";
 export { default as ClearImage } from "./clear.png";

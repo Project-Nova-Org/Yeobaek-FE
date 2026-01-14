@@ -7,7 +7,7 @@ import {
   ChatbotImage,
   VirtualFittingImage,
   SampleOOTDImage,
-  PersonalParingImage,
+  PersonalPairingImage,
 } from "@/assets/images";
 import { favoriteClosets, weatherData, fittingCount } from "./HomeData";
 
@@ -30,22 +30,33 @@ export function HomeScreen() {
           </Pressable>
         </View>
 
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.favoriteListContent}
-        >
-          {favoriteClosets.map((item) => (
-            <Pressable key={item.id} style={styles.favoriteCard} onPress={() => {}}>
-              <View style={styles.imageContainer}>
-                <Image source={item.image} style={styles.closetImage} resizeMode="cover" />
-              </View>
-              <Text style={styles.closetName} numberOfLines={1}>
-                {item.name}
-              </Text>
-            </Pressable>
-          ))}
-        </ScrollView>
+        <View style={styles.favoriteContainer}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.favoriteListContent}
+          >
+            {favoriteClosets.map((item) => (
+              <Pressable
+                key={item.id}
+                style={styles.favoriteCard}
+                accessibilityRole="button"
+                accessibilityLabel={`${item.name} 옷장 상세보기`}
+                onPress={() => {
+                  console.log(`${item.name} (ID: ${item.id}) 옷장으로 이동`);
+                  // navigation.navigate('ClosetDetail', { id: item.id });
+                }}
+              >
+                <View style={styles.imageContainer}>
+                  <Image source={item.image} style={styles.closetImage} resizeMode="cover" />
+                </View>
+                <Text style={styles.closetName} numberOfLines={1}>
+                  {item.name}
+                </Text>
+              </Pressable>
+            ))}
+          </ScrollView>
+        </View>
 
         {/* 날씨 코디 추천 */}
         <View style={styles.weatherCard}>
@@ -63,14 +74,20 @@ export function HomeScreen() {
             <Text style={styles.recommendText}>{weatherData.comment}</Text>
           </View>
           <View style={styles.outfitImage}>
-            <Image source={SampleOOTDImage} style={{ width: "100%", height: "100%" }} />
+            <Image source={SampleOOTDImage} style={styles.outfitImage} />
             <View style={styles.outfitImageShadow} pointerEvents="none" />
           </View>
         </View>
 
         {/* AI 퍼스널 스타일리스트 */}
         <Text style={styles.aiSectionTitle}>AI 퍼스널 스타일리스트</Text>
-        <Pressable style={styles.aiBanner} onPress={() => {}}>
+        {/* 백여사 (Chatbot) */}
+        <Pressable
+          style={styles.aiBanner}
+          accessibilityRole="button"
+          accessibilityLabel="AI 퍼스널 스타일리스트 백여사 열기"
+          onPress={() => console.log("백여사 채팅으로 이동")}
+        >
           <Image source={ChatbotImage} style={styles.aiImage} />
           <View style={styles.bannerTextContent}>
             <Text style={styles.bannerTitle}>백여사</Text>
@@ -81,7 +98,13 @@ export function HomeScreen() {
           </View>
         </Pressable>
 
-        <Pressable style={styles.aiBanner} onPress={() => {}}>
+        {/* 가상피팅 */}
+        <Pressable
+          style={styles.aiBanner}
+          accessibilityRole="button"
+          accessibilityLabel={`가상피팅 열기, 현재 ${fittingCount.totalCount}회 중 ${fittingCount.currentCount}회 남음`}
+          onPress={() => console.log("가상피팅 화면으로 이동")}
+        >
           <Image source={VirtualFittingImage} style={styles.aiImage} />
           <View style={styles.bannerTextContent}>
             <Text style={styles.bannerTitle}>가상피팅</Text>
@@ -97,8 +120,14 @@ export function HomeScreen() {
           </View>
         </Pressable>
 
-        <Pressable style={styles.aiBanner} onPress={() => {}}>
-          <Image source={PersonalParingImage} style={styles.aiImage} />
+        {/* 퍼스널 페어링 */}
+        <Pressable
+          style={styles.aiBanner}
+          accessibilityRole="button"
+          accessibilityLabel="퍼스널 페어링 열기"
+          onPress={() => console.log("퍼스널 페어링 화면으로 이동")}
+        >
+          <Image source={PersonalPairingImage} style={styles.aiImage} />
           <View style={styles.bannerTextContent}>
             <Text style={styles.bannerTitle}>퍼스널 페어링</Text>
             <Text style={styles.bannerSub}>내 아이템에 뭐가 어울릴지 고민이라면...더보기</Text>
