@@ -1,0 +1,12 @@
+export { default as DressRoomImage } from "./dressroom.png";
+export { default as ChatbotImage } from "./baekmom.png";
+export { default as PersonalPairingImage } from "./personalpairing.png";
+export { default as VirtualFittingImage } from "./virtualfitting.png";
+export { default as SampleOOTDImage } from "./sampleootd.png";
+export { default as ClearImage } from "./clear.png";
+export { default as CloudyImage } from "./cloudy.png";
+export { default as FogImage } from "./fog.png";
+export { default as RainyImage } from "./rainy.png";
+export { default as SnowyImage } from "./snowy.png";
+export { default as ThunderImage } from "./thunder.png";
+export { default as SunnyImage } from "./sunny.png";
