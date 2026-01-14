@@ -74,7 +74,11 @@ export function HomeScreen() {
             <Text style={styles.recommendText}>{weatherData.comment}</Text>
           </View>
           <View style={styles.outfitImage}>
-            <Image source={SampleOOTDImage} style={styles.outfitImage} />
+            <Image
+              source={SampleOOTDImage}
+              style={{ width: "100%", height: "100%" }}
+              resizeMode="cover"
+            />
             <View style={styles.outfitImageShadow} pointerEvents="none" />
           </View>
         </View>

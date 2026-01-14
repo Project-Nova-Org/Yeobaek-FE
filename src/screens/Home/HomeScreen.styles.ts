@@ -107,7 +107,7 @@ export const homeStyles = StyleSheet.create({
   },
   tempText: {
     fontSize: FontSize.xxxl,
-    fontWeight: 700,
+    fontWeight: "700",
     lineHeight: 34,
   },
   tempTextGroup: {
@@ -122,7 +122,7 @@ export const homeStyles = StyleSheet.create({
     marginTop: -20,
     marginLeft: 10,
     fontSize: FontSize.xxs,
-    fontWeight: 600,
+    fontWeight: "600",
     color: Colors.black,
     lineHeight: 15,
   },
@@ -182,13 +182,13 @@ export const homeStyles = StyleSheet.create({
   },
   bannerTitle: {
     fontSize: FontSize.lg,
-    fontWeight: 700,
+    fontWeight: "700",
     color: Colors.primary,
     marginBottom: 5,
   },
   bannerSub: {
     fontSize: FontSize.xxs,
-    fontWeight: 500,
+    fontWeight: "500",
     color: Colors.black,
   },
   countBadge: {
@@ -198,7 +198,7 @@ export const homeStyles = StyleSheet.create({
   },
   countText: {
     fontSize: FontSize.xxs,
-    fontWeight: 500,
+    fontWeight: "500",
     color: Colors.black,
   },
 });
