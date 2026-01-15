@@ -15,6 +15,7 @@ import ImagePlusIcon from "@/assets/icons/itemplus.svg";
 
 import ButtonScroll from "@/components/ButtonScroll/ButtonScroll";
 import { MOCK_CLOSETS, MOCK_ITEMS, type ClosetItem, type FashionItem } from "./dressroom.mock";
+import { CategoryState } from "@/components/ButtonScroll/ButtonScroll.types";
 
 type TabType = "closet" | "item";
 
@@ -23,7 +24,8 @@ export function DressroomScreen() {
   const [onlyFavorite, setOnlyFavorite] = useState(false);
   const [isItemSearchOpen, setIsItemSearchOpen] = useState(false);
   const [closets, setClosets] = useState<ClosetItem[]>(MOCK_CLOSETS);
-
+  const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState<CategoryState | null>(null);
   const filteredClosets = onlyFavorite ? closets.filter((c) => c.isFavorite) : closets;
 
   const data: (ClosetItem | FashionItem)[] = activeTab === "closet" ? filteredClosets : MOCK_ITEMS;
@@ -96,6 +98,8 @@ export function DressroomScreen() {
             placeholder="검색.."
             placeholderTextColor="#999"
             style={styles.searchOverlayInput}
+            value={searchQuery}
+            onChangeText={setSearchQuery}
             onBlur={() => setIsItemSearchOpen(false)}
           />
         </View>
@@ -108,7 +112,7 @@ export function DressroomScreen() {
         </View>
       )}
 
-      {activeTab === "item" && <ButtonScroll />}
+      {activeTab === "item" && <ButtonScroll onChange={setCategoryFilter} />}
 
       <View style={styles.gridWrapper}>
         <ScrollView contentContainerStyle={styles.grid} showsVerticalScrollIndicator={false}>
