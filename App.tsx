@@ -1,5 +1,5 @@
 import { SafeAreaView } from "react-native";
-import TestPlace from "./src/screens/Test/TestPlace";
+import TestPlace from "@/screens/Test/TestPlace.tsx";
 
 export default function App() {
   return (
