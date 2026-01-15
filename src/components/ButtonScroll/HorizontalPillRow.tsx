@@ -5,18 +5,20 @@ interface HorizontalPillRowProps<T extends string> {
   items: readonly T[];
   selected: T | null;
   onSelect: (value: T) => void;
+  variant?: "default" | "sub";
 }
 
 export function HorizontalPillRow<T extends string>({
   items,
   selected,
   onSelect,
+  variant = "default",
 }: HorizontalPillRowProps<T>) {
   return (
     <ScrollView
       horizontal
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.row}
+      contentContainerStyle={variant === "sub" ? styles.subRow : styles.row}
     >
       {items.map((item) => {
         const active = selected === item;
@@ -24,10 +26,17 @@ export function HorizontalPillRow<T extends string>({
         return (
           <Pressable
             key={item}
-            style={[styles.pill, active && styles.pillActive]}
+            style={[variant === "sub" ? styles.pillSub : styles.pill, active && styles.pillActive]}
             onPress={() => onSelect(item)}
           >
-            <Text style={[styles.pillText, active && styles.pillTextActive]}>{item}</Text>
+            <Text
+              style={[
+                variant === "sub" ? styles.pillTextSub : styles.pillText,
+                active && styles.pillTextActive,
+              ]}
+            >
+              {item}
+            </Text>
           </Pressable>
         );
       })}

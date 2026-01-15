@@ -6,6 +6,12 @@ export const styles = StyleSheet.create({
     padding: 12,
   },
 
+  subRowWrapper: {
+    backgroundColor: Colors.white,
+    borderRadius: 999,
+    paddingVertical: 6,
+  },
+
   row: {
     flexDirection: "row",
     alignItems: "center",
@@ -14,10 +20,23 @@ export const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
 
+  subRow: {
+    paddingHorizontal: 12,
+    gap: 5,
+  },
+
   pill: {
     flexDirection: "row",
-    paddingVertical: 6,
+    paddingVertical: 8,
     paddingHorizontal: 14,
+    borderRadius: 999,
+    backgroundColor: Colors.white,
+  },
+
+  pillSub: {
+    flexDirection: "row",
+    paddingVertical: 7,
+    paddingHorizontal: 9,
     borderRadius: 999,
     backgroundColor: Colors.white,
   },
@@ -28,10 +47,17 @@ export const styles = StyleSheet.create({
 
   pillActive: {
     backgroundColor: Colors.primary,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   pillText: {
-    fontSize: FontSize.sm,
+    fontSize: FontSize.xs,
+    color: Colors.primary,
+  },
+
+  pillTextSub: {
+    fontSize: FontSize.xxs,
     color: Colors.primary,
   },
 
@@ -46,7 +72,6 @@ export const styles = StyleSheet.create({
   closeAbsolute: {
     position: "absolute",
     right: 14,
-    top: "50%",
     transform: [{ translateY: 1 }],
   },
 });

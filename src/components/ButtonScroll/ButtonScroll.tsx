@@ -95,11 +95,14 @@ export default function ButtonScroll({ onChange }: Props) {
           />
 
           {state.typeCategory && TYPE_DETAILS[state.typeCategory] && (
-            <HorizontalPillRow
-              items={TYPE_DETAILS[state.typeCategory]}
-              selected={state.typeDetail}
-              onSelect={(v) => setState((p) => ({ ...p, typeDetail: v }))}
-            />
+            <View style={styles.subRowWrapper}>
+              <HorizontalPillRow
+                variant="sub"
+                items={TYPE_DETAILS[state.typeCategory]}
+                selected={state.typeDetail}
+                onSelect={(v) => setState((p) => ({ ...p, typeDetail: v }))}
+              />
+            </View>
           )}
         </>
       )}
