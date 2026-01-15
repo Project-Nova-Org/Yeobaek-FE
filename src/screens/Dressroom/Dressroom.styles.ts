@@ -83,7 +83,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     height: 44,
     marginBottom: 12,
-
     elevation: 6,
   },
 
@@ -100,14 +99,13 @@ export const styles = StyleSheet.create({
     left: 16,
     right: 16,
     height: 44,
-
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: Colors.white,
     borderRadius: 24,
     paddingHorizontal: 16,
-
     elevation: 20,
+    zIndex: 10,
   },
 
   searchOverlayInput: {
@@ -136,6 +134,10 @@ export const styles = StyleSheet.create({
     width: "30%",
   },
 
+  thumbnailWrapper: {
+    position: "relative",
+  },
+
   thumbnail: {
     width: "100%",
     aspectRatio: 1,
@@ -144,10 +146,47 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.darkgray,
   },
 
+  favoriteButtonOuter: {
+    position: "absolute",
+    top: 5,
+    right: 5,
+    width: 22,
+    height: 22,
+    borderRadius: 14,
+    justifyContent: "center",
+    alignItems: "center",
+    boxShadow: [
+      {
+        offsetX: 0,
+        offsetY: 0,
+        blurRadius: 10,
+        spreadDistance: 2,
+        color: Colors.shadow,
+        inset: true, // 안쪽 그림자 설정
+      },
+    ],
+  },
+
+  favoriteButtonInner: {
+    width: 12,
+    height: 12,
+    borderRadius: 14,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
   itemName: {
     fontSize: FontSize.xs,
     textAlign: "center",
     color: Colors.black,
     overflow: "hidden",
+  },
+
+  plusCard: {
+    width: "100%",
+    aspectRatio: 1,
+    borderRadius: 16,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
