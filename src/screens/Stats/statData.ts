@@ -12,13 +12,24 @@ export const FREQUENT_ITEMS = [
 ];
 
 // 최근 착용하지 않은 아이템 데이터
+export const UNWORN_ITEMS = [
+  { id: "1", name: "허그유어스킨", image: Item3Image },
+  { id: "2", name: "줄리", image: Item1Image },
+  { id: "3", name: "허그유어스킨", image: Item3Image },
+  { id: "4", name: "허그유어스킨", image: Item3Image },
+  { id: "5", name: "허그유어스킨", image: Item2Image },
+  { id: "6", name: "허그유어스킨", image: Item2Image },
+  { id: "7", name: "허그유어스킨", image: Item3Image },
+  { id: "8", name: "허그유어스킨", image: Item3Image },
+  { id: "9", name: "허그유어스킨", image: Item2Image },
+];
+
 export const UNWORN_DATA = {
-  previewItems: [
-    { id: 1, image: Item1Image },
-    { id: 2, image: Item2Image },
-    { id: 3, image: Item3Image },
-  ],
-  totalCount: 17,
+  previewItems: UNWORN_ITEMS.slice(0, 3).map((item) => ({
+    id: item.id,
+    image: item.image,
+  })),
+  totalCount: UNWORN_ITEMS.length,
 };
 
 export const statData: DonutStat[] = [
@@ -86,15 +97,3 @@ export const STATS_SUMMARY = {
   closet: 6,
   ootd: 32,
 };
-
-export const UNWORN_ITEMS = [
-  { id: "1", name: "허그유어스킨", image: Item3Image },
-  { id: "2", name: "줄리", image: Item1Image },
-  { id: "3", name: "허그유어스킨", image: Item3Image },
-  { id: "4", name: "허그유어스킨", image: Item3Image },
-  { id: "5", name: "허그유어스킨", image: Item2Image },
-  { id: "6", name: "허그유어스킨", image: Item2Image },
-  { id: "7", name: "허그유어스킨", image: Item3Image },
-  { id: "8", name: "허그유어스킨", image: Item3Image },
-  { id: "9", name: "허그유어스킨", image: Item2Image },
-];
