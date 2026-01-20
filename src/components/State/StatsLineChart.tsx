@@ -45,7 +45,12 @@ export function StatsLineChart() {
 
   const points = OOTD_CHART_DATA.map((d, i) => {
     // x좌표: 데이터 개수에 맞춰 간격 배치
-    const x = chartWidth > 0 ? (i * (chartWidth - 30)) / (OOTD_CHART_DATA.length - 1) + 15 : 0;
+    const x =
+      chartWidth > 0
+        ? OOTD_CHART_DATA.length === 1
+          ? chartWidth / 2
+          : (i * (chartWidth - 30)) / (OOTD_CHART_DATA.length - 1) + 15
+        : 0;
     // y좌표: 최대값 대비 비율 계산
     const y = chartHeight - (d.value / maxVal) * (chartHeight - 60) - 25;
     return { x, y, value: d.value };
