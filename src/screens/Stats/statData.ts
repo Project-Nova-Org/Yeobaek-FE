@@ -1,4 +1,25 @@
 import { DonutStat } from "@/components/State/Chart.types.ts";
+import { Item1Image, Item2Image, Item3Image } from "@/assets/images";
+
+// 자주 착용한 아이템 데이터
+export const FREQUENT_ITEMS = [
+  { id: 1, brand: "Nike", image: Item1Image },
+  { id: 2, brand: "Adidas", image: Item3Image },
+  { id: 3, brand: "Zara", image: Item2Image },
+  { id: 4, brand: "Gucci", image: Item3Image },
+  { id: 5, brand: "Uniqlo", image: Item2Image },
+  { id: 6, brand: "H&M", image: Item3Image },
+];
+
+// 최근 착용하지 않은 아이템 데이터
+export const UNWORN_DATA = {
+  previewItems: [
+    { id: 1, image: Item1Image },
+    { id: 2, image: Item2Image },
+    { id: 3, image: Item3Image },
+  ],
+  totalCount: 17,
+};
 
 export const statData: DonutStat[] = [
   {
@@ -50,4 +71,30 @@ export const statData: DonutStat[] = [
       { label: "기타", value: 3, color: "#FF7700" },
     ],
   },
+];
+
+export const OOTD_CHART_DATA = [
+  { label: "11", value: 1, subLabel: "2024" },
+  { label: "12", value: 30, subLabel: "" },
+  { label: "1", value: 15, subLabel: "2025" },
+  { label: "2", value: 3, subLabel: "" },
+  { label: "3", value: 12, subLabel: "" },
+];
+
+export const STATS_SUMMARY = {
+  items: 101,
+  closet: 6,
+  ootd: 32,
+};
+
+export const UNWORN_ITEMS = [
+  { id: "1", name: "허그유어스킨", image: Item3Image },
+  { id: "2", name: "줄리", image: Item1Image },
+  { id: "3", name: "허그유어스킨", image: Item3Image },
+  { id: "4", name: "허그유어스킨", image: Item3Image },
+  { id: "5", name: "허그유어스킨", image: Item2Image },
+  { id: "6", name: "허그유어스킨", image: Item2Image },
+  { id: "7", name: "허그유어스킨", image: Item3Image },
+  { id: "8", name: "허그유어스킨", image: Item3Image },
+  { id: "9", name: "허그유어스킨", image: Item2Image },
 ];

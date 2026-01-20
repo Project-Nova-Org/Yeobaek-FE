@@ -42,7 +42,7 @@ export const homeStyles = StyleSheet.create({
     paddingLeft: 2,
   },
   favoriteCard: {
-    width: 58,
+    width: 60,
     height: 75,
     backgroundColor: Colors.white,
     borderRadius: 10,
@@ -52,12 +52,12 @@ export const homeStyles = StyleSheet.create({
     elevation: 2,
   },
   imageContainer: {
-    width: 46,
-    height: 46,
+    width: 50,
+    height: 50,
     borderRadius: 10,
     overflow: "hidden",
     backgroundColor: Colors.white,
-    marginBottom: 4,
+    marginBottom: 2,
   },
   closetImage: {
     width: "100%",

@@ -10,3 +10,6 @@ export { default as RainyImage } from "./rainy.png";
 export { default as SnowyImage } from "./snowy.png";
 export { default as ThunderImage } from "./thunder.png";
 export { default as SunnyImage } from "./sunny.png";
+export { default as Item1Image } from "./item1.png";
+export { default as Item2Image } from "./item2.png";
+export { default as Item3Image } from "./item3.png";
