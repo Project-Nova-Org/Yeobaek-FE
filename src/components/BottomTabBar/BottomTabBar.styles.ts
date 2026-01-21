@@ -10,7 +10,7 @@ export const barStyles = StyleSheet.create({
   },
   tabBar: {
     flexDirection: "row",
-    height: 72,
+    height: 62,
     backgroundColor: Colors.white,
     overflow: "hidden",
     zIndex: 9,
@@ -25,7 +25,7 @@ export const barStyles = StyleSheet.create({
   },
   tabBarShadow: {
     width: "100%",
-    height: 72,
+    height: 62,
   },
 
   floatingWrapper: {
@@ -41,7 +41,7 @@ export const barStyles = StyleSheet.create({
   },
   floatingWrapperHidden: {
     position: "absolute",
-    bottom: 50,
+    bottom: 40,
     left: "50%",
     marginLeft: -27,
     width: 54,

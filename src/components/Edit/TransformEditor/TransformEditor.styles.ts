@@ -1,96 +1,198 @@
-import { StyleSheet, ViewStyle } from "react-native";
+import { StyleSheet } from "react-native";
 import { Colors } from "@/theme/colors";
 
-export const styles = StyleSheet.create<Record<string, ViewStyle>>({
+export const styles = StyleSheet.create({
   container: {
     position: "absolute",
+    left: 40,
+    top: 40,
   },
 
   box: {
-    borderWidth: 1.5,
+    borderRadius: 14,
+    borderWidth: 1,
     borderStyle: "dashed",
     borderColor: Colors.black,
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: "transparent",
+  },
+
+  boxInactive: {
+    borderWidth: 0,
   },
 
   content: {
-    width: "100%",
-    height: "100%",
+    flex: 1,
+    overflow: "hidden",
+    borderRadius: 12,
   },
 
-  rotateLine: {
+  // 삭제 버튼(우상단)
+  deleteBtn: {
     position: "absolute",
-    top: -24,
-    left: "50%" as const,
-    width: 1,
-    height: 16,
-    backgroundColor: Colors.black,
+    top: -25,
+    right: 0,
+    width: 20,
+    height: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 15,
+    // 터치 영역 확대
+    padding: 10,
+    margin: -10,
   },
 
+  // 회전 핸들 (상단 중앙)
   rotateHandle: {
     position: "absolute",
-    top: -40,
-    left: "50%" as const,
-    marginLeft: -8,
-    width: 16,
-    height: 16,
-    borderRadius: 8,
+    top: -30,
+    left: "50%",
+    marginLeft: -12,
+    width: 24,
+    height: 24,
+    zIndex: 100, // 리사이즈 핸들보다 위에
+    // 터치 영역 확대
+    padding: 10,
+    margin: -10,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  rotateArrow: {
+    width: 20,
+    height: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  // 회전 핸들과 상단 중앙 핸들 사이 연결선
+  rotateConnector: {
+    position: "absolute",
+    top: -20,
+    left: "50%",
+    width: 2,
+    height: 10,
     backgroundColor: Colors.black,
+    marginLeft: -1,
+    zIndex: 99,
   },
 
-  /* ===== 핸들 ===== */
-  handle: {
+
+  // 모서리 핸들
+  handleBR: {
     position: "absolute",
-    width: 12,
-    height: 12,
-    borderRadius: 6,
+    right: 0,
+    bottom: 0,
+    width: 10,
+    height: 10,
+    borderRadius: 10,
     backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.black,
+    zIndex: 10,
+    // 터치 영역 확대
+    padding: 10,
+    margin: -10,
+  },
+  handleBL: {
+    position: "absolute",
+    left: 0,
+    bottom: 0,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: Colors.white,
+    borderWidth: 1,
+    borderColor: Colors.black,
+    zIndex: 10,
+    padding: 10,
+    margin: -10,
+  },
+  handleTR: {
+    position: "absolute",
+    right: 0,
+    top: 0,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: Colors.white,
+    borderWidth: 1,
+    borderColor: Colors.black,
+    zIndex: 10,
+    padding: 10,
+    margin: -10,
+  },
+  handleTL: {
+    position: "absolute",
+    left: 0,
+    top: 0,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: Colors.white,
+    borderWidth: 1,
+    borderColor: Colors.black,
+    zIndex: 10,
+    padding: 10,
+    margin: -10,
   },
 
-  top: {
-    top: -6,
-    left: "50%" as const,
-    marginLeft: -6,
+  // 변 중간 핸들
+  handleR: {
+    position: "absolute",
+    right: 0,
+    top: "50%",
+    marginTop: -10,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: Colors.white,
+    borderWidth: 1,
+    borderColor: Colors.black,
+    zIndex: 10,
+    padding: 10,
+    margin: -10,
   },
-
-  bottom: {
-    bottom: -6,
-    left: "50%" as const,
-    marginLeft: -6,
+  handleL: {
+    position: "absolute",
+    left: 0,
+    top: "50%",
+    marginTop: -10,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: Colors.white,
+    borderWidth: 1,
+    borderColor: Colors.black,
+    zIndex: 10,
+    padding: 10,
+    margin: -10,
   },
-
-  left: {
-    left: -6,
-    top: "50%" as const,
-    marginTop: -6,
+  handleT: {
+    position: "absolute",
+    top: 0,
+    left: "50%",
+    marginLeft: -10,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: Colors.white,
+    borderWidth: 1,
+    borderColor: Colors.black,
+    zIndex: 10,
+    padding: 10,
+    margin: -10,
   },
-
-  right: {
-    right: -6,
-    top: "50%" as const,
-    marginTop: -6,
-  },
-
-  topLeft: {
-    top: -6,
-    left: -6,
-  },
-
-  topRight: {
-    top: -6,
-    right: -6,
-  },
-
-  bottomLeft: {
-    bottom: -6,
-    left: -6,
-  },
-
-  bottomRight: {
-    bottom: -6,
-    right: -6,
+  handleB: {
+    position: "absolute",
+    bottom: 0,
+    left: "50%",
+    marginLeft: -10,
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: Colors.white,
+    borderWidth: 1,
+    borderColor: Colors.black,
+    zIndex: 10,
+    padding: 10,
+    margin: -10,
   },
 });
