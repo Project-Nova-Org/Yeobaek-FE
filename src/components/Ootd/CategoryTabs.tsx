@@ -2,13 +2,13 @@ import { View, Pressable, ScrollView } from "react-native";
 import { AppText } from "@/components/common/AppText";
 import { styles } from "./CategoryTabs.styles";
 import { TYPE_CATEGORIES, TYPE_DETAILS } from "@/theme/itemCategories";
-import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
 interface Props {
     category: string;
     detail: string | null;
     onCategoryChange: (c: string) => void;
     onDetailChange: (d: string) => void;
+    isWardrobeTab?: boolean; // 옷장 탭인지 여부
 }
 
 export function CategoryTabs({
@@ -16,6 +16,7 @@ export function CategoryTabs({
                                  detail,
                                  onCategoryChange,
                                  onDetailChange,
+                                 isWardrobeTab = false,
                              }: Props) {
     return (
         <View>
@@ -35,7 +36,11 @@ export function CategoryTabs({
                     return (
                         <Pressable
                             key={c}
-                            style={[styles.categoryTab, active && styles.active]}
+                            style={[
+                                styles.categoryTab,
+                                isWardrobeTab && styles.categoryTabWardrobe,
+                                active && styles.active,
+                            ]}
                             onPress={() => onCategoryChange(c)}
                         >
                             <AppText
@@ -54,7 +59,10 @@ export function CategoryTabs({
 
             {/* 하위 카테고리 - 슬라이드 형식 */}
             {TYPE_DETAILS[category] && (
-                <View style={styles.detailContainer}>
+                <View style={[
+                    styles.detailContainer,
+                    isWardrobeTab && styles.detailContainerWardrobe,
+                ]}>
                     <View style={styles.detailScrollContainer}>
                         <ScrollView
                             horizontal

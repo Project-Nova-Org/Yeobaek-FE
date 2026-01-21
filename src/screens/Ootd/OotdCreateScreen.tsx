@@ -7,6 +7,7 @@ import { OotdCreateHeader } from "@/components/Ootd/OotdCreateHeader";
 import { styles } from "./OotdCreateScreen.styles";
 
 import type { Item } from "@/mocks/items";
+import type { ClosetItem } from "@/screens/Dressroom/dressroom.mock";
 
 export default function OotdCreateScreen() {
     /** ===== BottomSheet 상태 ===== */
@@ -24,6 +25,21 @@ export default function OotdCreateScreen() {
     const [tab, setTab] = useState<"아이템" | "옷장">("아이템");
     const [category, setCategory] = useState("상의");
     const [detail, setDetail] = useState<string | null>(null);
+
+    /** ===== 옷장 선택 ===== */
+    const [selectedWardrobeId, setSelectedWardrobeId] = useState<number | null>(null);
+
+    /** ===== 옷장 선택 ===== */
+    const handleSelectWardrobe = useCallback((wardrobe: ClosetItem) => {
+        setSelectedWardrobeId((prev) => {
+            // 이미 선택된 옷장을 다시 클릭하면 해제
+            if (prev === wardrobe.id) {
+                return null;
+            }
+            // 다른 옷장 선택
+            return wardrobe.id;
+        });
+    }, []);
 
     /** ===== Canvas 아이템 ===== */
     const [canvasItems, setCanvasItems] = useState<
@@ -90,6 +106,8 @@ export default function OotdCreateScreen() {
                 onSelectItem={handleToggleItem}
                 onIndexChange={handleSheetIndexChange}
                 selectedItems={canvasItems.map((item) => item.key)}
+                selectedWardrobeId={selectedWardrobeId}
+                onSelectWardrobe={handleSelectWardrobe}
             />
         </View>
     );

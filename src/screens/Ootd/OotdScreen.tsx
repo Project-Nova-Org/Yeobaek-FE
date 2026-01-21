@@ -1,8 +1,6 @@
 import { View, TextInput, Pressable, ScrollView } from "react-native";
 import { useState } from "react";
-import { Dimensions } from "react-native";
 import { styles } from "./OotdScreen.styles";
-import { OOTD_HEIGHT } from "./OotdScreen.styles";
 import { AppText } from "@/components/common/AppText";
 import { Colors } from "@/theme/colors";
 import { RootStackParamList } from "@/types/navigation";
@@ -23,22 +21,9 @@ export function OotdScreen({ navigation }: Props) {
   const [isSortActive, setIsSortActive] = useState(false);
   const [selectedTpo, setSelectedTpo] = useState<string | null>(null);
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
-  const { height: SCREEN_HEIGHT } = Dimensions.get("window");
-
-  const TOP_OFFSET = 120;
-  const BOTTOM_TABBAR_HEIGHT = 56;
-  const SAFE_GAP = 130;
-
-  const MAX_AVAILABLE_HEIGHT =
-      SCREEN_HEIGHT - TOP_OFFSET - BOTTOM_TABBAR_HEIGHT - SAFE_GAP;
-
-  const FINAL_OOTD_HEIGHT = Math.min(
-      OOTD_HEIGHT,
-      MAX_AVAILABLE_HEIGHT);
 
   return (
-      <View style={styles.screen}>
-        <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.container}>
           {/* ===== 상단 ===== */}
           <View style={styles.topRow}>
             <Pressable
@@ -128,8 +113,8 @@ export function OotdScreen({ navigation }: Props) {
             </ScrollView>
           </View>
 
-          <View style={[styles.ootdBox,{height: FINAL_OOTD_HEIGHT}]}>
-            <View style={styles.grid}>
+          <View style={styles.ootdBox}>
+            <ScrollView contentContainerStyle={styles.grid} showsVerticalScrollIndicator={false}>
               <Pressable style={styles.card}
                          onPress={() => navigation.navigate("OotdCreate")}>
                 <View style={styles.cardImage}>
@@ -137,9 +122,8 @@ export function OotdScreen({ navigation }: Props) {
                 </View>
                 <View style={styles.cardLabel} />
               </Pressable>
-            </View>
+            </ScrollView>
           </View>
-        </ScrollView>
       </View>
   );
 }

@@ -11,16 +11,23 @@ interface Props {
     detail: string | null;
     selectedItems?: string[]; // 선택된 아이템의 key 배열
     onSelect: (item: Item) => void;
+    selectedWardrobeId?: number | null; // 선택된 옷장 ID (옷장 탭일 때만 사용)
 }
 
-export function ItemGrid({ category, detail, selectedItems = [], onSelect }: Props) {
+export function ItemGrid({ category, detail, selectedItems = [], onSelect, selectedWardrobeId = null }: Props) {
     const data = useMemo(() => {
         return ITEMS.filter((item) => {
+            // 옷장 필터링 (옷장 탭일 때만 적용)
+            if (selectedWardrobeId !== null && (item.wardrobeId === null || item.wardrobeId !== selectedWardrobeId)) {
+                return false;
+            }
+            // 카테고리 필터링
             if (item.category !== category) return false;
+            // 상세 필터링
             if (detail && item.detail !== detail) return false;
             return true;
         });
-    }, [category, detail]);
+    }, [category, detail, selectedWardrobeId]);
 
     const isSelected = (item: Item) => {
         return selectedItems.some((key) => key.startsWith(String(item.id)));
