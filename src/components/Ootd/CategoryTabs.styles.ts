@@ -23,6 +23,9 @@ export const styles = StyleSheet.create({
         marginRight: 8,
         height: 35,
     },
+    categoryTabWardrobe: {
+        backgroundColor: Colors.white,
+    },
 
     active: {
         backgroundColor: Colors.primary,
@@ -49,6 +52,9 @@ export const styles = StyleSheet.create({
         marginLeft: 8,
         height:40,
         justifyContent: "center",
+    },
+    detailContainerWardrobe: {
+        backgroundColor: Colors.white,
     },
     detailScrollContainer: {
         width: "100%",

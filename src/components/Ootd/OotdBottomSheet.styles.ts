@@ -19,4 +19,14 @@ export const styles = StyleSheet.create({
         // ScrollView가 작동하도록
         overflow: "visible",
     },
+    wardrobeContentWrapper: {
+        flex: 1,
+        backgroundColor: Colors.background,
+        borderRadius: 16,
+        marginHorizontal: 16,
+        marginTop: 8,
+        paddingTop: 8,
+        paddingBottom: 12,
+        height : 600,
+    },
 });
