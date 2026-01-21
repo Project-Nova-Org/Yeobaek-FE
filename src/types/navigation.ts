@@ -16,4 +16,5 @@ export type RootStackParamList = {
   Help: undefined;
   Myinfo: { initialData?: UserInfo };
   NicknameEdit: { currentNickname: string };
+  UnwornDetail: undefined;
 };
