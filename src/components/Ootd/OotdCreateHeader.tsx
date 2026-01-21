@@ -19,8 +19,8 @@ export function OotdCreateHeader({
                                  }: Props) {
     return (
         <View style={styles.container}>
-            <Pressable onPress={onBack} style={styles.left}>
-                <UndoIcon />
+            <Pressable onPress={onBack} style={styles.backBtn}>
+                <UndoIcon width={20} height={20}/>
             </Pressable>
 
             <AppText style={styles.title}>{title}</AppText>

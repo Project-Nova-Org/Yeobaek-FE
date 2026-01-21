@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, View } from "react-native";
+import { Image, Pressable, View } from "react-native";
 import { styles } from "./OotdCanvas.styles";
 import { TransformEditor } from "@/components/Edit/TransformEditor/TransformEditor";
 
@@ -25,17 +25,13 @@ export function OotdCanvas({
     onSelect,
     onClearSelection,
 }: Props) {
-    const handleBackgroundPress = () => {
-        onClearSelection?.();
-    };
-
     return (
-        <View
-            style={styles.container}
-            onStartShouldSetResponder={(e) => e.target === e.currentTarget}
-            onResponderRelease={handleBackgroundPress}
-        >
+        <View style={styles.container}>
             <View style={styles.canvas}>
+                <Pressable 
+                    style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}
+                    onPress={() => onClearSelection?.()}
+                />
                 {items.map((it) => {
                     const active = selectedKey === it.key;
                     return (

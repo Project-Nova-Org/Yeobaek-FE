@@ -3,7 +3,7 @@ import { Colors } from "@/theme/colors";
 
 export const styles = StyleSheet.create({
     container: {
-        height: 56,
+        height: 70,
         paddingHorizontal: 16,
         flexDirection: "row",
         alignItems: "center",
@@ -14,16 +14,12 @@ export const styles = StyleSheet.create({
         alignItems: "flex-start",
         justifyContent: "center",
     },
-    backText: {
-        fontSize: 18,
-        color: Colors.gray400,
-    },
     title: {
         flex: 1,
         textAlign: "center",
-        fontSize: 16,
-        color: Colors.gray400,
-        fontWeight: "600",
+        fontSize: 23,
+        color: Colors.primary,
+        fontWeight: "900",
     },
     nextBtn: {
         minWidth: 68,
@@ -42,8 +38,5 @@ export const styles = StyleSheet.create({
     nextText: {
         fontSize: 14,
         fontWeight: "600",
-    },
-    left: {
-        width :40,
     },
 });
