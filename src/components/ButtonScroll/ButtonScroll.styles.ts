@@ -1,51 +1,77 @@
 import { StyleSheet } from "react-native";
 import { Colors } from "@/theme/colors";
+import { FontSize } from "@/theme/typography";
 export const styles = StyleSheet.create({
-    wrapper: {
-        padding: 16,
-    },
+  wrapper: {
+    padding: 12,
+  },
 
-    row: {
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 8,
-        marginBottom: 12,
-        flexWrap: "wrap",
-    },
+  subRowWrapper: {
+    backgroundColor: Colors.white,
+    borderRadius: 999,
+    paddingVertical: 6,
+  },
 
-    pill: {
-        flexDirection: "row",
-        paddingVertical: 6,
-        paddingHorizontal: 14,
-        borderRadius: 999,
-        backgroundColor: Colors.white,
-    },
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 10,
+    flexWrap: "wrap",
+  },
 
-    pillWithClose: {
-        paddingRight: 14 +14 + 6,
-    },
+  subRow: {
+    paddingHorizontal: 12,
+    gap: 5,
+  },
 
-    pillActive: {
-        backgroundColor: Colors.primary,
-    },
+  pill: {
+    flexDirection: "row",
+    paddingVertical: 8,
+    paddingHorizontal: 14,
+    borderRadius: 999,
+    backgroundColor: Colors.white,
+  },
 
-    pillText: {
-        fontSize: 14,
-        color: Colors.primary,
-    },
+  pillSub: {
+    flexDirection: "row",
+    paddingVertical: 7,
+    paddingHorizontal: 9,
+    borderRadius: 999,
+    backgroundColor: Colors.white,
+  },
 
-    topPill: {
-        gap: 6,
-    },
+  pillWithClose: {
+    paddingRight: 14 + 14 + 6,
+  },
 
-    pillTextActive: {
-        color: Colors.white,
-    },
+  pillActive: {
+    backgroundColor: Colors.primary,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 
-    closeAbsolute: {
-        position: "absolute",
-        right: 14,
-        top: "50%",
-        transform: [{ translateY: 1 }],
-    },
+  pillText: {
+    fontSize: FontSize.xs,
+    color: Colors.primary,
+  },
+
+  pillTextSub: {
+    fontSize: FontSize.xxs,
+    color: Colors.primary,
+  },
+
+  topPill: {
+    gap: 6,
+  },
+
+  pillTextActive: {
+    color: Colors.white,
+  },
+
+  closeAbsolute: {
+    position: "absolute",
+    right: 14,
+    transform: [{ translateY: 1 }],
+  },
 });

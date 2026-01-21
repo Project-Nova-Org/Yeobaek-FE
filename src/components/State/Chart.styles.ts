@@ -22,6 +22,10 @@ export const styles = StyleSheet.create({
     marginBottom: 12,
   },
 
+  chartWrapper: {
+    marginTop: 10,
+  },
+
   legendRow: {
     flexDirection: "row",
     justifyContent: "space-between",

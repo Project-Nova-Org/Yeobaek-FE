@@ -45,5 +45,8 @@ export { default as MaleIcon } from "./male.svg";
 export { default as FemaleIcon } from "./female.svg";
 export { default as UserIcon } from "./user.svg";
 export { default as PenIcon } from "./pen.svg";
-export { default as RobotIcon } from "./robot.svg"
+export { default as RobotIcon } from "./robot.svg";
+export { default as FilterCloseIcon } from "./filter_close.svg";
+export { default as FavoriteOffIcon } from "./favorite_off.svg";
+export { default as FavoriteOnIcon } from "./favorite_on.svg";
 export { default as RotationIcon } from "./rotation.svg";

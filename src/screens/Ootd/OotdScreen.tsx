@@ -1,9 +1,4 @@
-import {
-  View,
-  TextInput,
-  Pressable,
-  ScrollView,
-} from "react-native";
+import { View, TextInput, Pressable, ScrollView } from "react-native";
 import { useState } from "react";
 import { Dimensions } from "react-native";
 import { styles } from "./OotdScreen.styles";

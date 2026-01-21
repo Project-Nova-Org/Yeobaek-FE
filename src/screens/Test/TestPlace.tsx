@@ -11,12 +11,13 @@ import { SimpleTopBarProps } from "@/components/Top/SimpleTopBar";
 import { CalendarScreen } from "@/screens/Calendar/CalendarScreen";
 import { OotdScreen } from "@/screens/Ootd/OotdScreen";
 import { HomeScreen } from "@/screens/Home/HomeScreen";
-import DressroomScreen from "@/screens/Dressroom/DressroomScreen";
+import {DressroomScreen} from "@/screens/Dressroom/DressroomScreen";
 import { StatsScreen } from "@/screens/Stats/StatsScreen";
 import MypageScreen from "@/screens/Mypage/MypageScreen";
 import HelpScreen from "@/screens/Mypage/HelpScreen";
 import MyinfoScreen from "@/screens/Mypage/MyinfoScreen";
 import NicknameEditScreen from "@/screens/Mypage/NicknameChangeScreen";
+import UnwornScreen from "@/screens/Stats/UnwornScreen";
 import  OotdCreateScreen  from "@/screens/Ootd/OotdCreateScreen";
 
 import { RootStackParamList } from "@/types/navigation";
@@ -75,20 +76,27 @@ function MainTabContent({ navigation }: MainTabContentProps) {
 
 export default function TestPlace() {
   return (
-      <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="HomeMain">
-          <Stack.Screen name="HomeMain" component={MainTabContent} />
-          <Stack.Screen name="Mypage" component={MypageScreen} />
-          <Stack.Screen name="Help" component={HelpScreen} />
-          <Stack.Screen name="Myinfo" component={MyinfoScreen} />
-          <Stack.Screen name="NicknameEdit" component={NicknameEditScreen} />
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="HomeMain">
+        <Stack.Screen name="HomeMain" component={MainTabContent} />
+        <Stack.Screen name="Mypage" component={MypageScreen} />
+        <Stack.Screen name="Help" component={HelpScreen} />
+        <Stack.Screen name="Myinfo" component={MyinfoScreen} />
+        <Stack.Screen name="NicknameEdit" component={NicknameEditScreen} />
+        <Stack.Screen name="UnwornDetail" component={UnwornScreen} />
           <Stack.Screen name="OotdCreate" component={OotdCreateScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: Colors.background },
-  body: { flex: 1 },
+  container: {
+    flex: 1,
+    backgroundColor: Colors.background,
+  },
+  body: {
+    flex: 1,
+    paddingBottom: 88,
+  },
 });
