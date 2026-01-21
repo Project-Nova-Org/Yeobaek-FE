@@ -1,13 +1,17 @@
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
+
 import TestPlace from "./src/screens/Test/TestPlace";
 
 export default function App() {
     return (
-        <SafeAreaProvider>
-            <SafeAreaView style={{ flex: 1 }}>
-                <TestPlace />
-            </SafeAreaView>
-        </SafeAreaProvider>
+        <GestureHandlerRootView style={{ flex: 1 }}>
+            <BottomSheetModalProvider>
+                <SafeAreaProvider>
+                    <TestPlace />
+                </SafeAreaProvider>
+            </BottomSheetModalProvider>
+        </GestureHandlerRootView>
     );
 }

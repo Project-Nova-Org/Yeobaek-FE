@@ -9,7 +9,7 @@ const H_PADDING = 16;
 
 /** OOTD 박스 비율 */
 const OOTD_WIDTH = width - H_PADDING * 2;
-const OOTD_HEIGHT = (OOTD_WIDTH * 483) / 324;
+export const OOTD_HEIGHT = (OOTD_WIDTH * 483) / 324;
 
 /** Grid */
 const GRID_COLUMNS = 3;
@@ -120,7 +120,7 @@ export const styles = StyleSheet.create({
     },
 
     ootdBox: {
-        elevation: 6,
+        elevation: 4,
         marginTop: 3,
         width: OOTD_WIDTH,
         height: OOTD_HEIGHT,
@@ -128,7 +128,6 @@ export const styles = StyleSheet.create({
         borderRadius: 16,
         padding: 16,
     },
-
     grid: {
         flexDirection: "row",
         flexWrap: "wrap",
@@ -154,5 +153,3 @@ export const styles = StyleSheet.create({
         height: CARD_LABEL_HEIGHT,
     },
 });
-
-
