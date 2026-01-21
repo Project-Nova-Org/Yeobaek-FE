@@ -9,8 +9,6 @@ export const styles = StyleSheet.create({
     },
     canvas: {
         flex: 1,
-        backgroundColor: Colors.white,
-        borderRadius: 18,
         overflow: "hidden",
     },
     itemImage: {
