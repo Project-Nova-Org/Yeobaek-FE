@@ -1,15 +1,21 @@
 import { useState, useCallback } from "react";
 import { View } from "react-native";
+import type { StackNavigationProp } from "@react-navigation/stack";
 
 import { OotdBottomSheet } from "@/components/Ootd/OotdBottomSheet.tsx";
 import { OotdCanvas } from "@/components/Ootd/OotdCanvas";
 import { OotdCreateHeader } from "@/components/Ootd/OotdCreateHeader";
 import { styles } from "./OotdCreateScreen.styles";
+import { RootStackParamList } from "@/types/navigation";
 
 import type { Item } from "@/mocks/items";
 import type { ClosetItem } from "@/screens/Dressroom/dressroom.mock";
 
-export default function OotdCreateScreen() {
+type Props = {
+    navigation: StackNavigationProp<RootStackParamList, "OotdCreate">;
+};
+
+export default function OotdCreateScreen({ navigation }: Props) {
     /** ===== BottomSheet 상태 ===== */
     // 0~2 : 최소(18%) ~ 완전 펼침(88%)
     const [sheetIndex, setSheetIndex] = useState<number>(1);
@@ -80,7 +86,7 @@ export default function OotdCreateScreen() {
             <OotdCreateHeader
                 title="OOTD 등록"
                 disabled={canvasItems.length < 2}
-                onBack={() => {}}
+                onBack={() => navigation.goBack()}
                 onNext={() => {}}
             />
 
