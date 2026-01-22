@@ -164,7 +164,7 @@ export function TransformEditor({
             },
         });
 
-    const rotateResponder = useMemo(() => createRotateResponder(), [enabled, size.width, size.height]);
+    const rotateResponder = useMemo(() => createRotateResponder(), [enabled]);
 
     const resizeResponders = useMemo(
         () => ({
@@ -177,7 +177,7 @@ export function TransformEditor({
             top: createResizeResponder((dx, dy) => resize(0, -dy)),
             bottom: createResizeResponder((dx, dy) => resize(0, dy)),
         }),
-        [enabled]
+        [enabled, minSize]
     );
 
     // 핸들 터치 여부를 추적하는 ref
