@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
   rotateHandle: {
     position: "absolute",
     top: -25,
-    left: "49%",
+    left: "50%",
     marginLeft: -12,
     width: 24,
     height: 24,
@@ -66,7 +66,7 @@ export const styles = StyleSheet.create({
   rotateConnector: {
     position: "absolute",
     top: -15,
-    left: "49%",
+    left: "50%",
     width: 2,
     height: 10,
     backgroundColor: Colors.black,
@@ -168,8 +168,8 @@ export const styles = StyleSheet.create({
   handleT: {
     position: "absolute",
     top: 0,
-    left: "45%",
-    marginLeft: -3,
+    left: "48%",
+    marginLeft: -3, // width(6) / 2 = 3
     width: 6,
     height: 6,
     borderRadius: 13, // width/2 + padding = 3 + 10
@@ -183,8 +183,8 @@ export const styles = StyleSheet.create({
   handleB: {
     position: "absolute",
     bottom: 0,
-    left: "45%",
-    marginLeft: -3,
+    left: "48%",
+    marginLeft: -3, // width(6) / 2 = 3
     width: 6,
     height: 6,
     borderRadius: 13, // width/2 + padding = 3 + 10

@@ -3,7 +3,7 @@ import { FlatList, Image, Pressable, View } from "react-native";
 import { styles } from "./WardrobeGrid.styles";
 import { AppText } from "@/components/common/AppText";
 import { MOCK_CLOSETS, type ClosetItem } from "@/screens/Dressroom/dressroom.mock";
-import { FavoriteOnIcon, FavoriteOffIcon } from "@/assets/icons";
+import { FavoriteOnIcon } from "@/assets/icons";
 
 interface Props {
     selectedWardrobeId: number | null;
@@ -36,7 +36,7 @@ export function WardrobeGrid({ selectedWardrobeId, onSelectWardrobe }: Props) {
                             onPress={() => onSelectWardrobe(item)}
                         >
                             <View style={[styles.imageContainer, selected && styles.imageContainerSelected]}>
-                                <Image source={{ uri: item.imageUrl }} style={styles.img} />
+                                <Image source={{ uri: item.imageUrl }} style={styles.img} resizeMode="cover" />
                                 {item.isFavorite && (
                                     <View style={styles.favoriteIconContainer}>
                                         <FavoriteOnIcon width={16} height={16} />

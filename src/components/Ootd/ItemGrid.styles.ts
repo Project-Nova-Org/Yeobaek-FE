@@ -56,7 +56,6 @@ export const styles = StyleSheet.create({
     img: {
         width: "90%",
         height: "90%",
-        resizeMode: "contain",
     },
 
     selectIconContainer: {
