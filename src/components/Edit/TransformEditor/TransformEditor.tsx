@@ -237,6 +237,13 @@ export function TransformEditor({
                     const p1 = { x: touches[0].pageX, y: touches[0].pageY };
                     const p2 = { x: touches[1].pageX, y: touches[1].pageY };
 
+                    // 한 손으로 시작한 후 두 번째 손가락이 추가된 경우 초기화
+                    if (pinchState.current.startDist === null) {
+                        pinchState.current.startDist = dist(p1, p2);
+                        pinchState.current.startAngle = angle(p1, p2);
+                        return;
+                    }
+
                     const d = dist(p1, p2);
                     const a = angle(p1, p2);
 
