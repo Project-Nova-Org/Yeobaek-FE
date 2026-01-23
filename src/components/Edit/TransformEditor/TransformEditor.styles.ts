@@ -26,7 +26,6 @@ export const styles = StyleSheet.create({
     borderRadius: 12,
   },
 
-  // 삭제 버튼(우상단)
   deleteBtn: {
     position: "absolute",
     top: -20,
@@ -41,7 +40,6 @@ export const styles = StyleSheet.create({
     margin: -10,
   },
 
-  // 회전 핸들 (상단 중앙)
   rotateHandle: {
     position: "absolute",
     top: -25,
@@ -49,8 +47,8 @@ export const styles = StyleSheet.create({
     marginLeft: -12,
     width: 24,
     height: 24,
-    zIndex: 100, // 리사이즈 핸들보다 위에
-    // 터치 영역 확대
+    zIndex: 100,
+
     padding: 10,
     margin: -10,
     alignItems: "center",
@@ -82,12 +80,11 @@ export const styles = StyleSheet.create({
     bottom: 0,
     width: 6,
     height: 6,
-    borderRadius: 13, // width/2 + padding = 3 + 10
+    borderRadius: 13,
     backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.black,
     zIndex: 10,
-    // 터치 영역 확대
     padding: 6,
     margin: -6,
   },
@@ -97,7 +94,7 @@ export const styles = StyleSheet.create({
     bottom: 0,
     width: 6,
     height: 6,
-    borderRadius: 13, // width/2 + padding = 3 + 10
+    borderRadius: 13,
     backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.black,
@@ -111,7 +108,7 @@ export const styles = StyleSheet.create({
     top: 0,
     width: 6,
     height: 6,
-    borderRadius: 13, // width/2 + padding = 3 + 10
+    borderRadius: 13,
     backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.black,
@@ -125,7 +122,7 @@ export const styles = StyleSheet.create({
     top: 0,
     width: 6,
     height: 6,
-    borderRadius: 13, // width/2 + padding = 3 + 10
+    borderRadius: 13,
     backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.black,
@@ -142,7 +139,7 @@ export const styles = StyleSheet.create({
     marginTop: -3,
     width: 6,
     height: 6,
-    borderRadius: 13, // width/2 + padding = 3 + 10
+    borderRadius: 13,
     backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.black,
@@ -157,7 +154,7 @@ export const styles = StyleSheet.create({
     marginTop: -3,
     width: 6,
     height: 6,
-    borderRadius: 13, // width/2 + padding = 3 + 10
+    borderRadius: 13,
     backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.black,
@@ -168,11 +165,11 @@ export const styles = StyleSheet.create({
   handleT: {
     position: "absolute",
     top: 0,
-    left: "48%",
-    marginLeft: -3, // width(6) / 2 = 3
+    left: "50%",
+    marginLeft: -7,
     width: 6,
     height: 6,
-    borderRadius: 13, // width/2 + padding = 3 + 10
+    borderRadius: 13,
     backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.black,
@@ -183,11 +180,11 @@ export const styles = StyleSheet.create({
   handleB: {
     position: "absolute",
     bottom: 0,
-    left: "48%",
-    marginLeft: -3, // width(6) / 2 = 3
+    left: "50%",
+    marginLeft: -7,
     width: 6,
     height: 6,
-    borderRadius: 13, // width/2 + padding = 3 + 10
+    borderRadius: 13,
     backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.black,

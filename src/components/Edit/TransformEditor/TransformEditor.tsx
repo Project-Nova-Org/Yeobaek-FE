@@ -38,19 +38,14 @@ export function TransformEditor({
 }: Props) {
     // 이동
     const translate = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
-
     // 회전(라디안)
     const rotate = useRef(new Animated.Value(0)).current;
-
     // 확대(스케일)
     const scale = useRef(new Animated.Value(1)).current;
-
     // 크기(리사이즈 핸들용)
     const [size, setSize] = useState({ width: 140, height: 140 });
-
     const lastGesture = useRef({ dx: 0, dy: 0 });
 
-    // 핀치/회전용 초기값 저장
     const pinchState = useRef<{
         baseScale: number;
         startDist: number | null;
@@ -74,10 +69,8 @@ export function TransformEditor({
             width: clampSize(p.width + dx),
             height: clampSize(p.height + dy),
         }));
-        
-        // translate 값도 함께 업데이트 (setOffset 사용하여 offset만 업데이트)
+
         if (translateDx !== 0 || translateDy !== 0) {
-            // 현재 offset 값을 읽어서 상대적으로 업데이트
             const currentOffsetX = (translate.x as any)._offset || 0;
             const currentOffsetY = (translate.y as any)._offset || 0;
             
@@ -152,19 +145,12 @@ export function TransformEditor({
                 isHandlingHandle.current = true;
                 lastGesture.current = { dx: 0, dy: 0 };
                 rotate.extractOffset();
-                
-                // 초기 각도 계산 (상단 중앙 핸들 위치 기준)
-                // 상단 중앙 핸들은 중심점에서 위쪽으로 20px 떨어진 위치
-                // 각도는 -90도 (위쪽)
                 rotateHandleState.current.startAngle = -Math.PI / 2;
                 rotateHandleState.current.baseRotate = 0;
             },
             onPanResponderMove: (e, g) => {
                 if (!enabled || rotateHandleState.current.startAngle === null) return;
-                
-                // 중심점 기준으로 드래그 위치의 각도 계산
-                // g.dx, g.dy는 터치 시작점에서의 상대 이동량
-                // 핸들의 초기 위치는 (0, -20)이고, 드래그 후 위치는 (g.dx, g.dy - 20)
+
                 const currentAngle = Math.atan2(g.dy, g.dx);
                 
                 // 초기 각도(-90도)와의 차이를 회전값으로 설정
@@ -175,7 +161,6 @@ export function TransformEditor({
                 if (!enabled) return;
                 isHandlingHandle.current = false;
                 rotate.extractOffset();
-                // baseRotate 업데이트 (다음 회전을 위해)
                 rotateHandleState.current.baseRotate = 0;
                 rotateHandleState.current.startAngle = null;
             },
@@ -188,58 +173,39 @@ export function TransformEditor({
 
     const resizeResponders = useMemo(
         () => ({
-            // 오른쪽 하단: translate 조정 불필요
             bottomRight: createResizeResponder((dx, dy) => resize(dx, dy)),
-            
-            // 왼쪽 하단: 왼쪽으로 늘어나므로 translate.x 조정
             bottomLeft: createResizeResponder((dx, dy) => resize(-dx, dy, dx, 0)),
-            
-            // 오른쪽 상단: 위로 늘어나므로 translate.y 조정
             topRight: createResizeResponder((dx, dy) => resize(dx, -dy, 0, dy)),
-            
-            // 왼쪽 상단: 둘 다 조정
             topLeft: createResizeResponder((dx, dy) => resize(-dx, -dy, dx, dy)),
-            
-            // 오른쪽: translate 조정 불필요
             right: createResizeResponder((dx, dy) => resize(dx, 0)),
-            
-            // 왼쪽: translate.x 조정
             left: createResizeResponder((dx, dy) => resize(-dx, 0, dx, 0)),
-            
-            // 상단: translate.y 조정
             top: createResizeResponder((dx, dy) => resize(0, -dy, 0, dy)),
-            
-            // 하단: translate 조정 불필요
             bottom: createResizeResponder((dx, dy) => resize(0, dy)),
         }),
         [enabled, minSize]
     );
 
-    // 핸들 터치 여부를 추적하는 ref
     const isHandlingHandle = useRef(false);
 
-    // ✅ 이동 + (두손) 핀치 확대/축소 + 두손 회전
     const moveResponder = useMemo(
         () => PanResponder.create({
             onStartShouldSetPanResponder: (evt, gestureState) => {
                 onActivate?.();
-                // 핸들을 터치한 경우는 false 반환
+                // 핸들을 터치한 경우는 false
                 if (isHandlingHandle.current) return false;
                 return enabled;
             },
             onMoveShouldSetPanResponder: (evt, gestureState) => {
-                // 핸들을 드래그한 경우는 false 반환
+                // 핸들을 드래그한 경우는 false
                 if (isHandlingHandle.current) return false;
                 return enabled;
             },
 
             onPanResponderGrant: (e) => {
-                // 이동 시작
                 translate.extractOffset();
 
-                // 현재 scale/rotate 값을 base로 설정 (extractOffset 전에 읽어야 함)
-                // extractOffset() 후에는 값이 0이 되고 offset에 누적되므로,
-                // 다음 제스처 시작 시 현재 실제 값을 base로 사용해야 함
+                // 현재 scale/rotate 값을 base로 설정
+                // extractOffset() 후에는 값이 0이 되고 offset에 누적
                 scale.extractOffset();
                 rotate.extractOffset();
                 
@@ -296,10 +262,8 @@ export function TransformEditor({
             },
 
             onPanResponderRelease: (e) => {
-                // 이동 오프셋 고정
                 translate.extractOffset();
-                
-                // 현재 scale/rotate 값을 base로 저장 (다음 제스처를 위해)
+
                 scale.extractOffset();
                 rotate.extractOffset();
                 pinchState.current.baseScale = pinchState.current.lastScale;
@@ -342,7 +306,6 @@ export function TransformEditor({
                             </Pressable>
                         )}
 
-                        {/* 회전 핸들과 상단 중앙 핸들 사이 연결선 */}
                         <View style={styles.rotateConnector} />
 
                         <View style={styles.rotateHandle} {...rotateResponder.panHandlers}>
