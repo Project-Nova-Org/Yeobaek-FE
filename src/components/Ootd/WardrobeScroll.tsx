@@ -3,7 +3,7 @@ import { ScrollView, Pressable, View, Image } from "react-native";
 import { styles } from "./WardrobeScroll.styles";
 import { AppText } from "@/components/common/AppText";
 import { MOCK_CLOSETS, type ClosetItem } from "@/screens/Dressroom/dressroom.mock";
-import { FavoriteOnIcon, FavoriteOffIcon } from "@/assets/icons";
+import { FavoriteOnIcon } from "@/assets/icons";
 
 interface Props {
     selectedWardrobeId: number | null;
@@ -36,7 +36,7 @@ export function WardrobeScroll({ selectedWardrobeId, onSelectWardrobe }: Props) 
                             onPress={() => onSelectWardrobe(wardrobe)}
                         >
                             <View style={[styles.imageContainer, selected && styles.imageContainerSelected]}>
-                                <Image source={{ uri: wardrobe.imageUrl }} style={styles.img} />
+                                <Image source={{ uri: wardrobe.imageUrl }} style={styles.img} resizeMode="cover" />
                                 {wardrobe.isFavorite && (
                                     <View style={styles.favoriteIconContainer}>
                                         <FavoriteOnIcon width={16} height={16} />

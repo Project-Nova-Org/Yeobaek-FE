@@ -30,7 +30,8 @@ export function ItemGrid({ category, detail, selectedItems = [], onSelect, selec
     }, [category, detail, selectedWardrobeId]);
 
     const isSelected = (item: Item) => {
-        return selectedItems.some((key) => key.startsWith(String(item.id)));
+        const prefix = `${item.id}-`;
+        return selectedItems.some((key) => key.startsWith(prefix));
     };
 
     return (
@@ -49,7 +50,7 @@ export function ItemGrid({ category, detail, selectedItems = [], onSelect, selec
                             onPress={() => onSelect(item)}
                         >
                             <View style={[styles.imageContainer, selected && styles.imageContainerSelected]}>
-                                <Image source={item.image} style={styles.img} />
+                                <Image source={item.image} style={styles.img} resizeMode="contain" />
                                 {selected && (
                                     <View style={styles.selectIconContainer}>
                                         <SelectIcon width={20} height={20} />
