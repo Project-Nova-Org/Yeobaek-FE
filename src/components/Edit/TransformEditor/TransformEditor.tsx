@@ -56,20 +56,36 @@ export function TransformEditor({
         startDist: number | null;
         startAngle: number | null;
         baseRotate: number;
+        lastScale: number; // 마지막 scale 값 추적
+        lastRotate: number; // 마지막 rotate 값 추적
     }>({
         baseScale: 1,
         startDist: null,
         startAngle: null,
         baseRotate: 0,
+        lastScale: 1,
+        lastRotate: 0,
     });
 
     const clampSize = (v: number) => Math.max(minSize, v);
 
-    const resize = (dx: number, dy: number) => {
+    const resize = (dx: number, dy: number, translateDx: number = 0, translateDy: number = 0) => {
         setSize((p) => ({
             width: clampSize(p.width + dx),
             height: clampSize(p.height + dy),
         }));
+        
+        // translate 값도 함께 업데이트 (setOffset 사용하여 offset만 업데이트)
+        if (translateDx !== 0 || translateDy !== 0) {
+            // 현재 offset 값을 읽어서 상대적으로 업데이트
+            const currentOffsetX = (translate.x as any)._offset || 0;
+            const currentOffsetY = (translate.y as any)._offset || 0;
+            
+            translate.setOffset({
+                x: currentOffsetX + translateDx,
+                y: currentOffsetY + translateDy,
+            });
+        }
     };
 
     const createResizeResponder = (handler: (dx: number, dy: number) => void) =>
@@ -88,6 +104,8 @@ export function TransformEditor({
             onPanResponderGrant: () => {
                 isHandlingHandle.current = true;
                 lastGesture.current = { dx: 0, dy: 0 };
+                // translate 오프셋을 현재 값으로 고정
+                translate.extractOffset();
             },
             onPanResponderMove: (_, g) => {
                 if (!enabled) return;
@@ -98,6 +116,8 @@ export function TransformEditor({
             },
             onPanResponderRelease: () => {
                 isHandlingHandle.current = false;
+                // translate 오프셋 다시 고정
+                translate.extractOffset();
             },
             onPanResponderTerminate: () => {
                 isHandlingHandle.current = false;
@@ -130,7 +150,7 @@ export function TransformEditor({
             onPanResponderGrant: (e) => {
                 if (!enabled) return;
                 isHandlingHandle.current = true;
-                // 현재 회전 각도를 base로 설정
+                lastGesture.current = { dx: 0, dy: 0 };
                 rotate.extractOffset();
                 
                 // 초기 각도 계산 (상단 중앙 핸들 위치 기준)
@@ -168,13 +188,28 @@ export function TransformEditor({
 
     const resizeResponders = useMemo(
         () => ({
+            // 오른쪽 하단: translate 조정 불필요
             bottomRight: createResizeResponder((dx, dy) => resize(dx, dy)),
-            bottomLeft: createResizeResponder((dx, dy) => resize(-dx, dy)),
-            topRight: createResizeResponder((dx, dy) => resize(dx, -dy)),
-            topLeft: createResizeResponder((dx, dy) => resize(-dx, -dy)),
+            
+            // 왼쪽 하단: 왼쪽으로 늘어나므로 translate.x 조정
+            bottomLeft: createResizeResponder((dx, dy) => resize(-dx, dy, dx, 0)),
+            
+            // 오른쪽 상단: 위로 늘어나므로 translate.y 조정
+            topRight: createResizeResponder((dx, dy) => resize(dx, -dy, 0, dy)),
+            
+            // 왼쪽 상단: 둘 다 조정
+            topLeft: createResizeResponder((dx, dy) => resize(-dx, -dy, dx, dy)),
+            
+            // 오른쪽: translate 조정 불필요
             right: createResizeResponder((dx, dy) => resize(dx, 0)),
-            left: createResizeResponder((dx, dy) => resize(-dx, 0)),
-            top: createResizeResponder((dx, dy) => resize(0, -dy)),
+            
+            // 왼쪽: translate.x 조정
+            left: createResizeResponder((dx, dy) => resize(-dx, 0, dx, 0)),
+            
+            // 상단: translate.y 조정
+            top: createResizeResponder((dx, dy) => resize(0, -dy, 0, dy)),
+            
+            // 하단: translate 조정 불필요
             bottom: createResizeResponder((dx, dy) => resize(0, dy)),
         }),
         [enabled, minSize]
@@ -184,8 +219,8 @@ export function TransformEditor({
     const isHandlingHandle = useRef(false);
 
     // ✅ 이동 + (두손) 핀치 확대/축소 + 두손 회전
-    const moveResponder = useRef(
-        PanResponder.create({
+    const moveResponder = useMemo(
+        () => PanResponder.create({
             onStartShouldSetPanResponder: (evt, gestureState) => {
                 onActivate?.();
                 // 핸들을 터치한 경우는 false 반환
@@ -202,6 +237,16 @@ export function TransformEditor({
                 // 이동 시작
                 translate.extractOffset();
 
+                // 현재 scale/rotate 값을 base로 설정 (extractOffset 전에 읽어야 함)
+                // extractOffset() 후에는 값이 0이 되고 offset에 누적되므로,
+                // 다음 제스처 시작 시 현재 실제 값을 base로 사용해야 함
+                scale.extractOffset();
+                rotate.extractOffset();
+                
+                // lastScale과 lastRotate를 base로 설정 (이전 제스처에서 저장된 값)
+                pinchState.current.baseScale = pinchState.current.lastScale;
+                pinchState.current.baseRotate = pinchState.current.lastRotate;
+
                 // 두손 제스처 초기화
                 const touches = e.nativeEvent.touches;
                 if (touches && touches.length >= 2) {
@@ -210,10 +255,6 @@ export function TransformEditor({
 
                     pinchState.current.startDist = dist(p1, p2);
                     pinchState.current.startAngle = angle(p1, p2);
-
-                    // 현재 scale/rotate 값을 base로
-                    // (Animated.Value는 직접 getValue가 제한될 수 있어 state로 관리하는 편이 안정적이지만,
-                    //  여기선 baseScale/baseRotate를 우리가 누적해서 관리)
                 } else {
                     pinchState.current.startDist = null;
                     pinchState.current.startAngle = null;
@@ -235,12 +276,16 @@ export function TransformEditor({
 
                     if (pinchState.current.startDist) {
                         const nextScale = (pinchState.current.baseScale * d) / pinchState.current.startDist;
-                        scale.setValue(Math.max(0.4, Math.min(3, nextScale)));
+                        const clampedScale = Math.max(0.4, Math.min(3, nextScale));
+                        scale.setValue(clampedScale);
+                        pinchState.current.lastScale = clampedScale;
                     }
 
                     if (pinchState.current.startAngle !== null) {
                         const delta = a - pinchState.current.startAngle;
-                        rotate.setValue(pinchState.current.baseRotate + delta);
+                        const nextRotate = pinchState.current.baseRotate + delta;
+                        rotate.setValue(nextRotate);
+                        pinchState.current.lastRotate = nextRotate;
                     }
 
                     return;
@@ -253,16 +298,16 @@ export function TransformEditor({
             onPanResponderRelease: (e) => {
                 // 이동 오프셋 고정
                 translate.extractOffset();
-
-                const touches = e.nativeEvent.touches;
-                pinchState.current.baseScale = (pinchState.current.baseScale * 1); // 유지
-                pinchState.current.baseRotate = (pinchState.current.baseRotate * 1); // 유지
                 
-                // 아이템에서 손을 떼면 active 해제
-                onDeactivate?.();
+                // 현재 scale/rotate 값을 base로 저장 (다음 제스처를 위해)
+                scale.extractOffset();
+                rotate.extractOffset();
+                pinchState.current.baseScale = pinchState.current.lastScale;
+                pinchState.current.baseRotate = pinchState.current.lastRotate;
             },
-        })
-    ).current;
+        }),
+        [enabled, onActivate, onDeactivate]
+    );
 
     // rotate 값(라디안)을 deg로 변환
     const rotateInterpolate = rotate.interpolate({
@@ -283,7 +328,6 @@ export function TransformEditor({
                 },
             ]}
             {...moveResponder.panHandlers}
-            onTouchStart={onActivate}
         >
             <View style={[
                 styles.box, 
