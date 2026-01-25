@@ -1,34 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Keyboard } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack"; // 1. StackNavigationProp 추가
+import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack";
 
 import { BottomTabBar } from "@/components/BottomTabBar/BottomTabBar";
 import { TopByTab } from "@/components/Top";
 import { Colors } from "@/theme/colors";
-import { SimpleTopBarProps } from "@/components/Top/SimpleTopBar.tsx";
+import { SimpleTopBarProps } from "@/components/Top/SimpleTopBar";
 
 import { CalendarScreen } from "@/screens/Calendar/CalendarScreen";
 import { OotdScreen } from "@/screens/Ootd/OotdScreen";
 import { HomeScreen } from "@/screens/Home/HomeScreen";
-import { DressroomScreen } from "@/screens/Dressroom/DressroomScreen";
+import {DressroomScreen} from "@/screens/Dressroom/DressroomScreen";
 import { StatsScreen } from "@/screens/Stats/StatsScreen";
 import MypageScreen from "@/screens/Mypage/MypageScreen";
 import HelpScreen from "@/screens/Mypage/HelpScreen";
 import MyinfoScreen from "@/screens/Mypage/MyinfoScreen";
 import NicknameEditScreen from "@/screens/Mypage/NicknameChangeScreen";
 import UnwornScreen from "@/screens/Stats/UnwornScreen";
+import  OotdCreateScreen  from "@/screens/Ootd/OotdCreateScreen";
+
 import { RootStackParamList } from "@/types/navigation";
+import {ItemPlus} from "@/assets/icons";
+
+type TabKey = "calendar" | "ootd" | "home" | "dressroom" | "stats";
 
 interface MainTabContentProps {
   navigation: StackNavigationProp<RootStackParamList, "HomeMain">;
 }
 
+type TabScreenProps = {
+  navigation: StackNavigationProp<RootStackParamList>;
+};
+
 const Stack = createStackNavigator<RootStackParamList>();
 
-type TabKey = "calendar" | "ootd" | "home" | "dressroom" | "stats";
-
-const BodyByTab: Record<TabKey, React.ComponentType> = {
+const BodyByTab: Record<TabKey, React.ComponentType<TabScreenProps>> = {
   calendar: CalendarScreen,
   ootd: OotdScreen,
   home: HomeScreen,
@@ -36,7 +43,7 @@ const BodyByTab: Record<TabKey, React.ComponentType> = {
   stats: StatsScreen,
 };
 
-function MainTabContent({}: MainTabContentProps) {
+function MainTabContent({ navigation }: MainTabContentProps) {
   const [activeTab, setActiveTab] = useState<TabKey>("home");
   const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
@@ -53,15 +60,17 @@ function MainTabContent({}: MainTabContentProps) {
   }, []);
 
   return (
-    <View style={styles.container}>
-      {TopComponent && <TopComponent title={activeTab.toUpperCase()} />}
+      <View style={styles.container}>
+        {TopComponent && <TopComponent title={activeTab.toUpperCase()} />}
 
-      <View style={styles.body}>
-        <BodyComponent />
+        <View style={styles.body}>
+          <BodyComponent navigation={navigation} />
+        </View>
+
+        {!isKeyboardVisible && (
+            <BottomTabBar activeTab={activeTab} onChangeTab={setActiveTab} />
+        )}
       </View>
-
-      {!isKeyboardVisible && <BottomTabBar activeTab={activeTab} onChangeTab={setActiveTab} />}
-    </View>
   );
 }
 
@@ -75,6 +84,7 @@ export default function TestPlace() {
         <Stack.Screen name="Myinfo" component={MyinfoScreen} />
         <Stack.Screen name="NicknameEdit" component={NicknameEditScreen} />
         <Stack.Screen name="UnwornDetail" component={UnwornScreen} />
+          <Stack.Screen name="OotdCreate" component={OotdCreateScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -9,7 +9,6 @@ const H_PADDING = 16;
 
 /** OOTD 박스 비율 */
 const OOTD_WIDTH = width - H_PADDING * 2;
-const OOTD_HEIGHT = (OOTD_WIDTH * 483) / 324;
 
 /** Grid */
 const GRID_COLUMNS = 3;
@@ -24,21 +23,17 @@ const CARD_LABEL_HEIGHT = 28;
 const CARD_HEIGHT = CARD_WIDTH * CARD_IMAGE_RATIO + CARD_LABEL_HEIGHT;
 
 export const styles = StyleSheet.create({
-    screen: {
+    container: {
         flex: 1,
         backgroundColor: Colors.background,
-    },
-
-    container: {
         paddingHorizontal: H_PADDING,
-        paddingTop: 12,
-        paddingBottom: 32,
     },
 
     topRow: {
         flexDirection: "row",
         alignItems: "center",
         gap: 8,
+        marginVertical: 12,
         marginBottom: 16,
     },
 
@@ -120,15 +115,13 @@ export const styles = StyleSheet.create({
     },
 
     ootdBox: {
-        elevation: 6,
-        marginTop: 3,
-        width: OOTD_WIDTH,
-        height: OOTD_HEIGHT,
+        flex: 1,
         backgroundColor: Colors.white,
-        borderRadius: 16,
-        padding: 16,
+        borderRadius: 24,
+        padding: 15,
+        elevation: 5,
+        //marginTop :10,
     },
-
     grid: {
         flexDirection: "row",
         flexWrap: "wrap",
@@ -154,5 +147,3 @@ export const styles = StyleSheet.create({
         height: CARD_LABEL_HEIGHT,
     },
 });
-
-
