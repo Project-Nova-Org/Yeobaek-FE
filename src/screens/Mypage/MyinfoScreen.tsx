@@ -12,9 +12,9 @@ import { HelpIcon, MaleIcon, FemaleIcon } from "@/assets/icons";
 import FullbodyRegisterButton from "@/components/Buttons/medium_button/FullbodyRegisterButton";
 import AddLongButton from "@/components/Buttons/long_button/AddLongButton";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "@/types/navigation";
+import { MypageStackParamList } from "@/types/navigation/MypageStackParamList";
 
-type Props = NativeStackScreenProps<RootStackParamList, "Myinfo">;
+type Props = NativeStackScreenProps<MypageStackParamList, "Myinfo">;
 
 const InfoScreen = ({ navigation, route }: Props) => {
   const initialData = route.params?.initialData;
