@@ -8,9 +8,9 @@ import NicknameButton from "@/components/Buttons/nickname_button/NicknameButton"
 import { Colors } from "@/theme/colors";
 import Alert from "@/components/Alert/Alert";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "@/types/navigation";
+import { MypageStackParamList } from "@/types/navigation/MypageStackParamList";
 
-type Props = NativeStackScreenProps<RootStackParamList, "NicknameEdit">;
+type Props = NativeStackScreenProps<MypageStackParamList, "NicknameEdit">;
 
 const NicknameEditScreen = ({ navigation, route }: Props) => {
   const currentNickname = route.params.currentNickname;

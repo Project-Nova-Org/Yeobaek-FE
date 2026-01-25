@@ -19,10 +19,10 @@ import {
   UndoIcon,
 } from "@/assets/icons";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "@/types/navigation";
+import { MypageStackParamList } from "@/types/navigation/MypageStackParamList";
 import { INITIAL_USER_DATA } from "./MypageData";
 
-type Props = NativeStackScreenProps<RootStackParamList, "Mypage">;
+type Props = NativeStackScreenProps<MypageStackParamList, "Mypage">;
 
 const MyPageScreen = ({ navigation }: Props) => {
   const [isDarkMode, setIsDarkMode] = useState(false);

@@ -8,9 +8,9 @@ import { HelpIcon, Grid2Icon, Grid3Icon } from "@/assets/icons";
 import { UNWORN_ITEMS } from "@/screens/Stats/statData";
 import { styles } from "./UnwornScreen.styles";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "@/types/navigation";
+import { StatsStackParamList } from "@/types/navigation/StatsStackParamList";
 
-type Props = NativeStackScreenProps<RootStackParamList, "UnwornDetail">;
+type Props = NativeStackScreenProps<StatsStackParamList, "UnwornDetail">;
 
 const UnwornScreen = ({ navigation }: Props) => {
   const [numColumns, setNumColumns] = useState(2);

@@ -1,19 +1,20 @@
 import { View } from "react-native";
+import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { Shadow } from "react-native-shadow-2";
+
 import { TabItem } from "./TabItem";
 import { barStyles } from "./BottomTabBar.styles";
 import { FloatingMenu } from "./FloatingMenu";
-import { FloatingHidden } from "@/components/BottomTabBar/FloatingHidden";
-import { Shadow } from "react-native-shadow-2";
+import { FloatingHidden } from "./FloatingHidden";
 
-type TabKey = "calendar" | "ootd" | "home" | "dressroom" | "stats";
+export function BottomTabBar({ state, navigation }: BottomTabBarProps) {
+  const currentRouteName = state.routeNames[state.index];
 
-interface BottomTabBarProps {
-  activeTab: TabKey;
-  onChangeTab: (tab: TabKey) => void;
-}
+  const isHome = currentRouteName === "HomeTab";
 
-export function BottomTabBar({ activeTab, onChangeTab }: BottomTabBarProps) {
-  const isHome = activeTab === "home";
+  const go = (routeName: string) => {
+    navigation.navigate(routeName as never);
+  };
 
   return (
     <View style={barStyles.container} pointerEvents="box-none">
@@ -32,18 +33,27 @@ export function BottomTabBar({ activeTab, onChangeTab }: BottomTabBarProps) {
       <View style={barStyles.tabBar}>
         <TabItem
           label="달력"
-          active={activeTab === "calendar"}
-          onPress={() => onChangeTab("calendar")}
+          active={currentRouteName === "CalendarTab"}
+          onPress={() => go("CalendarTab")}
         />
-        <TabItem label="OOTD" active={activeTab === "ootd"} onPress={() => onChangeTab("ootd")} />
-        <TabItem label="홈" active={activeTab === "home"} onPress={() => onChangeTab("home")} />
+        <TabItem
+          label="OOTD"
+          active={currentRouteName === "OotdTab"}
+          onPress={() => go("OotdTab")}
+        />
+        <TabItem label="홈" active={currentRouteName === "HomeTab"} onPress={() => go("HomeTab")} />
         <TabItem
           label="드레스룸"
-          active={activeTab === "dressroom"}
-          onPress={() => onChangeTab("dressroom")}
+          active={currentRouteName === "DressroomTab"}
+          onPress={() => go("DressroomTab")}
         />
-        <TabItem label="통계" active={activeTab === "stats"} onPress={() => onChangeTab("stats")} />
+        <TabItem
+          label="통계"
+          active={currentRouteName === "StatsTab"}
+          onPress={() => go("StatsTab")}
+        />
       </View>
+
       {isHome && <FloatingHidden />}
     </View>
   );

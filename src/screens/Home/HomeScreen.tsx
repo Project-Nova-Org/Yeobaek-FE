@@ -10,10 +10,12 @@ import {
   PersonalPairingImage,
 } from "@/assets/images";
 import { favoriteClosets, weatherData, fittingCount } from "./HomeData";
+import { HomeTop } from "@/components/Top/HomeTop.tsx";
 
 export function HomeScreen() {
   return (
     <View style={styles.container}>
+      <HomeTop />
       <View style={styles.fixedContent}>
         {/* 즐겨찾기 옷장 */}
         <View style={styles.sectionHeader}>
