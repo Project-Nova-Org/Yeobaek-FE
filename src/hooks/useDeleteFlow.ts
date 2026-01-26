@@ -1,24 +1,43 @@
 import { useState } from "react";
 import type { ToastAction, ToastTarget } from "@/components/ToastMessage/ToastMessage";
 
-interface DeleteTarget {
+type DeleteTarget = {
   id: number;
-  name: string;
-}
+  name?: string;
+};
+
+type ToastState = {
+  action: ToastAction;
+  target: ToastTarget;
+};
 
 export function useDeleteFlow(target: ToastTarget) {
   const [selected, setSelected] = useState<DeleteTarget | null>(null);
-  const [toast, setToast] = useState<{ action: ToastAction; target: ToastTarget } | null>(null);
+  const [toast, setToast] = useState<ToastState | null>(null);
 
-  const requestDelete = (item: DeleteTarget) => {
-    setSelected(item);
+  const requestDelete = (payload: DeleteTarget) => {
+    setSelected(payload);
+  };
+
+  const closeAlert = () => {
+    setSelected(null);
   };
 
   const confirmDelete = (onDelete: (id: number) => void) => {
     if (!selected) return;
+
     onDelete(selected.id);
+
+    setToast({
+      action: "delete",
+      target,
+    });
+
     setSelected(null);
-    setToast({ action: "delete", target });
+  };
+
+  const hideToast = () => {
+    setToast(null);
   };
 
   return {
@@ -26,7 +45,7 @@ export function useDeleteFlow(target: ToastTarget) {
     toast,
     requestDelete,
     confirmDelete,
-    closeAlert: () => setSelected(null),
-    hideToast: () => setToast(null),
+    closeAlert,
+    hideToast,
   };
 }

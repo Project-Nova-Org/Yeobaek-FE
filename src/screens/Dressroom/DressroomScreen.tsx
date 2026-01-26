@@ -20,6 +20,8 @@ import { MOCK_CLOSETS, MOCK_ITEMS, type ClosetItem, type FashionItem } from "./d
 import { DressroomTop } from "@/components/Top/DressroomTop";
 import Alert from "@/components/Alert/Alert";
 import ToastMessage from "@/components/ToastMessage/ToastMessage";
+
+import { useDeleteMode } from "@/hooks/useDeleteMode";
 import { useDeleteFlow } from "@/hooks/useDeleteFlow";
 
 type TabType = "closet" | "item";
@@ -33,7 +35,8 @@ export function DressroomScreen() {
   const [closets, setClosets] = useState<ClosetItem[]>(MOCK_CLOSETS);
   const [items, setItems] = useState<FashionItem[]>(MOCK_ITEMS);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isDeleteMode, setIsDeleteMode] = useState(false);
+
+  const { isDeleteMode, enterDeleteMode, exitDeleteMode } = useDeleteMode();
 
   const closetDelete = useDeleteFlow("closet");
   const itemDelete = useDeleteFlow("item");
@@ -45,14 +48,23 @@ export function DressroomScreen() {
     setClosets((prev) => prev.map((c) => (c.id === id ? { ...c, isFavorite: !c.isFavorite } : c)));
   };
 
-  const handleClosetPress = (closet: ClosetItem) => {
+  const handleCardPress = (item: ClosetItem | FashionItem) => {
     if (isDeleteMode) return;
-    navigation.navigate("ClosetDetail", {
-      closetId: closet.id,
-      closetName: closet.name,
-      thumbnailUrl: closet.imageUrl,
-    });
+
+    if (activeTab === "closet") {
+      navigation.navigate("ClosetDetail", {
+        closetId: (item as ClosetItem).id,
+        closetName: (item as ClosetItem).name,
+        thumbnailUrl: item.imageUrl,
+      });
+    }
   };
+
+  const alertMessage = closetDelete.selected?.name
+    ? `${closetDelete.selected.name}\n삭제하시겠습니까?`
+    : itemDelete.selected
+      ? "해당 아이템을\n삭제하시겠습니까?"
+      : "";
 
   return (
     <>
@@ -62,7 +74,7 @@ export function DressroomScreen() {
         style={styles.container}
         onStartShouldSetResponder={() => {
           if (isDeleteMode) {
-            setIsDeleteMode(false);
+            exitDeleteMode();
             return true;
           }
           return false;
@@ -88,7 +100,7 @@ export function DressroomScreen() {
             onPress={() => {
               setActiveTab("closet");
               setIsItemSearchOpen(false);
-              setIsDeleteMode(false);
+              exitDeleteMode();
             }}
           >
             <View style={[styles.tabBox, activeTab === "closet" && styles.tabBoxActive]}>
@@ -103,7 +115,7 @@ export function DressroomScreen() {
             onPress={() => {
               setActiveTab("item");
               setIsItemSearchOpen(false);
-              setIsDeleteMode(false);
+              exitDeleteMode();
             }}
           >
             <View style={[styles.tabBox, activeTab === "item" && styles.tabBoxActive]}>
@@ -140,6 +152,8 @@ export function DressroomScreen() {
               placeholder="검색.."
               placeholderTextColor="#999"
               style={styles.searchInput}
+              value={searchQuery}
+              onChangeText={setSearchQuery}
             />
           </View>
         )}
@@ -148,78 +162,62 @@ export function DressroomScreen() {
 
         <View style={styles.gridWrapper}>
           <ScrollView contentContainerStyle={styles.grid} showsVerticalScrollIndicator={false}>
-            {data.map((item) =>
-              activeTab === "closet" ? (
-                <Pressable
-                  key={item.id}
-                  style={styles.card}
-                  onPress={() => handleClosetPress(item as ClosetItem)}
-                  onLongPress={() => setIsDeleteMode(true)}
-                >
-                  <View style={styles.thumbnailWrapper}>
-                    <Image source={{ uri: item.imageUrl }} style={styles.thumbnail} />
+            {data.map((item) => (
+              <Pressable
+                key={item.id}
+                style={styles.card}
+                onPress={() => handleCardPress(item)}
+                onLongPress={enterDeleteMode}
+              >
+                <View style={styles.thumbnailWrapper}>
+                  <Image source={{ uri: item.imageUrl }} style={styles.thumbnail} />
 
-                    {!isDeleteMode && (
-                      <View style={styles.favoriteButtonOuter}>
-                        <Pressable
-                          style={styles.favoriteButtonInner}
-                          onPress={(e) => {
-                            e.stopPropagation();
-                            toggleClosetFavorite(item.id);
-                          }}
-                        >
-                          {(item as ClosetItem).isFavorite ? (
-                            <FavoriteOnIcon width={12} height={12} />
-                          ) : (
-                            <FavoriteOffIcon width={12} height={12} />
-                          )}
-                        </Pressable>
-                      </View>
-                    )}
+                  {activeTab === "closet" && !isDeleteMode && (
+                    <View style={styles.favoriteButtonOuter}>
+                      <Pressable
+                        style={styles.favoriteButtonInner}
+                        onPress={(e) => {
+                          e.stopPropagation();
+                          toggleClosetFavorite(item.id);
+                        }}
+                      >
+                        {(item as ClosetItem).isFavorite ? (
+                          <FavoriteOnIcon width={12} height={12} />
+                        ) : (
+                          <FavoriteOffIcon width={12} height={12} />
+                        )}
+                      </Pressable>
+                    </View>
+                  )}
 
-                    {isDeleteMode && (
-                      <View style={styles.deleteOverlay}>
-                        <View style={styles.dimLayer} />
-                        <Pressable
-                          style={styles.deleteButton}
-                          onPress={(e) => {
-                            e.stopPropagation();
-                            closetDelete.requestDelete({
-                              id: item.id,
-                              name: (item as ClosetItem).name,
-                            });
-                          }}
-                        >
-                          <DeleteIcon width={18} height={18} />
-                        </Pressable>
-                      </View>
-                    )}
-                  </View>
+                  {isDeleteMode && (
+                    <View style={styles.deleteOverlay}>
+                      <View style={styles.dimLayer} />
+                      <Pressable
+                        style={styles.deleteButton}
+                        onPress={(e) => {
+                          e.stopPropagation();
+                          activeTab === "closet"
+                            ? closetDelete.requestDelete({
+                                id: item.id,
+                                name: (item as ClosetItem).name,
+                              })
+                            : itemDelete.requestDelete({
+                                id: item.id,
+                              });
+                        }}
+                      >
+                        <DeleteIcon width={18} height={18} />
+                      </Pressable>
+                    </View>
+                  )}
+                </View>
 
-                  <AppText style={styles.itemName} numberOfLines={1}>
-                    {(item as ClosetItem).name}
-                  </AppText>
-                </Pressable>
-              ) : (
-                <Pressable
-                  key={item.id}
-                  style={styles.card}
-                  onLongPress={() =>
-                    itemDelete.requestDelete({
-                      id: item.id,
-                      name: (item as FashionItem).brand,
-                    })
-                  }
-                >
-                  <View style={styles.thumbnailWrapper}>
-                    <Image source={{ uri: item.imageUrl }} style={styles.thumbnail} />
-                  </View>
-                  <AppText style={styles.itemName} numberOfLines={1}>
-                    {(item as FashionItem).brand}
-                  </AppText>
-                </Pressable>
-              ),
-            )}
+                <AppText style={styles.itemName} numberOfLines={1}>
+                  {activeTab === "closet" ? (item as ClosetItem).name : (item as FashionItem).brand}
+                </AppText>
+              </Pressable>
+            ))}
 
             <Pressable style={styles.card}>
               <View style={styles.plusCard}>
@@ -232,13 +230,7 @@ export function DressroomScreen() {
 
       <Alert
         visible={!!(closetDelete.selected || itemDelete.selected)}
-        message={
-          closetDelete.selected
-            ? `${closetDelete.selected.name}\n삭제하시겠습니까?`
-            : itemDelete.selected
-              ? `${itemDelete.selected.name}\n삭제하시겠습니까?`
-              : ""
-        }
+        message={alertMessage}
         onCancel={() => {
           closetDelete.closeAlert();
           itemDelete.closeAlert();
@@ -248,20 +240,31 @@ export function DressroomScreen() {
             closetDelete.confirmDelete((id) =>
               setClosets((prev) => prev.filter((c) => c.id !== id)),
             );
-            setIsDeleteMode(false);
+            exitDeleteMode();
           }
 
           if (itemDelete.selected) {
             itemDelete.confirmDelete((id) => setItems((prev) => prev.filter((i) => i.id !== id)));
+            exitDeleteMode();
           }
         }}
       />
 
       {closetDelete.toast && (
-        <ToastMessage {...closetDelete.toast} onHide={closetDelete.hideToast} />
+        <ToastMessage
+          action={closetDelete.toast.action}
+          target={closetDelete.toast.target}
+          onHide={closetDelete.hideToast}
+        />
       )}
 
-      {itemDelete.toast && <ToastMessage {...itemDelete.toast} onHide={itemDelete.hideToast} />}
+      {itemDelete.toast && (
+        <ToastMessage
+          action={itemDelete.toast.action}
+          target={itemDelete.toast.target}
+          onHide={itemDelete.hideToast}
+        />
+      )}
     </>
   );
 }
