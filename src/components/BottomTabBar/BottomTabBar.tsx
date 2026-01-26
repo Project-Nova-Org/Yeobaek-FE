@@ -6,10 +6,11 @@ import { TabItem } from "./TabItem";
 import { barStyles } from "./BottomTabBar.styles";
 import { FloatingMenu } from "./FloatingMenu";
 import { FloatingHidden } from "./FloatingHidden";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export function BottomTabBar({ state, navigation }: BottomTabBarProps) {
+  const insets = useSafeAreaInsets();
   const currentRouteName = state.routeNames[state.index];
-
   const isHome = currentRouteName === "HomeTab";
 
   const go = (routeName: string) => {
@@ -17,7 +18,7 @@ export function BottomTabBar({ state, navigation }: BottomTabBarProps) {
   };
 
   return (
-    <View style={barStyles.container} pointerEvents="box-none">
+    <View style={[barStyles.container, { bottom: insets.bottom }]} pointerEvents="box-none">
       {isHome && <FloatingMenu />}
 
       <View style={barStyles.shadowLayer} pointerEvents="none">
