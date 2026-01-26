@@ -140,6 +140,7 @@ export const styles = StyleSheet.create({
     aspectRatio: 1,
     borderRadius: 16,
     overflow: "hidden",
+    marginBottom: 6,
   },
 
   thumbnail: {
