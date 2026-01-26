@@ -18,7 +18,11 @@ function renderBottomTabBar(props: BottomTabBarProps) {
 
 export default function MainTabNavigator() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }} tabBar={renderBottomTabBar}>
+    <Tab.Navigator
+      screenOptions={{ headerShown: false }}
+      tabBar={renderBottomTabBar}
+      initialRouteName="HomeTab"
+    >
       <Tab.Screen name="CalendarTab" component={CalendarStack} />
       <Tab.Screen name="OotdTab" component={OotdStack} />
       <Tab.Screen name="HomeTab" component={HomeStack} />
