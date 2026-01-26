@@ -121,7 +121,7 @@ export const styles = StyleSheet.create({
     borderRadius: 24,
     padding: 15,
     elevation: 3,
-    marginBottom: 78,
+    marginBottom: 130,
   },
 
   grid: {
