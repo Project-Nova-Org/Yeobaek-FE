@@ -11,7 +11,7 @@ export const Colors = {
   disable: "#CECECE",
   slider: "#C4C4C4",
   textDisabled: "#999999",
-  shadow: "#8B8B8B",
+  shadow: "#757575",
   placeholder: "#767676",
   error: "#E50000",
   border: "#E5E6E8",
