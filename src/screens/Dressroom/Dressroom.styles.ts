@@ -120,7 +120,7 @@ export const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: 24,
     padding: 15,
-    elevation: 5,
+    elevation: 3,
     marginBottom: 78,
   },
 
@@ -136,15 +136,16 @@ export const styles = StyleSheet.create({
   },
 
   thumbnailWrapper: {
-    position: "relative",
+    width: "100%",
+    aspectRatio: 1,
+    borderRadius: 16,
+    overflow: "hidden",
   },
 
   thumbnail: {
     width: "100%",
-    aspectRatio: 1,
-    borderRadius: 16,
-    marginBottom: 7,
-    backgroundColor: Colors.darkgray,
+    height: "100%",
+    resizeMode: "cover",
   },
 
   favoriteButtonOuter: {
@@ -163,7 +164,7 @@ export const styles = StyleSheet.create({
         blurRadius: 10,
         spreadDistance: 2,
         color: Colors.shadow,
-        inset: true, // 안쪽 그림자 설정
+        inset: true,
       },
     ],
   },
@@ -189,5 +190,31 @@ export const styles = StyleSheet.create({
     borderRadius: 16,
     justifyContent: "center",
     alignItems: "center",
+  },
+
+  deleteOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  dimLayer: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0, 0, 0, 0.40)",
+    borderRadius: 16,
+  },
+
+  deleteButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 4,
   },
 });

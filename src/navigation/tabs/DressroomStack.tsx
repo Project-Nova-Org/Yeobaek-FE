@@ -4,7 +4,7 @@ import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 import { DressroomStackParamList } from "@/types/navigation/DressroomStackParamList";
 import { DressroomScreen } from "@/screens/Dressroom/DressroomScreen";
-import { OotdTop } from "@/components/Top/OotdTop";
+import { ClosetDetailScreen } from "@/screens/Dressroom/ClosetDetailScreen";
 
 const Stack = createStackNavigator<DressroomStackParamList>();
 
@@ -31,6 +31,7 @@ export default function DressroomStack({ navigation, route }: any) {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Dressroom" component={DressroomScreen} />
+      <Stack.Screen name="ClosetDetail" component={ClosetDetailScreen} />
     </Stack.Navigator>
   );
 }
