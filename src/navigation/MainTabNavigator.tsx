@@ -1,5 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 
 import { BottomTabBar } from "@/components/BottomTabBar/BottomTabBar";
 import { MainTabParamList } from "@/types/navigation/MainTabParamList";
@@ -16,12 +17,26 @@ function renderBottomTabBar(props: BottomTabBarProps) {
   return <BottomTabBar {...props} />;
 }
 
+const HIDE_TAB_ROUTES = ["ItemDetail", "MakeCloset", "MakeItem", "EditCloset", "EditItem"];
+
 export default function MainTabNavigator() {
   return (
     <Tab.Navigator
-      screenOptions={{ headerShown: false }}
-      tabBar={renderBottomTabBar}
       initialRouteName="HomeTab"
+      tabBar={renderBottomTabBar}
+      screenOptions={({ route }) => {
+        const routeName = getFocusedRouteNameFromRoute(route) ?? "";
+
+        const shouldHideTabBar =
+          route.name === "DressroomTab" && HIDE_TAB_ROUTES.includes(routeName);
+
+        return {
+          headerShown: false,
+          tabBarStyle: {
+            display: shouldHideTabBar ? "none" : "flex",
+          },
+        };
+      }}
     >
       <Tab.Screen name="CalendarTab" component={CalendarStack} />
       <Tab.Screen name="OotdTab" component={OotdStack} />

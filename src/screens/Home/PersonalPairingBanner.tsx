@@ -8,8 +8,6 @@ import { homeStyles as styles } from "./HomeScreen.styles";
 export function PersonalPairingBanner() {
   return (
     <View>
-      <Text style={styles.aiSectionTitle}>AI 퍼스널 스타일리스트</Text>
-
       <Pressable
         style={styles.aiBanner}
         accessibilityRole="button"
