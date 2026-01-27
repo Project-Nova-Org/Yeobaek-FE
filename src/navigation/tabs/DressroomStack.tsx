@@ -4,8 +4,8 @@ import { DressroomStackParamList } from "@/types/navigation/DressroomStackParamL
 import { DressroomScreen } from "@/screens/Dressroom/DressroomScreen";
 import { ClosetDetailScreen } from "@/screens/Dressroom/Closet/ClosetDetailScreen";
 import { ItemDetailScreen } from "@/screens/Dressroom/Item/ItemDetailScreen";
-import MakeCloset from "@/screens/Dressroom/Closet/MakeCloset.tsx";
-import AddItemToCloset from "@/screens/Dressroom/Closet/AddItemToCloset.tsx";
+import MakeCloset from "@/screens/Dressroom/Closet/MakeCloset";
+import AddItemToCloset from "@/screens/Dressroom/Closet/AddItemToCloset";
 
 const Stack = createStackNavigator<DressroomStackParamList>();
 
