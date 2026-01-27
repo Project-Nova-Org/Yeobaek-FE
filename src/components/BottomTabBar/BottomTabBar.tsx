@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { Shadow } from "react-native-shadow-2";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -9,12 +9,8 @@ import { FloatingMenu } from "./FloatingMenu";
 import { FloatingHidden } from "./FloatingHidden";
 
 function isTabBarHidden(style: unknown) {
-  return (
-    typeof style === "object" &&
-    style !== null &&
-    !Array.isArray(style) &&
-    (style as any).display === "none"
-  );
+  const flattend = StyleSheet.flatten(style as any);
+  return flattend?.display === "none";
 }
 
 export function BottomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {

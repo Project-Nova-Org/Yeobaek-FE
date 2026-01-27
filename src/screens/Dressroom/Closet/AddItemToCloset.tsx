@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, ScrollView, TextInput, Image, Pressable } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute, type RouteProp } from "@react-navigation/native";
+import { DressroomStackParamList } from "@/types/navigation/DressroomStackParamList";
 
 import { styles } from "./AddItemToCloset.styles";
 import { AppText } from "@/components/common/AppText";
@@ -16,6 +17,8 @@ import { HeaderLeft } from "@/components/Header/HeaderLeft.tsx";
 
 export default function AddItemToCloset() {
   const navigation = useNavigation<any>();
+  const route = useRoute<RouteProp<DressroomStackParamList, "AddItemToCloset">>();
+  const { closetId } = route.params;
 
   const [searchQuery, setSearchQuery] = useState("");
   const [, setCategoryFilter] = useState<CategoryState | null>(null);
@@ -77,10 +80,10 @@ export default function AddItemToCloset() {
           </ScrollView>
         </View>
         <CreateLongButton
-          label="생성"
+          label="생 성"
           isActive={selectedIds.length > 0}
           onPress={() => {
-            console.log("선택된 아이템:", selectedIds);
+            console.log("선택된 아이템:", selectedIds, "closetId:", closetId);
             navigation.goBack();
           }}
         />

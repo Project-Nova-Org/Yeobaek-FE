@@ -92,7 +92,7 @@ export default function EditItemInCloset() {
       </View>
 
       <CreateLongButton
-        label="추가"
+        label="수 정"
         isActive={selectedIds.length > 0}
         onPress={() => {
           console.log("최종 선택된 아이템:", selectedIds);

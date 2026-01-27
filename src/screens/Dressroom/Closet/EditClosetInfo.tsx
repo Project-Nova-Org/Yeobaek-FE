@@ -1,6 +1,7 @@
 import { View, Image } from "react-native";
 import { useEffect, useState } from "react";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute, type RouteProp } from "@react-navigation/native";
+import { DressroomStackParamList } from "@/types/navigation/DressroomStackParamList";
 
 import { styles } from "./MakeCloset.styles";
 import { AppText } from "@/components/common/AppText";
@@ -14,7 +15,7 @@ import { MOCK_CLOSETS } from "@/screens/Dressroom/dressroom.mock";
 
 export default function EditClosetInfo() {
   const navigation = useNavigation<any>();
-  const route = useRoute<any>();
+  const route = useRoute<RouteProp<DressroomStackParamList, "EditClosetInfo">>();
 
   const { closetId } = route.params;
 

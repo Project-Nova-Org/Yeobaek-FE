@@ -1,6 +1,6 @@
 import { View, Image } from "react-native";
 import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import { type RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
 import { styles } from "./MakeCloset.styles";
 import { AppText } from "@/components/common/AppText";
@@ -9,9 +9,12 @@ import { AppHeader } from "@/components/Header/AppHeader";
 import { HeaderLeft } from "@/components/Header/HeaderLeft";
 import { HeaderRight } from "@/components/Header/HeaderRight";
 import PhotoChangeButton from "@/components/Buttons/medium_button/PhotoChangeButton";
+import { DressroomStackParamList } from "@/types/navigation/DressroomStackParamList.ts";
 
 export default function MakeCloset() {
   const navigation = useNavigation<any>();
+  const route = useRoute<RouteProp<DressroomStackParamList, "AddItemToCloset">>();
+  const { closetId } = route.params;
   const [closetName, setClosetName] = useState("");
 
   const canNext = closetName.length > 0 && closetName.length <= 10;
@@ -20,7 +23,7 @@ export default function MakeCloset() {
     if (!canNext) return;
 
     navigation.navigate("AddItemToCloset", {
-      closetName,
+      closetId,
     });
   };
 

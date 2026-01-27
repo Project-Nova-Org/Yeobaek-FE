@@ -42,7 +42,6 @@ export function NicknameInput({
         style={[
           styles.inputWrapper,
           variant === "rounded" && styles.rounded,
-          ,
           isError && styles.inputError,
         ]}
       >
