@@ -2,22 +2,23 @@ import React, { useState } from "react";
 import { ScrollView, View, Pressable, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "@/types/navigation";
+import { StatsStackParamList } from "@/types/navigation/StatsStackParamList";
 import { AppText as Text } from "@/components/common/AppText";
 import { StatDonutCard } from "@/components/State/StatDonutCard";
 import { StatsLineChart } from "@/components/State/StatsLineChart";
 import { statData, FREQUENT_ITEMS, UNWORN_DATA, STATS_SUMMARY } from "./statData";
 import { HelpIcon, UndoIcon, ItemIcon, ClosetIcon, OOTDIcon } from "@/assets/icons";
 import { statsStyles as styles } from "./StatsScreen.styles";
+import { StatsTop } from "@/components/Top/StatsTop.tsx";
 
 export function StatsScreen() {
   const [showTooltip, setShowTooltip] = useState(false);
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const navigation = useNavigation<StackNavigationProp<StatsStackParamList>>();
 
   return (
     <View>
-      {/* 자주 착용한 아이템 */}
       <View style={styles.section}>
+        <StatsTop />
         <View style={styles.sectionHeader}>
           <View style={styles.titleRow}>
             <Text style={styles.sectionTitle}>자주 착용한 아이템</Text>

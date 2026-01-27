@@ -7,9 +7,9 @@ import { UndoIcon } from "@/assets/icons";
 import { helpScreenStyles as styles } from "./HelpScreen.styles";
 import { HELP_DATA } from "./MypageData";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { RootStackParamList } from "@/types/navigation";
+import { MypageStackParamList } from "@/types/navigation/MypageStackParamList";
 
-type Props = NativeStackScreenProps<RootStackParamList, "Help">;
+type Props = NativeStackScreenProps<MypageStackParamList, "Help">;
 
 if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);

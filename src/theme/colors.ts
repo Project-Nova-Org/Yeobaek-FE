@@ -4,25 +4,35 @@ export const Colors = {
   white: "#FFFFFF",
   background: "#F4F5F7",
   background2: "#D4D6D9",
-
   primary: "#1B2A41",
   inactive: "#767676",
   darkgray: "#505050",
   disable: "#CECECE",
   slider: "#C4C4C4",
   textDisabled: "#999999",
-  shadow: "#8B8B8B",
+  shadow: "#757575",
   placeholder: "#767676",
   error: "#E50000",
   border: "#E5E6E8",
   help: "#D5D5D5",
-
   tapText: "#607291",
-
   yesPressed: "#5B7397",
   noPressed: "#B0B0B0",
   noStandard: "#707070",
-
   kakaoYellow: "#FEE500",
   googleLine: "#C2C2C2",
+
+  // Item colors
+  itemBlack: "#000000",
+  itemWhite: "#FFFFFF",
+  itemGray: "#D9D9D9",
+  itemBeige: "#EAD4B2",
+  itemBrown: "#834C15",
+  itemRed: "#F41F1F",
+  itemOrange: "#FF8400",
+  itemYellow: "#FFE928",
+  itemGreen: "#31B04A",
+  itemBlue: "#005DEC",
+  itemPurple: "#9404C4",
+  itemPink: "#FF6FBC",
 };

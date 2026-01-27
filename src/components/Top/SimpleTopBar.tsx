@@ -5,7 +5,8 @@ import { ProfileIcon } from "@/assets/icons";
 import { Colors } from "@/theme/colors.ts";
 import { AppText } from "@/components/common/AppText";
 import { FontSize } from "@/theme/typography.ts";
-import { RootStackParamList } from "@/types/navigation";
+import { RootStackParamList } from "@/types/navigation/RootStackParamList";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export interface SimpleTopBarProps {
   title: string;
@@ -13,11 +14,12 @@ export interface SimpleTopBarProps {
 
 export function SimpleTopBar({ title }: SimpleTopBarProps) {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const insets = useSafeAreaInsets();
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: insets.top }]}>
       <AppText style={styles.title}>{title}</AppText>
-      <Pressable onPress={() => navigation.navigate("Mypage")}>
+      <Pressable onPress={() => navigation.navigate("MypageStack")}>
         <ProfileIcon width={27} height={27} />
       </Pressable>
     </View>
@@ -26,12 +28,12 @@ export function SimpleTopBar({ title }: SimpleTopBarProps) {
 
 const styles = StyleSheet.create({
   container: {
-    height: 60,
+    minHeight: 60,
     width: "100%",
     backgroundColor: Colors.background,
     paddingVertical: 16,
-    paddingLeft: 17,
-    paddingRight: 21,
+    paddingLeft: 15,
+    paddingRight: 19,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
