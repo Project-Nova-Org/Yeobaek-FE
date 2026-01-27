@@ -13,8 +13,10 @@ import { styles } from "./ItemDetail.styles";
 import { DeleteIcon, EditIcon } from "@/assets/icons";
 import { PersonalPairingBanner } from "@/screens/Home/PersonalPairingBanner";
 import Alert from "@/components/Alert/Alert";
+import { OotdIncludedModal } from "@/components/Modal/OotdIncludedModal/OotdIncludedModal";
 
 import { MOCK_ITEMS } from "@/screens/Dressroom/dressroom.mock";
+import { SampleOOTDIcon } from "@/assets/icons/SampleOOTDIcon"; // 예시 아이콘
 
 type ItemColor =
   | "black"
@@ -49,8 +51,8 @@ export function ItemDetailScreen() {
   const navigation = useNavigation<any>();
   const route = useRoute<any>();
 
-  // ✅ Hook은 무조건 최상단
   const [alertVisible, setAlertVisible] = useState(false);
+  const [ootdModalVisible, setOotdModalVisible] = useState(false);
 
   const { itemId } = route.params;
   const item = MOCK_ITEMS.find((it) => it.id === itemId);
@@ -86,7 +88,7 @@ export function ItemDetailScreen() {
         <View style={styles.imageWrapper}>
           <Image source={{ uri: item.imageUrl }} style={styles.image} />
 
-          <Pressable style={styles.ootdButton}>
+          <Pressable style={styles.ootdButton} onPress={() => setOotdModalVisible(true)}>
             <AppText style={styles.ootdButtonText}>저장된 OOTD 보기</AppText>
           </Pressable>
         </View>
@@ -127,6 +129,18 @@ export function ItemDetailScreen() {
         message={`해당 아이템을\n삭제하시겠습니까?`}
         onConfirm={handleDelete}
         onCancel={() => setAlertVisible(false)}
+      />
+
+      <OotdIncludedModal
+        visible={ootdModalVisible}
+        onClose={() => setOotdModalVisible(false)}
+        items={[
+          { id: 1, Icon: SampleOOTDIcon, label: "OOTD 1" },
+          { id: 2, Icon: SampleOOTDIcon, label: "OOTD 2" },
+          { id: 3, Icon: SampleOOTDIcon, label: "OOTD 3" },
+          { id: 4, Icon: SampleOOTDIcon, label: "OOTD 4" },
+          { id: 5, Icon: SampleOOTDIcon, label: "OOTD 5" },
+        ]}
       />
     </View>
   );
