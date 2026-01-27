@@ -243,7 +243,7 @@ export function DressroomScreen() {
                 }
 
                 if (activeTab === "item") {
-                  navigation.navigate("AddItem");
+                  navigation.navigate("MakeItem");
                 }
               }}
             >

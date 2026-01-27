@@ -31,6 +31,9 @@ export function ClosetDetailScreen({ route, navigation }: Props) {
   const { closetId } = route.params;
   const closet = MOCK_CLOSETS.find((c) => c.id === closetId);
 
+  const [selectedItem, setSelectedItem] = useState<FashionItem | null>(null);
+  const [isItemDeleteAlertOpen, setIsItemDeleteAlertOpen] = useState(false);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [, setCategoryFilter] = useState<CategoryState | null>(null);
   const [isFavorite, setIsFavorite] = useState(() => closet?.isFavorite ?? false);
@@ -98,6 +101,11 @@ export function ClosetDetailScreen({ route, navigation }: Props) {
                     itemId: item.id,
                   })
                 }
+                onLongPress={() => {
+                  setSelectedItem(item);
+                  setIsItemDeleteAlertOpen(true);
+                }}
+                delayLongPress={400}
               >
                 <Image source={{ uri: item.imageUrl }} style={styles.thumbnail} />
                 <AppText style={styles.itemName} numberOfLines={1}>
@@ -126,6 +134,25 @@ export function ClosetDetailScreen({ route, navigation }: Props) {
           setIsDeleteAlertOpen(false);
           setToast({ action: "delete", target: "closet" });
           navigation.goBack();
+        }}
+      />
+
+      <Alert
+        visible={isItemDeleteAlertOpen}
+        message={`해당 아이템을 \n옷장에서 삭제하시겠습니까?`}
+        onCancel={() => {
+          setIsItemDeleteAlertOpen(false);
+          setSelectedItem(null);
+        }}
+        onConfirm={() => {
+          if (!selectedItem) return;
+
+          console.log("옷장에서 제거할 아이템:", selectedItem.id);
+
+          setIsItemDeleteAlertOpen(false);
+          setSelectedItem(null);
+
+          setToast({ action: "delete", target: "item" });
         }}
       />
 
