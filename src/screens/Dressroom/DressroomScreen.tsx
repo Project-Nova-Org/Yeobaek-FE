@@ -65,11 +65,16 @@ export function DressroomScreen() {
 
   const handleCardPress = (item: ClosetItem | FashionItem) => {
     if (isDeleteMode) return;
+
     if (activeTab === "closet") {
       navigation.navigate("ClosetDetail", {
         closetId: (item as ClosetItem).id,
-        closetName: (item as ClosetItem).name,
-        thumbnailUrl: item.imageUrl,
+      });
+    }
+
+    if (activeTab === "item") {
+      navigation.navigate("ItemDetail", {
+        itemId: (item as FashionItem).id,
       });
     }
   };
