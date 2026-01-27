@@ -60,8 +60,8 @@ export function DressroomScreen() {
     }
   };
 
-  const alertMessage = closetDelete.selected?.name
-    ? `${closetDelete.selected.name}\n삭제하시겠습니까?`
+  const alertMessage = closetDelete.selected
+    ? `${closetDelete.selected.name || "옷장"}\n삭제하시겠습니까?`
     : itemDelete.selected
       ? "해당 아이템을\n삭제하시겠습니까?"
       : "";

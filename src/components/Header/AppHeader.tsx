@@ -13,7 +13,7 @@ export function AppHeader({ title, left, right }: AppHeaderProps) {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={[styles.container, { paddingTop: insets.top }]}>
+    <View style={[styles.container, { paddingTop: insets.top, height: 55 + insets.top }]}>
       <View style={styles.side}>{left}</View>
 
       <View style={styles.center}>
