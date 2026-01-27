@@ -235,7 +235,18 @@ export function DressroomScreen() {
                 </AppText>
               </Pressable>
             ))}
-            <Pressable style={styles.card}>
+            <Pressable
+              style={styles.card}
+              onPress={() => {
+                if (activeTab === "closet") {
+                  navigation.navigate("MakeCloset");
+                }
+
+                if (activeTab === "item") {
+                  navigation.navigate("AddItem");
+                }
+              }}
+            >
               <View style={styles.plusCard}>
                 <ImagePlusIcon width="100%" height="100%" />
               </View>

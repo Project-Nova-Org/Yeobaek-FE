@@ -22,6 +22,7 @@ export const Colors = {
   kakaoYellow: "#FEE500",
   googleLine: "#C2C2C2",
   mamoBox: "#E3E5E9",
+  inputBorder: "#ADADAD",
 
   // Item colors
   itemBlack: "#000000",

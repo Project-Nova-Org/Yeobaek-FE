@@ -17,7 +17,14 @@ function renderBottomTabBar(props: BottomTabBarProps) {
   return <BottomTabBar {...props} />;
 }
 
-const HIDE_TAB_ROUTES = ["ItemDetail", "MakeCloset", "MakeItem", "EditCloset", "EditItem"];
+const HIDE_TAB_ROUTES = [
+  "ItemDetail",
+  "MakeCloset",
+  "AddItemToCloset",
+  "MakeItem",
+  "EditCloset",
+  "EditItem",
+];
 
 export default function MainTabNavigator() {
   return (
