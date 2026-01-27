@@ -106,7 +106,10 @@ export function ClosetDetailScreen({ route, navigation }: Props) {
               </Pressable>
             ))}
 
-            <Pressable style={styles.card}>
+            <Pressable
+              style={styles.card}
+              onPress={() => navigation.navigate("EditItemInCloset", { closetId })}
+            >
               <View style={styles.plusCard}>
                 <ImagePlusIcon width="100%" height="100%" />
               </View>

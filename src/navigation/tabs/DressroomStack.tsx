@@ -7,6 +7,7 @@ import { ItemDetailScreen } from "@/screens/Dressroom/Item/ItemDetailScreen";
 import MakeCloset from "@/screens/Dressroom/Closet/MakeCloset";
 import AddItemToCloset from "@/screens/Dressroom/Closet/AddItemToCloset";
 import EditClosetInfo from "@/screens/Dressroom/Closet/EditClosetInfo";
+import EditItemInCloset from "@/screens/Dressroom/Closet/EditItemInCloset";
 
 const Stack = createStackNavigator<DressroomStackParamList>();
 
@@ -19,6 +20,7 @@ export default function DressroomStack() {
       <Stack.Screen name="MakeCloset" component={MakeCloset} />
       <Stack.Screen name="AddItemToCloset" component={AddItemToCloset} />
       <Stack.Screen name="EditClosetInfo" component={EditClosetInfo} />
+      <Stack.Screen name="EditItemInCloset" component={EditItemInCloset} />
     </Stack.Navigator>
   );
 }

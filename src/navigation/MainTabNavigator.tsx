@@ -22,6 +22,7 @@ const HIDE_TAB_ROUTES = [
   "MakeCloset",
   "AddItemToCloset",
   "EditClosetInfo",
+  "EditItemInCloset",
   "MakeItem",
   "EditCloset",
   "EditItem",
