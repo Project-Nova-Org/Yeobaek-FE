@@ -1,59 +1,81 @@
 import { StyleSheet, Dimensions } from "react-native";
-
+import { Colors } from "@/theme/colors.ts";
+import { FontSize } from "@/theme/typography.ts";
 const { width } = Dimensions.get("window");
 const cellWidth = width / 7;
-
 export const calendarStyles = StyleSheet.create({
   container: {
-    paddingVertical: 10,
-    backgroundColor: "#fff",
+    backgroundColor: Colors.white,
+    width: width,
+    paddingVertical: 20,
+    paddingTop: 10,
   },
   weekRow: {
     flexDirection: "row",
     paddingVertical: 10,
-    borderBottomWidth: 0.5,
-    borderColor: "#F2F2F2",
+    borderTopWidth: 10,
+    borderBottomWidth: 20,
+    borderColor: Colors.white,
   },
   weekText: {
     width: cellWidth,
     textAlign: "center",
-    fontSize: 12,
-    fontWeight: "600",
-    color: "#333",
+    fontSize: FontSize.xs,
+    fontWeight: "700",
+    color: Colors.black,
   },
   dateGrid: {
     flexDirection: "row",
     flexWrap: "wrap",
+    width: "100%",
   },
   dateCell: {
     width: cellWidth,
-    height: cellWidth * 1.5, // 세로로 긴 형태
-    padding: 2,
-    borderBottomWidth: 0.2,
-    borderColor: "#f0f0f0",
+    height: cellWidth * 1.6,
+    paddingLeft: 3,
+    position: "relative",
+    marginBottom: 15,
   },
-  unregisteredCell: {
-    backgroundColor: "#F9FAFB", // 등록 안 된 날짜 배경
-    borderRadius: 4,
-    margin: 1,
-  },
-  dateText: {
-    fontSize: 11,
-    fontWeight: "500",
-    paddingLeft: 4,
-  },
-  otherMonthText: { color: "transparent" }, // 이번 달 아니면 숨김
-  futureText: { color: "#E5E7EB" }, // 미래 날짜 흐리게
-  sunday: { color: "#FF3B30" },
-  saturday: { color: "#007AFF" },
-  imageWrapper: {
+  contentArea: {
     flex: 1,
-    marginTop: 2,
-    borderRadius: 4,
+    marginTop: 18,
+  },
+  flipWrapper: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  itemWrapper: {
+    flex: 1,
+    borderRadius: 5,
     overflow: "hidden",
-    backgroundColor: "#E5E7EB", // 이미지 플레이스홀더
+  },
+  imageBackground: {
+    backgroundColor: Colors.disable,
+  },
+  ootdImage: {
+    width: "100%",
+    height: "100%",
   },
   placeholderImg: {
     flex: 1,
   },
+
+  dateNumberOverlay: {
+    position: "absolute",
+    top: 1,
+    left: 25,
+    zIndex: 10,
+  },
+  dateText: {
+    fontSize: FontSize.xs,
+    fontWeight: "700",
+    textAlign: "center",
+  },
+  otherMonthText: {
+    color: Colors.textDisabled,
+  },
+  futureText: { color: Colors.textDisabled },
+  sunday: { color: Colors.sunday },
+  saturday: { color: Colors.saturday },
 });

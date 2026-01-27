@@ -1,43 +1,122 @@
-import { StyleSheet, Dimensions } from "react-native";
-const { width, height } = Dimensions.get("window");
+import { StyleSheet } from "react-native";
+import { Colors } from "@/theme/colors.ts";
+import { FontSize } from "@/theme/typography.ts";
+import {
+  PatternInkImage,
+  PatternGradImage,
+  PatternStarImage,
+  PInkImage,
+  PStarImage,
+  PGradImage,
+} from "@/assets/images";
 
-export const BG_COLORS = ["#FFFFFF", "#000000", "#2D2D2D", "#FFBABA", "#E0E0E0"]; // 팔레트 데이터
+export const BG_COLORS = [
+  Colors.white,
+  Colors.primary,
+  Colors.black,
+  Colors.cherry,
+  Colors.oat,
+  { thumb: PGradImage, bg: PatternGradImage, isGrad: true },
+  { thumb: PStarImage, bg: PatternStarImage, isLight: true },
+  { thumb: PInkImage, bg: PatternInkImage, isLight: true },
+];
 
 export const saveModalStyles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.9)",
+    backgroundColor: "rgba(0, 0, 0, 0.7)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalWrapper: {
+    width: 326,
+    height: 512,
+    borderRadius: 15,
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+  },
+
+  headerActions: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingHorizontal: 20,
+    marginTop: 20,
+    marginBottom: 30,
+  },
+  previewCard: {
+    width: 270,
+    height: 360,
+    padding: 24,
+    alignItems: "center",
+    overflow: "hidden",
+    position: "relative",
+    backgroundColor: Colors.white,
+  },
+  cardBackgroundImage: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: 270,
+    height: 360,
+    zIndex: -1,
+  },
+  previewMonthText: {
+    fontSize: FontSize.sm,
+    fontFamily: "Eulyoo1945-Regular",
+    fontWeight: "500",
+    marginTop: 0,
+    marginBottom: 20,
+  },
+  gridImageArea: {
+    flex: 1,
+    width: "100%",
+  },
+
+  footer: {
+    width: "90%",
+    marginTop: 20,
+  },
+  footerLabelArea: {
+    alignSelf: "flex-end",
+    marginBottom: 5,
+  },
+  footerInfoRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "flex-end",
+    marginTop: 15,
+  },
+
+  footerInfoText: {
+    fontSize: 12,
+    fontFamily: "Eulyoo1945-Regular",
+    fontWeight: "400",
+    letterSpacing: -0.5,
+    marginRight: 6,
+  },
+
+  footerDressImage: {
+    width: 18,
+    height: 18,
+  },
+  colorList: {
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
   },
-  header: {
-    position: "absolute",
-    top: 50,
+  paletteImage: {
     width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
+    height: "100%",
+    resizeMode: "cover",
   },
-  headerTitle: { color: "#FFF", fontSize: 18, fontWeight: "600" },
-  previewCard: {
-    width: width * 0.85,
-    height: height * 0.65,
-    borderRadius: 12,
-    padding: 20,
-    alignItems: "center",
-  },
-  previewMonth: { fontSize: 16, fontWeight: "700", marginBottom: 20 },
-  gridPlaceholder: { width: "100%", flex: 1, backgroundColor: "rgba(0,0,0,0.05)", borderRadius: 8 },
-  footer: { position: "absolute", bottom: 40, width: "100%", paddingHorizontal: 20 },
-  footerLabel: { color: "#FFF", fontSize: 14, marginBottom: 15 },
-  colorList: { flexDirection: "row", alignItems: "center" },
   colorCircle: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    marginRight: 12,
-    borderWidth: 2,
-    borderColor: "rgba(255,255,255,0.3)",
+    width: 32,
+    height: 32,
+    borderRadius: 20,
+    marginHorizontal: 5,
   },
-  selectedColor: { borderColor: "#FFF", transform: [{ scale: 1.1 }] },
+  selectedColor: {
+    opacity: 0.2,
+  },
 });

@@ -1,8 +1,9 @@
 import React from "react";
-import { View, Pressable } from "react-native";
+import { View, Pressable, Image } from "react-native";
 import { AppText as Text } from "@/components/common/AppText";
 import { calendarStyles as styles } from "./Calendar.styles";
 import { getCalendarDays, MOCK_OOTD_DATA } from "./CalendarData";
+import { FlipIcon } from "@/assets/icons";
 
 interface CalendarProps {
   year: number;
@@ -15,11 +16,11 @@ const DAYS = ["일", "월", "화", "수", "목", "금", "토"];
 export function Calendar({ year, month, onOpenOOTD }: CalendarProps) {
   const days = getCalendarDays(year, month);
   const today = new Date();
-  const isTodayMonth = today.getFullYear() === year && today.getMonth() + 1 === month;
+  // 시간 정보를 제외한 오늘 날짜 객체 생성
+  const todayOnlyDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
 
   return (
     <View style={styles.container}>
-      {/* 요일 헤더 */}
       <View style={styles.weekRow}>
         {DAYS.map((day, i) => (
           <Text
@@ -31,43 +32,56 @@ export function Calendar({ year, month, onOpenOOTD }: CalendarProps) {
         ))}
       </View>
 
-      {/* 날짜 그리드 */}
       <View style={styles.dateGrid}>
         {days.map((item, index) => {
-          const dateString = `${year}-${String(month).padStart(2, "0")}-${String(item.day).padStart(2, "0")}`;
-          const hasOotd = !!MOCK_OOTD_DATA[dateString];
-          const isFuture = isTodayMonth && item.day > today.getDate(); // 미래 여부
+          const dateString = `${item.year}-${String(item.month).padStart(2, "0")}-${String(item.day).padStart(2, "0")}`;
+          const ootdData = MOCK_OOTD_DATA[dateString];
+          const hasOotd = !!ootdData;
+
+          // 오늘 날짜와 비교 로직
+          const cellDate = new Date(item.year, item.month - 1, item.day);
+          const isFuture = cellDate > todayOnlyDate;
+
+          // 클릭 가능 조건: 현재 달이면서 오늘 포함 과거인 날짜만
+          const canPress = item.isCurrentMonth && !isFuture;
 
           return (
             <Pressable
-              key={index}
-              style={[
-                styles.dateCell,
-                item.isCurrentMonth && !hasOotd && !isFuture && styles.unregisteredCell, // 포스트잇 스타일
-              ]}
+              key={`${dateString}-${index}`}
+              style={styles.dateCell}
               onPress={() => {
-                if (item.isCurrentMonth && !isFuture) onOpenOOTD(dateString);
+                if (canPress) onOpenOOTD(dateString);
               }}
-              disabled={!item.isCurrentMonth || isFuture}
+              disabled={!canPress} // 이전 달, 다음 달, 미래 날짜 클릭 차단
             >
-              <Text
-                style={[
-                  styles.dateText,
-                  !item.isCurrentMonth && styles.otherMonthText,
-                  isFuture && styles.futureText,
-                  index % 7 === 0 && styles.sunday,
-                  index % 7 === 6 && styles.saturday,
-                ]}
-              >
-                {item.isCurrentMonth ? item.day : ""}
-              </Text>
+              <View style={styles.dateNumberOverlay}>
+                <Text
+                  style={[
+                    styles.dateText,
+                    !item.isCurrentMonth && { opacity: 0.5 },
+                    isFuture && styles.futureText,
+                    index % 7 === 0 && styles.sunday,
+                    index % 7 === 6 && styles.saturday,
+                  ]}
+                >
+                  {item.day}
+                </Text>
+              </View>
 
-              {item.isCurrentMonth && hasOotd && (
-                <View style={styles.imageWrapper}>
-                  {/* OOTD 이미지가 있을 경우 영역 */}
-                  <View style={styles.placeholderImg} />
+              <View style={styles.contentArea}>
+                <View style={styles.itemWrapper}>
+                  {hasOotd ? (
+                    <Image
+                      source={ootdData.image}
+                      style={[styles.ootdImage, !item.isCurrentMonth && { opacity: 0.5 }]}
+                      resizeMode="cover"
+                    />
+                  ) : (
+                    // 현재 달의 과거/오늘 날짜만 포스트잇 표시
+                    item.isCurrentMonth && !isFuture && <FlipIcon width="100%" height="100%" />
+                  )}
                 </View>
-              )}
+              </View>
             </Pressable>
           );
         })}
