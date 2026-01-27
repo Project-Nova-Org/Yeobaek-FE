@@ -67,7 +67,10 @@ export function ClosetDetailScreen({ route, navigation }: Props) {
             <DeleteIcon />
           </Pressable>
 
-          <Pressable style={styles.editButton}>
+          <Pressable
+            style={styles.editButton}
+            onPress={() => navigation.navigate("EditClosetInfo", { closetId })}
+          >
             <EditIcon />
           </Pressable>
         </View>

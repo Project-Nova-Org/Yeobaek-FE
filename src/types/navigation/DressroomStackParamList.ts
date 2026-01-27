@@ -3,6 +3,7 @@ export type DressroomStackParamList = {
   ClosetDetail: { closetId: number };
   ItemDetail: { itemId: number };
   MakeCloset: undefined;
+  EditClosetInfo: { closetId: number };
   AddItemToCloset: { closetId: number };
   /* MakeItem: { closetId: number };
   EditCloset: { closetId: number };
