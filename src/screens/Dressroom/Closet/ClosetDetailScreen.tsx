@@ -59,15 +59,15 @@ export function ClosetDetailScreen({ route, navigation }: Props) {
           <Image source={{ uri: closet.imageUrl }} style={styles.closetImage} />
           <AppText style={styles.closetName}>{closet.name}</AppText>
 
-          <Pressable onPress={() => setIsFavorite((p) => !p)}>
+          <Pressable style={styles.favoriteButton} onPress={() => setIsFavorite((p) => !p)}>
             {isFavorite ? <StarIcon /> : <EmptyStarIcon />}
           </Pressable>
 
-          <Pressable onPress={() => setIsDeleteAlertOpen(true)}>
+          <Pressable style={styles.deleteButton} onPress={() => setIsDeleteAlertOpen(true)}>
             <DeleteIcon />
           </Pressable>
 
-          <Pressable>
+          <Pressable style={styles.editButton}>
             <EditIcon />
           </Pressable>
         </View>

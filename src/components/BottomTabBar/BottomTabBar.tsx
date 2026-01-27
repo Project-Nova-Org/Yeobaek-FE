@@ -1,15 +1,33 @@
 import { View } from "react-native";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { Shadow } from "react-native-shadow-2";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { TabItem } from "./TabItem";
 import { barStyles } from "./BottomTabBar.styles";
 import { FloatingMenu } from "./FloatingMenu";
 import { FloatingHidden } from "./FloatingHidden";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export function BottomTabBar({ state, navigation }: BottomTabBarProps) {
+function isTabBarHidden(style: unknown) {
+  return (
+    typeof style === "object" &&
+    style !== null &&
+    !Array.isArray(style) &&
+    (style as any).display === "none"
+  );
+}
+
+export function BottomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
+
+  const focusedRoute = state.routes[state.index];
+  const options = descriptors[focusedRoute.key]?.options;
+  const tabBarStyle = options?.tabBarStyle;
+
+  if (isTabBarHidden(tabBarStyle)) {
+    return null;
+  }
+
   const currentRouteName = state.routeNames[state.index];
   const isHome = currentRouteName === "HomeTab";
 
