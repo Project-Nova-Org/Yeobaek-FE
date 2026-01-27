@@ -13,6 +13,11 @@ export interface FashionItem {
   createdAt: number;
 }
 
+export interface ItemClosetMap {
+  closetId: number;
+  fashionItemId: number;
+}
+
 export const MOCK_CLOSETS: ClosetItem[] = [
   {
     id: 1,
@@ -95,4 +100,27 @@ export const MOCK_ITEMS: FashionItem[] = [
     imageUrl: "https://images.unsplash.com/photo-1509631179647-0177331693ae",
     createdAt: 6,
   },
+];
+
+export const MOCK_ITEM_MAPS: ItemClosetMap[] = [
+  { closetId: 1, fashionItemId: 1 },
+  { closetId: 2, fashionItemId: 1 },
+
+  { closetId: 1, fashionItemId: 2 },
+  { closetId: 4, fashionItemId: 2 },
+
+  { closetId: 3, fashionItemId: 3 },
+  { closetId: 4, fashionItemId: 3 },
+
+  { closetId: 1, fashionItemId: 4 },
+  { closetId: 2, fashionItemId: 4 },
+  { closetId: 6, fashionItemId: 4 },
+
+  { closetId: 3, fashionItemId: 5 },
+  { closetId: 4, fashionItemId: 5 },
+
+  { closetId: 5, fashionItemId: 6 },
+
+  { closetId: 1, fashionItemId: 5 },
+  { closetId: 1, fashionItemId: 6 },
 ];

@@ -9,6 +9,7 @@ type DeleteTarget = {
 type ToastState = {
   action: ToastAction;
   target: ToastTarget;
+  key?: number;
 };
 
 export function useDeleteFlow(target: ToastTarget) {
@@ -25,7 +26,7 @@ export function useDeleteFlow(target: ToastTarget) {
 
   const showToast = useCallback(
     (action: ToastAction) => {
-      setToast({ action, target });
+      setToast({ action, target, key: Date.now() });
     },
     [target],
   );

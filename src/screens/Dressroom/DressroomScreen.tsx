@@ -41,15 +41,21 @@ export function DressroomScreen() {
   const closetFlow = useDeleteFlow("closet");
   const itemFlow = useDeleteFlow("item");
 
-  const filteredClosets = onlyFavorite ? closets.filter((c) => c.isFavorite) : closets;
-  const data = activeTab === "closet" ? filteredClosets : items;
+  const normalizedQuery = searchQuery.trim().toLowerCase();
+  const filteredClosets = (onlyFavorite ? closets.filter((c) => c.isFavorite) : closets).filter(
+    (c) => normalizedQuery.length === 0 || c.name.toLowerCase().includes(normalizedQuery),
+  );
+  const filteredItems = items.filter(
+    (i) => normalizedQuery.length === 0 || i.brand.toLowerCase().includes(normalizedQuery),
+  );
+  const data = activeTab === "closet" ? filteredClosets : filteredItems;
 
   const toggleClosetFavorite = (id: number) => {
     setClosets((prev) =>
       prev.map((c) => {
         if (c.id === id) {
           const nextValue = !c.isFavorite;
-          closetFlow.showToast(nextValue ? "favoriteOn" : "favoriteOff");
+          closetFlow.showToast(nextValue ? "star" : "unstar");
           return { ...c, isFavorite: nextValue };
         }
         return c;
@@ -252,7 +258,7 @@ export function DressroomScreen() {
 
       {activeToast && (
         <ToastMessage
-          key={`${activeToast.target}-${activeToast.action}-${Date.now()}`}
+          key={activeToast.key}
           action={activeToast.action}
           target={activeToast.target}
           onHide={hideActiveToast}
