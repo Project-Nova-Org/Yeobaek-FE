@@ -9,7 +9,12 @@ import { SearchIcon, DeleteIcon, EditIcon, EmptyStarIcon, StarIcon } from "@/ass
 import ImagePlusIcon from "@/assets/icons/itemplus.svg";
 
 import ButtonScroll from "@/components/ButtonScroll/ButtonScroll";
-import { MOCK_ITEMS, MOCK_CLOSETS, type FashionItem } from "@/screens/Dressroom/dressroom.mock";
+import {
+  MOCK_ITEMS,
+  MOCK_CLOSETS,
+  MOCK_ITEM_MAPS, // 매핑 데이터 추가
+  type FashionItem,
+} from "@/screens/Dressroom/dressroom.mock";
 import { CategoryState } from "@/components/ButtonScroll/ButtonScroll.types";
 import { DressroomStackParamList } from "@/types/navigation/DressroomStackParamList";
 import { DressroomTop } from "@/components/Top/DressroomTop";
@@ -29,7 +34,7 @@ export function ClosetDetailScreen({ route, navigation }: Props) {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [, setCategoryFilter] = useState<CategoryState | null>(null);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(() => closet?.isFavorite ?? false);
   const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const [toast, setToast] = useState<ToastState | null>(null);
 
@@ -39,23 +44,26 @@ export function ClosetDetailScreen({ route, navigation }: Props) {
 
   const { name: closetName, imageUrl: thumbnailUrl } = closet;
 
+  // 1. 매핑 테이블에서 현재 옷장(closetId)에 속한 아이템 ID들만 추출
+  const targetItemIds = MOCK_ITEM_MAPS.filter((map) => map.closetId === closetId).map(
+    (map) => map.fashionItemId,
+  );
+
+  // 2. 추출된 ID를 가진 아이템들만 필터링하고 검색어 적용
   const filteredItems = MOCK_ITEMS.filter((item) => {
+    const isInThisCloset = targetItemIds.includes(item.id);
     const matchesSearch =
       searchQuery.length === 0 || item.brand.toLowerCase().includes(searchQuery.toLowerCase());
 
-    return matchesSearch;
+    return isInThisCloset && matchesSearch;
   });
 
   const handleToggleFavorite = () => {
-    setIsFavorite((prev) => {
-      const next = !prev;
-
-      setToast({
-        action: next ? "star" : "unstar",
-        target: "closet",
-      });
-
-      return next;
+    const next = !isFavorite;
+    setIsFavorite(next);
+    setToast({
+      action: next ? "star" : "unstar",
+      target: "closet",
     });
   };
 
@@ -76,7 +84,6 @@ export function ClosetDetailScreen({ route, navigation }: Props) {
 
   const handleConfirmDelete = () => {
     setIsDeleteAlertOpen(false);
-
     setToast({
       action: "delete",
       target: "closet",
@@ -154,7 +161,12 @@ export function ClosetDetailScreen({ route, navigation }: Props) {
       />
 
       {toast && (
-        <ToastMessage action={toast.action} target={toast.target} onHide={() => setToast(null)} />
+        <ToastMessage
+          key={`${toast.action}-${Date.now()}`}
+          action={toast.action}
+          target={toast.target}
+          onHide={() => setToast(null)}
+        />
       )}
     </>
   );
