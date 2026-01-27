@@ -5,7 +5,7 @@ import { FontSize } from "@/theme/typography.ts";
 export const toastStyles = StyleSheet.create({
   container: {
     position: "absolute",
-    bottom: 66,
+    bottom: 120,
     gap: 12,
 
     backgroundColor: Colors.white,
