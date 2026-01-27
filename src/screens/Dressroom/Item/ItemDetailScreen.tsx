@@ -78,8 +78,8 @@ export function ItemDetailScreen() {
               <Pressable key="delete" onPress={() => setAlertVisible(true)}>
                 <DeleteIcon />
               </Pressable>,
-              <Pressable>
-                <EditIcon key="edit" width={18} height={18} />
+              <Pressable key="edit">
+                <EditIcon width={18} height={18} />
               </Pressable>,
             ]}
           />
