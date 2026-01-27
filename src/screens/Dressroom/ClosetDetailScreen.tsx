@@ -82,7 +82,9 @@ export function ClosetDetailScreen({ route, navigation }: Props) {
       target: "closet",
     });
 
-    navigation.goBack();
+    setTimeout(() => {
+      navigation.goBack();
+    }, 1500);
   };
 
   return (
