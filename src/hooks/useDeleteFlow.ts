@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import type { ToastAction, ToastTarget } from "@/components/ToastMessage/ToastMessage";
 
 type DeleteTarget = {
@@ -15,30 +15,36 @@ export function useDeleteFlow(target: ToastTarget) {
   const [selected, setSelected] = useState<DeleteTarget | null>(null);
   const [toast, setToast] = useState<ToastState | null>(null);
 
-  const requestDelete = (payload: DeleteTarget) => {
+  const requestDelete = useCallback((payload: DeleteTarget) => {
     setSelected(payload);
-  };
+  }, []);
 
-  const closeAlert = () => {
+  const closeAlert = useCallback(() => {
     setSelected(null);
-  };
+  }, []);
 
-  const confirmDelete = (onDelete: (id: number) => void) => {
-    if (!selected) return;
+  const showToast = useCallback(
+    (action: ToastAction) => {
+      setToast({ action, target });
+    },
+    [target],
+  );
 
-    onDelete(selected.id);
+  const confirmDelete = useCallback(
+    (onDelete: (id: number) => void) => {
+      if (!selected) return;
+      const idToDelete = selected.id;
 
-    setToast({
-      action: "delete",
-      target,
-    });
+      onDelete(idToDelete);
+      setToast({ action: "delete", target });
+      setSelected(null);
+    },
+    [selected, target],
+  );
 
-    setSelected(null);
-  };
-
-  const hideToast = () => {
+  const hideToast = useCallback(() => {
     setToast(null);
-  };
+  }, []);
 
   return {
     selected,
@@ -47,5 +53,6 @@ export function useDeleteFlow(target: ToastTarget) {
     confirmDelete,
     closeAlert,
     hideToast,
+    showToast,
   };
 }

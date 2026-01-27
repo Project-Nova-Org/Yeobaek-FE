@@ -38,19 +38,27 @@ export function DressroomScreen() {
 
   const { isDeleteMode, enterDeleteMode, exitDeleteMode } = useDeleteMode();
 
-  const closetDelete = useDeleteFlow("closet");
-  const itemDelete = useDeleteFlow("item");
+  const closetFlow = useDeleteFlow("closet");
+  const itemFlow = useDeleteFlow("item");
 
   const filteredClosets = onlyFavorite ? closets.filter((c) => c.isFavorite) : closets;
   const data = activeTab === "closet" ? filteredClosets : items;
 
   const toggleClosetFavorite = (id: number) => {
-    setClosets((prev) => prev.map((c) => (c.id === id ? { ...c, isFavorite: !c.isFavorite } : c)));
+    setClosets((prev) =>
+      prev.map((c) => {
+        if (c.id === id) {
+          const nextValue = !c.isFavorite;
+          closetFlow.showToast(nextValue ? "favoriteOn" : "favoriteOff");
+          return { ...c, isFavorite: nextValue };
+        }
+        return c;
+      }),
+    );
   };
 
   const handleCardPress = (item: ClosetItem | FashionItem) => {
     if (isDeleteMode) return;
-
     if (activeTab === "closet") {
       navigation.navigate("ClosetDetail", {
         closetId: (item as ClosetItem).id,
@@ -60,11 +68,14 @@ export function DressroomScreen() {
     }
   };
 
-  const alertMessage = closetDelete.selected
-    ? `${closetDelete.selected.name || "옷장"}\n삭제하시겠습니까?`
-    : itemDelete.selected
+  const alertMessage = closetFlow.selected
+    ? `${closetFlow.selected.name || "옷장"}\n삭제하시겠습니까?`
+    : itemFlow.selected
       ? "해당 아이템을\n삭제하시겠습니까?"
       : "";
+
+  const activeToast = closetFlow.toast || itemFlow.toast;
+  const hideActiveToast = closetFlow.toast ? closetFlow.hideToast : itemFlow.hideToast;
 
   return (
     <>
@@ -171,7 +182,6 @@ export function DressroomScreen() {
               >
                 <View style={styles.thumbnailWrapper}>
                   <Image source={{ uri: item.imageUrl }} style={styles.thumbnail} />
-
                   {activeTab === "closet" && !isDeleteMode && (
                     <View style={styles.favoriteButtonOuter}>
                       <Pressable
@@ -189,7 +199,6 @@ export function DressroomScreen() {
                       </Pressable>
                     </View>
                   )}
-
                   {isDeleteMode && (
                     <View style={styles.deleteOverlay}>
                       <View style={styles.dimLayer} />
@@ -198,13 +207,11 @@ export function DressroomScreen() {
                         onPress={(e) => {
                           e.stopPropagation();
                           activeTab === "closet"
-                            ? closetDelete.requestDelete({
+                            ? closetFlow.requestDelete({
                                 id: item.id,
                                 name: (item as ClosetItem).name,
                               })
-                            : itemDelete.requestDelete({
-                                id: item.id,
-                              });
+                            : itemFlow.requestDelete({ id: item.id });
                         }}
                       >
                         <DeleteIcon width={18} height={18} />
@@ -212,13 +219,11 @@ export function DressroomScreen() {
                     </View>
                   )}
                 </View>
-
                 <AppText style={styles.itemName} numberOfLines={1}>
                   {activeTab === "closet" ? (item as ClosetItem).name : (item as FashionItem).brand}
                 </AppText>
               </Pressable>
             ))}
-
             <Pressable style={styles.card}>
               <View style={styles.plusCard}>
                 <ImagePlusIcon width="100%" height="100%" />
@@ -229,40 +234,28 @@ export function DressroomScreen() {
       </View>
 
       <Alert
-        visible={!!(closetDelete.selected || itemDelete.selected)}
+        visible={!!(closetFlow.selected || itemFlow.selected)}
         message={alertMessage}
         onCancel={() => {
-          closetDelete.closeAlert();
-          itemDelete.closeAlert();
+          closetFlow.closeAlert();
+          itemFlow.closeAlert();
         }}
         onConfirm={() => {
-          if (closetDelete.selected) {
-            closetDelete.confirmDelete((id) =>
-              setClosets((prev) => prev.filter((c) => c.id !== id)),
-            );
-            exitDeleteMode();
+          if (closetFlow.selected) {
+            closetFlow.confirmDelete((id) => setClosets((prev) => prev.filter((c) => c.id !== id)));
+          } else if (itemFlow.selected) {
+            itemFlow.confirmDelete((id) => setItems((prev) => prev.filter((i) => i.id !== id)));
           }
-
-          if (itemDelete.selected) {
-            itemDelete.confirmDelete((id) => setItems((prev) => prev.filter((i) => i.id !== id)));
-            exitDeleteMode();
-          }
+          exitDeleteMode();
         }}
       />
 
-      {closetDelete.toast && (
+      {activeToast && (
         <ToastMessage
-          action={closetDelete.toast.action}
-          target={closetDelete.toast.target}
-          onHide={closetDelete.hideToast}
-        />
-      )}
-
-      {itemDelete.toast && (
-        <ToastMessage
-          action={itemDelete.toast.action}
-          target={itemDelete.toast.target}
-          onHide={itemDelete.hideToast}
+          key={`${activeToast.target}-${activeToast.action}-${Date.now()}`}
+          action={activeToast.action}
+          target={activeToast.target}
+          onHide={hideActiveToast}
         />
       )}
     </>
