@@ -1,16 +1,22 @@
 import { View, TextInput, Pressable, ScrollView } from "react-native";
 import { useState } from "react";
-
 import { styles } from "./OotdScreen.styles";
 import { AppText } from "@/components/common/AppText";
 import { Colors } from "@/theme/colors";
+import { OotdStackParamList } from "@/types/navigation/OotdStackParamList";
+import type { StackNavigationProp } from "@react-navigation/stack";
+
+type Props = {
+  navigation: StackNavigationProp<OotdStackParamList, "OOTD">;
+};
 
 import { EmptyStarIcon, StarIcon, SortIcon, SearchIcon, ItemPlus } from "@/assets/icons/index";
+import { OotdTop } from "@/components/Top/OotdTop.tsx";
 
 const TPO_LIST = ["데일리", "포멀", "데이트", "여행", "레저", "파티", "하객룩", "기타"];
 const STYLE_LIST = ["캐주얼", "클래식", "빈티지", "스트릿", "스포티", "힙합", "기타"];
 
-export function OotdScreen() {
+export function OotdScreen({ navigation }: Props) {
   const [keyword, setKeyword] = useState("");
   const [isStarred, setIsStarred] = useState(false);
   const [isSortActive, setIsSortActive] = useState(false);
@@ -18,9 +24,9 @@ export function OotdScreen() {
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
 
   return (
-    <View style={styles.screen}>
-      <ScrollView contentContainerStyle={styles.container}>
-        {/* ===== 상단 ===== */}
+    <>
+      <OotdTop />
+      <View style={styles.container}>
         <View style={styles.topRow}>
           <Pressable onPress={() => setIsStarred((p) => !p)} style={styles.iconBtn}>
             {isStarred ? <StarIcon width={20} /> : <EmptyStarIcon width={20} />}
@@ -87,16 +93,16 @@ export function OotdScreen() {
         </View>
 
         <View style={styles.ootdBox}>
-          <View style={styles.grid}>
-            <Pressable style={styles.card}>
+          <ScrollView contentContainerStyle={styles.grid} showsVerticalScrollIndicator={false}>
+            <Pressable style={styles.card} onPress={() => navigation.navigate("OotdCreate")}>
               <View style={styles.cardImage}>
                 <ItemPlus width="100%" height="100%" />
               </View>
               <View style={styles.cardLabel} />
             </Pressable>
-          </View>
+          </ScrollView>
         </View>
-      </ScrollView>
-    </View>
+      </View>
+    </>
   );
 }

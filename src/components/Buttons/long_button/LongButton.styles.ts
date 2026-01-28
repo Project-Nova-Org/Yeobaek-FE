@@ -10,15 +10,15 @@ export const LongButtonStyles = StyleSheet.create({
   },
 
   buttonBase: {
-    width: 327,
-    height: 40,
+    width: "95%",
+    height: 50,
     borderRadius: 20,
     justifyContent: "center",
     alignItems: "center",
   },
 
   buttonText: {
-    fontSize: FontSize.md,
+    fontSize: FontSize.lg,
     fontWeight: "600",
   },
 

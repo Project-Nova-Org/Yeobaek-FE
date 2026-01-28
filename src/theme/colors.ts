@@ -23,6 +23,8 @@ export const Colors = {
   googleLine: "#C2C2C2",
   saturday: "#357FDF",
   sunday: "#FF0000",
+  mamoBox: "#E3E5E9",
+  inputBorder: "#ADADAD",
 
   // Item colors
   itemBlack: "#000000",
