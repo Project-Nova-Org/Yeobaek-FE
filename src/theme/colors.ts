@@ -21,6 +21,8 @@ export const Colors = {
   noStandard: "#707070",
   kakaoYellow: "#FEE500",
   googleLine: "#C2C2C2",
+  saturday: "#357FDF",
+  sunday: "#FF0000",
   mamoBox: "#E3E5E9",
   inputBorder: "#ADADAD",
 
@@ -37,4 +39,8 @@ export const Colors = {
   itemBlue: "#005DEC",
   itemPurple: "#9404C4",
   itemPink: "#FF6FBC",
+
+  //Calendar colors
+  cherry: "#C25E5E",
+  oat: "#78706A",
 };
