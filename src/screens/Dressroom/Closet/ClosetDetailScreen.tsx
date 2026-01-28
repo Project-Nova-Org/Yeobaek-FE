@@ -12,7 +12,7 @@ import ButtonScroll from "@/components/ButtonScroll/ButtonScroll";
 import {
   MOCK_ITEMS,
   MOCK_CLOSETS,
-  MOCK_ITEM_MAPS, // 매핑 데이터 추가
+  MOCK_ITEM_MAPS,
   type FashionItem,
 } from "@/screens/Dressroom/dressroom.mock";
 import { CategoryState } from "@/components/ButtonScroll/ButtonScroll.types";
@@ -29,8 +29,10 @@ interface ToastState {
 
 export function ClosetDetailScreen({ route, navigation }: Props) {
   const { closetId } = route.params;
-
   const closet = MOCK_CLOSETS.find((c) => c.id === closetId);
+
+  const [selectedItem, setSelectedItem] = useState<FashionItem | null>(null);
+  const [isItemDeleteAlertOpen, setIsItemDeleteAlertOpen] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [, setCategoryFilter] = useState<CategoryState | null>(null);
@@ -38,61 +40,18 @@ export function ClosetDetailScreen({ route, navigation }: Props) {
   const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false);
   const [toast, setToast] = useState<ToastState | null>(null);
 
-  if (!closet) {
-    return <View />;
-  }
+  if (!closet) return <View />;
 
-  const { name: closetName, imageUrl: thumbnailUrl } = closet;
-
-  // 1. 매핑 테이블에서 현재 옷장(closetId)에 속한 아이템 ID들만 추출
-  const targetItemIds = MOCK_ITEM_MAPS.filter((map) => map.closetId === closetId).map(
-    (map) => map.fashionItemId,
+  const targetItemIds = MOCK_ITEM_MAPS.filter((m) => m.closetId === closetId).map(
+    (m) => m.fashionItemId,
   );
 
-  // 2. 추출된 ID를 가진 아이템들만 필터링하고 검색어 적용
   const filteredItems = MOCK_ITEMS.filter((item) => {
-    const isInThisCloset = targetItemIds.includes(item.id);
+    const isInCloset = targetItemIds.includes(item.id);
     const matchesSearch =
       searchQuery.length === 0 || item.brand.toLowerCase().includes(searchQuery.toLowerCase());
-
-    return isInThisCloset && matchesSearch;
+    return isInCloset && matchesSearch;
   });
-
-  const handleToggleFavorite = () => {
-    const next = !isFavorite;
-    setIsFavorite(next);
-    setToast({
-      action: next ? "star" : "unstar",
-      target: "closet",
-    });
-  };
-
-  const handleEdit = () => {
-    setToast({
-      action: "signed",
-      target: "closet",
-    });
-  };
-
-  const handleDeletePress = () => {
-    setIsDeleteAlertOpen(true);
-  };
-
-  const handleCancelDelete = () => {
-    setIsDeleteAlertOpen(false);
-  };
-
-  const handleConfirmDelete = () => {
-    setIsDeleteAlertOpen(false);
-    setToast({
-      action: "delete",
-      target: "closet",
-    });
-
-    setTimeout(() => {
-      navigation.goBack();
-    }, 1500);
-  };
 
   return (
     <>
@@ -100,23 +59,22 @@ export function ClosetDetailScreen({ route, navigation }: Props) {
 
       <View style={styles.container}>
         <View style={styles.header}>
-          <Image source={{ uri: thumbnailUrl }} style={styles.closetImage} />
-          <AppText style={styles.closetName}>{closetName}</AppText>
+          <Image source={{ uri: closet.imageUrl }} style={styles.closetImage} />
+          <AppText style={styles.closetName}>{closet.name}</AppText>
 
-          <Pressable style={styles.favoriteButton} onPress={handleToggleFavorite}>
-            {isFavorite ? (
-              <StarIcon width={13} height={13} />
-            ) : (
-              <EmptyStarIcon width={13} height={13} />
-            )}
+          <Pressable style={styles.favoriteButton} onPress={() => setIsFavorite((p) => !p)}>
+            {isFavorite ? <StarIcon /> : <EmptyStarIcon />}
           </Pressable>
 
-          <Pressable style={styles.deleteButton} onPress={handleDeletePress}>
-            <DeleteIcon width={17} height={17} />
+          <Pressable style={styles.deleteButton} onPress={() => setIsDeleteAlertOpen(true)}>
+            <DeleteIcon />
           </Pressable>
 
-          <Pressable style={styles.editButton} onPress={handleEdit}>
-            <EditIcon width={15} height={15} />
+          <Pressable
+            style={styles.editButton}
+            onPress={() => navigation.navigate("EditClosetInfo", { closetId })}
+          >
+            <EditIcon />
           </Pressable>
         </View>
 
@@ -124,7 +82,6 @@ export function ClosetDetailScreen({ route, navigation }: Props) {
           <SearchIcon width={18} height={18} />
           <TextInput
             placeholder="검색.."
-            placeholderTextColor="#999"
             style={styles.searchInput}
             value={searchQuery}
             onChangeText={setSearchQuery}
@@ -134,17 +91,33 @@ export function ClosetDetailScreen({ route, navigation }: Props) {
         <ButtonScroll onChange={setCategoryFilter} />
 
         <View style={styles.gridWrapper}>
-          <ScrollView contentContainerStyle={styles.grid} showsVerticalScrollIndicator={false}>
+          <ScrollView contentContainerStyle={styles.grid}>
             {filteredItems.map((item: FashionItem) => (
-              <View key={item.id} style={styles.card}>
+              <Pressable
+                key={item.id}
+                style={styles.card}
+                onPress={() =>
+                  navigation.navigate("ItemDetail", {
+                    itemId: item.id,
+                  })
+                }
+                onLongPress={() => {
+                  setSelectedItem(item);
+                  setIsItemDeleteAlertOpen(true);
+                }}
+                delayLongPress={400}
+              >
                 <Image source={{ uri: item.imageUrl }} style={styles.thumbnail} />
                 <AppText style={styles.itemName} numberOfLines={1}>
                   {item.brand}
                 </AppText>
-              </View>
+              </Pressable>
             ))}
 
-            <Pressable style={styles.card}>
+            <Pressable
+              style={styles.card}
+              onPress={() => navigation.navigate("EditItemInCloset", { closetId })}
+            >
               <View style={styles.plusCard}>
                 <ImagePlusIcon width="100%" height="100%" />
               </View>
@@ -155,18 +128,36 @@ export function ClosetDetailScreen({ route, navigation }: Props) {
 
       <Alert
         visible={isDeleteAlertOpen}
-        message={`${closetName}\n삭제하시겠습니까?`}
-        onCancel={handleCancelDelete}
-        onConfirm={handleConfirmDelete}
+        message={`${closet.name}\n삭제하시겠습니까?`}
+        onCancel={() => setIsDeleteAlertOpen(false)}
+        onConfirm={() => {
+          setIsDeleteAlertOpen(false);
+          setToast({ action: "delete", target: "closet" });
+          navigation.goBack();
+        }}
+      />
+
+      <Alert
+        visible={isItemDeleteAlertOpen}
+        message={`해당 아이템을 \n옷장에서 삭제하시겠습니까?`}
+        onCancel={() => {
+          setIsItemDeleteAlertOpen(false);
+          setSelectedItem(null);
+        }}
+        onConfirm={() => {
+          if (!selectedItem) return;
+
+          console.log("옷장에서 제거할 아이템:", selectedItem.id);
+
+          setIsItemDeleteAlertOpen(false);
+          setSelectedItem(null);
+
+          setToast({ action: "delete", target: "item" });
+        }}
       />
 
       {toast && (
-        <ToastMessage
-          key={`${toast.action}-${Date.now()}`}
-          action={toast.action}
-          target={toast.target}
-          onHide={() => setToast(null)}
-        />
+        <ToastMessage action={toast.action} target={toast.target} onHide={() => setToast(null)} />
       )}
     </>
   );

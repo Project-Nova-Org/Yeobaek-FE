@@ -9,7 +9,7 @@ export const MediumButtonStyles = StyleSheet.create({
   },
   buttonBase: {
     width: 120,
-    height: 26,
+    height: 30,
     borderRadius: 5,
     backgroundColor: Colors.primary,
     alignItems: "center",
@@ -18,7 +18,7 @@ export const MediumButtonStyles = StyleSheet.create({
 
   buttonText: {
     color: Colors.white,
-    fontSize: FontSize.xxxs,
+    fontSize: FontSize.xxs,
     fontWeight: "500",
   },
   // 버튼이 눌렸을 때

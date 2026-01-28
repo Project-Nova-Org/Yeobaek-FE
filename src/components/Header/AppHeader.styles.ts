@@ -68,5 +68,6 @@ export const styles = StyleSheet.create({
   iconGroup: {
     flexDirection: "row",
     gap: 20,
+    alignItems: "center",
   },
 });
