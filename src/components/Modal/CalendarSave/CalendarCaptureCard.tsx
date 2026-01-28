@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Image } from "react-native";
 import { AppText as Text } from "@/components/common/AppText";
-import { ClosetBaseIcon } from "@/assets/icons";
-import { getCalendarDays, MOCK_OOTD_DATA } from "@/components/Calendar/CalendarData";
+import { FirstLogoIcon } from "@/assets/icons";
+import { getCalendarDays } from "@/components/Calendar/CalendarData";
 import { captureCardStyles as styles } from "./CalendarCaptureCard.styles";
 import { Colors } from "@/theme/colors.ts";
 
@@ -10,9 +10,10 @@ interface CaptureCardProps {
   year: number;
   month: number;
   selectedBg: any;
+  ootdListData: any;
 }
 
-export function CalendarCaptureCard({ year, month, selectedBg }: CaptureCardProps) {
+export function CalendarCaptureCard({ year, month, selectedBg, ootdListData }: CaptureCardProps) {
   const days = getCalendarDays(year, month);
 
   const isImageObj = typeof selectedBg === "object" && selectedBg !== null && "bg" in selectedBg;
@@ -35,8 +36,8 @@ export function CalendarCaptureCard({ year, month, selectedBg }: CaptureCardProp
     return [Colors.primary, Colors.black, Colors.cherry, Colors.oat].includes(selectedBg);
   })();
 
-  const contentColor = isDark ? "#FFFFFF" : "#000000";
-  const footerTextColor = isFooterDark ? "rgba(255,255,255,0.7)" : "rgba(0,0,0,0.6)";
+  const contentColor = isDark ? Colors.white : Colors.black;
+  const footerTextColor = isFooterDark ? Colors.white : Colors.black;
 
   return (
     <View style={[styles.cardContainer, { backgroundColor: currentBgColor }]}>
@@ -54,7 +55,7 @@ export function CalendarCaptureCard({ year, month, selectedBg }: CaptureCardProp
         <View style={styles.gridContainer}>
           {days.map((item, index) => {
             const dateString = `${item.year}-${String(item.month).padStart(2, "0")}-${String(item.day).padStart(2, "0")}`;
-            const ootdData = MOCK_OOTD_DATA[dateString];
+            const ootdData = ootdListData?.[dateString];
 
             if (!item.isCurrentMonth) {
               return <View key={index} style={styles.dateCell} />;
@@ -66,16 +67,16 @@ export function CalendarCaptureCard({ year, month, selectedBg }: CaptureCardProp
                   <Text
                     style={[
                       styles.dateText,
-                      index % 7 === 0 && { color: "#FF3B30", opacity: 0.8 }, // 일요일
-                      index % 7 === 6 && { color: "#007AFF", opacity: 0.8 }, // 토요일
-                      !ootdData && { color: "#000", opacity: 0.8 },
+                      !ootdData && { color: Colors.black },
+                      index % 7 === 0 && { color: Colors.sunday },
+                      index % 7 === 6 && { color: Colors.saturday },
                     ]}
                   >
                     {item.day}
                   </Text>
                 </View>
                 <View style={styles.imageWrapper}>
-                  {ootdData ? (
+                  {ootdData?.image ? (
                     <Image source={ootdData.image} style={styles.ootdImage} resizeMode="cover" />
                   ) : (
                     <View style={styles.emptyFill} />
@@ -89,7 +90,7 @@ export function CalendarCaptureCard({ year, month, selectedBg }: CaptureCardProp
 
       <View style={styles.footerRow}>
         <Text style={[styles.footerText, { color: footerTextColor }]}>여백 : 餘白</Text>
-        <ClosetBaseIcon width={14} height={14} color={footerTextColor} />
+        <FirstLogoIcon width={16} height={16} color={footerTextColor} />
       </View>
     </View>
   );

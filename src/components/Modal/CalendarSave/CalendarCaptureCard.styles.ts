@@ -79,5 +79,6 @@ export const captureCardStyles = StyleSheet.create({
     fontSize: FontSize.xs,
     fontFamily: "Eulyoo1945-Regular",
     marginRight: 8,
+    marginTop: -2,
   },
 });

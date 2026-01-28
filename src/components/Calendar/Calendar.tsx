@@ -2,22 +2,25 @@ import React from "react";
 import { View, Pressable, Image } from "react-native";
 import { AppText as Text } from "@/components/common/AppText";
 import { calendarStyles as styles } from "./Calendar.styles";
-import { getCalendarDays, MOCK_OOTD_DATA } from "./CalendarData";
+import { getCalendarDays } from "./CalendarData";
 import { FlipIcon } from "@/assets/icons";
 
 interface CalendarProps {
   year: number;
   month: number;
   onOpenOOTD: (date: string) => void;
+  ootdListData: any;
 }
 
 const DAYS = ["일", "월", "화", "수", "목", "금", "토"];
 
-export function Calendar({ year, month, onOpenOOTD }: CalendarProps) {
+export function Calendar({ year, month, onOpenOOTD, ootdListData }: CalendarProps) {
   const days = getCalendarDays(year, month);
-  const today = new Date();
-  // 시간 정보를 제외한 오늘 날짜 객체 생성
-  const todayOnlyDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const todayOnlyDate = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth(),
+    new Date().getDate(),
+  );
 
   return (
     <View style={styles.container}>
@@ -35,15 +38,12 @@ export function Calendar({ year, month, onOpenOOTD }: CalendarProps) {
       <View style={styles.dateGrid}>
         {days.map((item, index) => {
           const dateString = `${item.year}-${String(item.month).padStart(2, "0")}-${String(item.day).padStart(2, "0")}`;
-          const ootdData = MOCK_OOTD_DATA[dateString];
+
+          // 💡 전역 상태(ootdListData)에서 데이터를 가져와 체크된 이미지가 바로 뜨게 함
+          const ootdData = ootdListData[dateString];
           const hasOotd = !!ootdData;
-
-          // 오늘 날짜와 비교 로직
-          const cellDate = new Date(item.year, item.month - 1, item.day);
-          const isFuture = cellDate > todayOnlyDate;
-
-          // 클릭 가능 조건: 현재 달이면서 오늘 포함 과거인 날짜만
-          const canPress = item.isCurrentMonth && !isFuture;
+          const isFuture = new Date(item.year, item.month - 1, item.day) > todayOnlyDate;
+          const canPress = item.isCurrentMonth && (!isFuture || hasOotd);
 
           return (
             <Pressable
@@ -52,7 +52,7 @@ export function Calendar({ year, month, onOpenOOTD }: CalendarProps) {
               onPress={() => {
                 if (canPress) onOpenOOTD(dateString);
               }}
-              disabled={!canPress} // 이전 달, 다음 달, 미래 날짜 클릭 차단
+              disabled={!canPress}
             >
               <View style={styles.dateNumberOverlay}>
                 <Text
@@ -72,12 +72,11 @@ export function Calendar({ year, month, onOpenOOTD }: CalendarProps) {
                 <View style={styles.itemWrapper}>
                   {hasOotd ? (
                     <Image
-                      source={ootdData.image}
+                      source={ootdData.image} // 💡 체크 아이콘을 누른 이미지가 여기에 바로 반영됨
                       style={[styles.ootdImage, !item.isCurrentMonth && { opacity: 0.5 }]}
                       resizeMode="cover"
                     />
                   ) : (
-                    // 현재 달의 과거/오늘 날짜만 포스트잇 표시
                     item.isCurrentMonth && !isFuture && <FlipIcon width="100%" height="100%" />
                   )}
                 </View>

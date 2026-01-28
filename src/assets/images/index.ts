@@ -19,3 +19,4 @@ export { default as PatternStarImage } from "./patternstar.png";
 export { default as PGradImage } from "./gradation.png";
 export { default as PInkImage } from "./ink.png";
 export { default as PStarImage } from "./pstar.png";
+export { default as SampleFittingImage } from "./sampleftting.png";

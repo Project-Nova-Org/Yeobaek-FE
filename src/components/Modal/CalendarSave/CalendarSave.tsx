@@ -1,10 +1,11 @@
-import React, { useState, useRef } from "react";
-import { View, Modal, Pressable, ScrollView, Image, Alert, Platform } from "react-native";
+import React, { useRef, useState } from "react";
+import { View, Modal, Pressable, ScrollView, Image, Alert } from "react-native";
 import { captureRef } from "react-native-view-shot";
 import { CameraRoll } from "@react-native-camera-roll/camera-roll";
 import { saveModalStyles as styles, BG_COLORS } from "./CalendarSave.styles";
 import { CloseIcon, DownloadIcon } from "@/assets/icons";
 import { CalendarCaptureCard } from "./CalendarCaptureCard";
+import { Colors } from "@/theme/colors.ts";
 
 type BgItem = string | { thumb: any; bg: any; isGrad?: boolean; isLight?: boolean };
 
@@ -13,11 +14,12 @@ interface CalendarSaveProps {
   onClose: () => void;
   year: number;
   month: number;
+  ootdListData: any;
 }
 
-export function CalendarSave({ visible, onClose, year, month }: CalendarSaveProps) {
+export function CalendarSave({ visible, onClose, year, month, ootdListData }: CalendarSaveProps) {
   const [selectedBg, setSelectedBg] = useState<BgItem>(BG_COLORS[0]);
-  const captureViewRef = useRef<View>(null); // 💡 캡처할 영역을 가리키는 Ref
+  const captureViewRef = useRef<View>(null);
 
   const isImageObj = (
     item: BgItem,
@@ -49,15 +51,20 @@ export function CalendarSave({ visible, onClose, year, month }: CalendarSaveProp
         <View style={styles.modalWrapper}>
           <View style={styles.headerActions}>
             <Pressable hitSlop={15} onPress={handleDownload}>
-              <DownloadIcon width={25} height={25} color="#FFFFFF" />
+              <DownloadIcon width={25} height={25} color={Colors.white} />
             </Pressable>
             <Pressable hitSlop={15} onPress={onClose}>
-              <CloseIcon width={15} height={25} color="#FFFFFF" />
+              <CloseIcon width={15} height={25} color={Colors.white} />
             </Pressable>
           </View>
 
           <View ref={captureViewRef} collapsable={false} style={{ backgroundColor: "transparent" }}>
-            <CalendarCaptureCard year={year} month={month} selectedBg={selectedBg} />
+            <CalendarCaptureCard
+              year={year}
+              month={month}
+              selectedBg={selectedBg}
+              ootdListData={ootdListData || {}}
+            />
           </View>
 
           <View style={styles.footer}>
