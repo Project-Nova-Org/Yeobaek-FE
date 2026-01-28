@@ -47,18 +47,16 @@ export function TransformEditor({
     const lastGesture = useRef({ dx: 0, dy: 0 });
 
     const pinchState = useRef<{
-        baseScale: number;
+        baseSize: { width: number; height: number };
         startDist: number | null;
         startAngle: number | null;
         baseRotate: number;
-        lastScale: number; // 마지막 scale 값 추적
         lastRotate: number; // 마지막 rotate 값 추적
     }>({
-        baseScale: 1,
+        baseSize: { width: 140, height: 140 },
         startDist: null,
         startAngle: null,
         baseRotate: 0,
-        lastScale: 1,
         lastRotate: 0,
     });
 
@@ -88,7 +86,11 @@ export function TransformEditor({
                 onActivate?.();
                 return enabled;
             },
-            onStartShouldSetPanResponderCapture: () => {
+            onStartShouldSetPanResponderCapture: (evt) => {
+                // 삭제 버튼 영역이면 캡처하지 않음
+                const { pageX, pageY } = evt.nativeEvent;
+                // 삭제 버튼 영역 체크는 삭제 버튼이 먼저 처리되도록 하기 위해
+                // 여기서는 항상 캡처하되, 삭제 버튼의 zIndex가 더 높아서 우선 처리됨
                 isHandlingHandle.current = true;
                 onActivate?.();
                 return enabled;
@@ -121,9 +123,11 @@ export function TransformEditor({
     const rotateHandleState = useRef<{
         startAngle: number | null;
         baseRotate: number;
+        hasStarted: boolean; // 실제 드래그가 시작되었는지 여부
     }>({
         startAngle: null,
         baseRotate: 0,
+        hasStarted: false,
     });
 
     // 회전 핸들용 responder
@@ -144,28 +148,56 @@ export function TransformEditor({
                 if (!enabled) return;
                 isHandlingHandle.current = true;
                 lastGesture.current = { dx: 0, dy: 0 };
+                
+                // 현재 회전값을 base로 설정
                 rotate.extractOffset();
-                rotateHandleState.current.startAngle = -Math.PI / 2;
-                rotateHandleState.current.baseRotate = 0;
+                const currentRotate = (rotate as any)._value || 0;
+                rotateHandleState.current.baseRotate = currentRotate;
+                
+                // 아직 드래그가 시작되지 않았음을 표시
+                rotateHandleState.current.hasStarted = false;
+                rotateHandleState.current.startAngle = null;
             },
             onPanResponderMove: (e, g) => {
-                if (!enabled || rotateHandleState.current.startAngle === null) return;
+                if (!enabled) return;
 
+                // 최소 이동 거리 체크 (터치만 하고 움직이지 않으면 회전하지 않음)
+                const moveDistance = Math.sqrt(g.dx * g.dx + g.dy * g.dy);
+                if (moveDistance < 5) {
+                    // 최소 이동 거리 미만이면 무시
+                    return;
+                }
+
+                // 첫 이동 시 startAngle 설정
+                if (!rotateHandleState.current.hasStarted) {
+                    // 터치 시작 시점의 각도 (상대 이동량 기준)
+                    const startAngle = Math.atan2(g.dy, g.dx);
+                    rotateHandleState.current.startAngle = startAngle;
+                    rotateHandleState.current.hasStarted = true;
+                    return;
+                }
+
+                // 현재 손가락 위치의 각도 (상대 이동량 기준)
                 const currentAngle = Math.atan2(g.dy, g.dx);
                 
-                // 초기 각도(-90도)와의 차이를 회전값으로 설정
-                const deltaAngle = currentAngle - rotateHandleState.current.startAngle;
+                // 시작 각도와의 차이를 회전값으로 설정
+                const deltaAngle = currentAngle - rotateHandleState.current.startAngle!;
                 rotate.setValue(rotateHandleState.current.baseRotate + deltaAngle);
             },
             onPanResponderRelease: () => {
                 if (!enabled) return;
                 isHandlingHandle.current = false;
                 rotate.extractOffset();
-                rotateHandleState.current.baseRotate = 0;
+                // 현재 회전값을 저장
+                const currentRotate = (rotate as any)._value || 0;
+                rotateHandleState.current.baseRotate = currentRotate;
                 rotateHandleState.current.startAngle = null;
+                rotateHandleState.current.hasStarted = false;
             },
             onPanResponderTerminate: () => {
                 isHandlingHandle.current = false;
+                rotateHandleState.current.startAngle = null;
+                rotateHandleState.current.hasStarted = false;
             },
         });
 
@@ -186,6 +218,47 @@ export function TransformEditor({
     );
 
     const isHandlingHandle = useRef(false);
+    const isHandlingDelete = useRef(false);
+
+    // 삭제 버튼용 responder
+    const deleteResponder = useMemo(
+        () => PanResponder.create({
+            onStartShouldSetPanResponder: () => {
+                isHandlingDelete.current = true;
+                return enabled && !!onRemove;
+            },
+            onStartShouldSetPanResponderCapture: () => {
+                isHandlingDelete.current = true;
+                return enabled && !!onRemove;
+            },
+            onMoveShouldSetPanResponder: () => {
+                // 이동 거리가 작으면 삭제 버튼 터치로 간주
+                return false;
+            },
+            onPanResponderGrant: () => {
+                isHandlingDelete.current = true;
+            },
+            onPanResponderMove: (e, g) => {
+                // 이동 거리가 크면 삭제 취소 (드래그로 간주)
+                const moveDistance = Math.sqrt(g.dx * g.dx + g.dy * g.dy);
+                if (moveDistance > 10) {
+                    isHandlingDelete.current = false;
+                }
+            },
+            onPanResponderRelease: (e, g) => {
+                // 이동 거리가 작으면 삭제 실행
+                const moveDistance = Math.sqrt(g.dx * g.dx + g.dy * g.dy);
+                if (isHandlingDelete.current && moveDistance < 10 && onRemove) {
+                    onRemove();
+                }
+                isHandlingDelete.current = false;
+            },
+            onPanResponderTerminate: () => {
+                isHandlingDelete.current = false;
+            },
+        }),
+        [enabled, onRemove]
+    );
 
     const moveResponder = useMemo(
         () => PanResponder.create({
@@ -193,24 +266,26 @@ export function TransformEditor({
                 onActivate?.();
                 // 핸들을 터치한 경우는 false
                 if (isHandlingHandle.current) return false;
+                // 삭제 버튼을 터치한 경우는 false
+                if (isHandlingDelete.current) return false;
                 return enabled;
             },
             onMoveShouldSetPanResponder: (evt, gestureState) => {
                 // 핸들을 드래그한 경우는 false
                 if (isHandlingHandle.current) return false;
+                // 삭제 버튼을 드래그한 경우는 false
+                if (isHandlingDelete.current) return false;
                 return enabled;
             },
 
             onPanResponderGrant: (e) => {
                 translate.extractOffset();
 
-                // 현재 scale/rotate 값을 base로 설정
-                // extractOffset() 후에는 값이 0이 되고 offset에 누적
-                scale.extractOffset();
+                // 현재 rotate 값을 base로 설정
                 rotate.extractOffset();
                 
-                // lastScale과 lastRotate를 base로 설정 (이전 제스처에서 저장된 값)
-                pinchState.current.baseScale = pinchState.current.lastScale;
+                // 현재 size를 base로 설정 (핀치 제스처 시작 시점의 크기)
+                pinchState.current.baseSize = { ...size };
                 pinchState.current.baseRotate = pinchState.current.lastRotate;
 
                 // 두손 제스처 초기화
@@ -241,19 +316,23 @@ export function TransformEditor({
                     if (pinchState.current.startDist === null) {
                         pinchState.current.startDist = dist(p1, p2);
                         pinchState.current.startAngle = angle(p1, p2);
+                        // baseSize도 현재 size로 업데이트
+                        pinchState.current.baseSize = { ...size };
                         return;
                     }
 
                     const d = dist(p1, p2);
                     const a = angle(p1, p2);
 
-                    if (pinchState.current.startDist) {
-                        const nextScale = (pinchState.current.baseScale * d) / pinchState.current.startDist;
-                        const clampedScale = Math.max(0.4, Math.min(3, nextScale));
-                        scale.setValue(clampedScale);
-                        pinchState.current.lastScale = clampedScale;
+                    // 핀치 제스처로 크기 변경 (scale 대신 size 변경)
+                    if (pinchState.current.startDist && pinchState.current.startDist > 0) {
+                        const scaleRatio = d / pinchState.current.startDist;
+                        const newWidth = clampSize(pinchState.current.baseSize.width * scaleRatio);
+                        const newHeight = clampSize(pinchState.current.baseSize.height * scaleRatio);
+                        setSize({ width: newWidth, height: newHeight });
                     }
 
+                    // 회전 처리
                     if (pinchState.current.startAngle !== null) {
                         const delta = a - pinchState.current.startAngle;
                         const nextRotate = pinchState.current.baseRotate + delta;
@@ -270,11 +349,10 @@ export function TransformEditor({
 
             onPanResponderRelease: (e) => {
                 translate.extractOffset();
-
-                scale.extractOffset();
                 rotate.extractOffset();
-                pinchState.current.baseScale = pinchState.current.lastScale;
                 pinchState.current.baseRotate = pinchState.current.lastRotate;
+                // baseSize는 현재 size로 업데이트 (다음 제스처를 위해)
+                pinchState.current.baseSize = { ...size };
             },
         }),
         [enabled, onActivate, onDeactivate]
@@ -288,12 +366,11 @@ export function TransformEditor({
 
     return (
         <Animated.View
-            style={[
+                style={[
                 styles.container,
                 {
                     transform: [
                         ...translate.getTranslateTransform(),
-                        { scale },
                         { rotate: rotateInterpolate },
                     ],
                 },
@@ -308,9 +385,9 @@ export function TransformEditor({
                 {active && (
                     <>
                         {!!onRemove && (
-                            <Pressable onPress={onRemove} style={styles.deleteBtn}>
+                            <View style={styles.deleteBtn} {...deleteResponder.panHandlers}>
                                 <FilterClose width={16} height={16} color={Colors.black} />
-                            </Pressable>
+                            </View>
                         )}
 
                         <View style={styles.rotateConnector} />
