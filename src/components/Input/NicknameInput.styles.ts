@@ -11,6 +11,15 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 16,
     justifyContent: "center",
+    backgroundColor: Colors.white,
+  },
+
+  rounded: {
+    height: 52,
+    borderRadius: 20,
+    paddingHorizontal: 16,
+    borderColor: Colors.inputBorder,
+    backgroundColor: Colors.white,
   },
 
   inputError: {
@@ -27,8 +36,8 @@ export const styles = StyleSheet.create({
   clearButton: {
     position: "absolute",
     right: 8,
-    width: 20,
-    height: 20,
+    width: 25,
+    height: 25,
     backgroundColor: Colors.white,
     alignItems: "center",
     justifyContent: "center",

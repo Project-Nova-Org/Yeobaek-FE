@@ -65,11 +65,16 @@ export function DressroomScreen() {
 
   const handleCardPress = (item: ClosetItem | FashionItem) => {
     if (isDeleteMode) return;
+
     if (activeTab === "closet") {
       navigation.navigate("ClosetDetail", {
         closetId: (item as ClosetItem).id,
-        closetName: (item as ClosetItem).name,
-        thumbnailUrl: item.imageUrl,
+      });
+    }
+
+    if (activeTab === "item") {
+      navigation.navigate("ItemDetail", {
+        itemId: (item as FashionItem).id,
       });
     }
   };
@@ -230,7 +235,18 @@ export function DressroomScreen() {
                 </AppText>
               </Pressable>
             ))}
-            <Pressable style={styles.card}>
+            <Pressable
+              style={styles.card}
+              onPress={() => {
+                if (activeTab === "closet") {
+                  navigation.navigate("MakeCloset");
+                }
+
+                if (activeTab === "item") {
+                  navigation.navigate("MakeItem");
+                }
+              }}
+            >
               <View style={styles.plusCard}>
                 <ImagePlusIcon width="100%" height="100%" />
               </View>

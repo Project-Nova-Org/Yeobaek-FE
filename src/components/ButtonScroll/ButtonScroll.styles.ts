@@ -3,31 +3,31 @@ import { Colors } from "@/theme/colors";
 import { FontSize } from "@/theme/typography";
 export const styles = StyleSheet.create({
   wrapper: {
-    padding: 12,
+    padding: 16,
   },
 
   subRowWrapper: {
     backgroundColor: Colors.white,
     borderRadius: 999,
-    paddingVertical: 6,
+    paddingVertical: 10,
   },
 
   row: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    gap: 10,
     marginBottom: 10,
     flexWrap: "wrap",
   },
 
   subRow: {
-    paddingHorizontal: 12,
-    gap: 5,
+    paddingHorizontal: 16,
+    gap: 4,
   },
 
   pill: {
     flexDirection: "row",
-    paddingVertical: 8,
+    paddingVertical: 9,
     paddingHorizontal: 14,
     borderRadius: 999,
     backgroundColor: Colors.white,
@@ -35,8 +35,8 @@ export const styles = StyleSheet.create({
 
   pillSub: {
     flexDirection: "row",
-    paddingVertical: 7,
-    paddingHorizontal: 9,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
     borderRadius: 999,
     backgroundColor: Colors.white,
   },
@@ -52,12 +52,12 @@ export const styles = StyleSheet.create({
   },
 
   pillText: {
-    fontSize: FontSize.xs,
+    fontSize: FontSize.sm,
     color: Colors.primary,
   },
 
   pillTextSub: {
-    fontSize: FontSize.xxs,
+    fontSize: FontSize.xs,
     color: Colors.primary,
   },
 
