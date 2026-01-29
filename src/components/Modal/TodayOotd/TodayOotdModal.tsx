@@ -62,6 +62,16 @@ export function TodayOotdModal({
       setDeleteTarget(null);
     }
   };
+  const handleImagePick = async (source: "camera" | "gallery") => {
+    try {
+      console.log(`${source} 실행 중...`);
+
+      // ImagePicker.launchCamera 또는 launchImageLibrary 호출 로직이 들어갈 자리
+      setIsAddMenuOpen(false); // 메뉴 닫기
+    } catch (error) {
+      console.error("이미지를 가져오는 중 에러 발생:", error);
+    }
+  };
 
   if (!visible) return null;
 
@@ -150,10 +160,10 @@ export function TodayOotdModal({
                               </Pressable>
                             ) : (
                               <>
-                                <CameraButton onPress={() => console.log("카메라 실행")} />
+                                <CameraButton onPress={() => handleImagePick("camera")} />
                                 <View style={{ height: 12 }} />
                                 <GalleryButton
-                                  onPress={() => console.log("갤러리 실행")}
+                                  onPress={() => handleImagePick("gallery")}
                                   label="갤러리"
                                 />
                               </>
