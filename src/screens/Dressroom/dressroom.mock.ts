@@ -42,11 +42,6 @@ export interface ItemClosetMap {
   fashionItemId: number;
 }
 
-export interface ItemClosetMap {
-  closetId: number;
-  fashionItemId: number;
-}
-
 export const MOCK_CLOSETS: ClosetItem[] = [
   {
     id: 1,

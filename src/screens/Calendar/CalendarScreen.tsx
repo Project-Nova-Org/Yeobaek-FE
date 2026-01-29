@@ -16,7 +16,10 @@ export function CalendarScreen() {
   const [saveModalVisible, setSaveModalVisible] = useState(false);
   const [ootdModalVisible, setOotdModalVisible] = useState(false);
   const [datePickerVisible, setDatePickerVisible] = useState(false);
-  const [currentDate, setCurrentDate] = useState({ year: 2024, month: 10 });
+  const [currentDate, setCurrentDate] = useState(() => {
+    const now = new Date();
+    return { year: now.getFullYear(), month: now.getMonth() + 1 };
+  });
 
   const [selectedDateInfo, setSelectedDateInfo] = useState({ formatted: "", raw: "" });
   const [selectedOotdData, setSelectedOotdData] = useState<any>(null);

@@ -20,7 +20,7 @@ const CameraButton = ({ onPress, label = "카메라" }: CameraButtonProps) => {
           pressed && MediumButtonIconStyles.buttonPressed,
         ]}
       >
-        <CameraIcon width={14} height={12} color="1B2A41" />
+        <CameraIcon width={14} height={12} color="#1B2A41" />
         <Text style={[MediumButtonIconStyles.buttonText, MediumButtonIconStyles.cameraText]}>
           {label}
         </Text>
