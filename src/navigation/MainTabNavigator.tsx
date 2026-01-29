@@ -26,6 +26,7 @@ const HIDE_TAB_ROUTES = [
   "MakeItem",
   "EditCloset",
   "EditItem",
+  "LoadOotd",
 ];
 
 export default function MainTabNavigator() {
@@ -37,7 +38,8 @@ export default function MainTabNavigator() {
         const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
         const shouldHideTabBar =
-          route.name === "DressroomTab" && HIDE_TAB_ROUTES.includes(routeName);
+          (route.name === "DressroomTab" || route.name === "CalendarTab") &&
+          HIDE_TAB_ROUTES.includes(routeName);
 
         return {
           headerShown: false,

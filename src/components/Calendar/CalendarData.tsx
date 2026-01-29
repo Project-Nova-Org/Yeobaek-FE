@@ -1,8 +1,15 @@
-import { SampleOOTDImage, SampleFittingImage } from "@/assets/images";
+import {
+  SampleOOTD2Image,
+  SampleOOTD3Image,
+  SampleOOTD4Image,
+  SampleOOTD5Image,
+  SampleFittingImage,
+} from "@/assets/images";
 
 export interface OotdData {
   [key: string]: {
     id: string;
+    name: string;
     image: any; // 달력 대표 이미지
     ootdImage: any; // OOTD 조합 이미지
     fullShotImage?: any; // 전신 사진
@@ -12,16 +19,18 @@ export interface OotdData {
 export const MOCK_OOTD_DATA: OotdData = {
   "2024-10-02": {
     id: "1",
-    image: SampleOOTDImage,
-    ootdImage: SampleOOTDImage,
+    name: "Library",
+    image: SampleOOTD5Image,
+    ootdImage: SampleOOTD5Image,
     fullShotImage: SampleFittingImage,
   },
-  "2024-10-05": { id: "2", image: SampleOOTDImage, ootdImage: SampleOOTDImage },
-  "2024-10-08": { id: "3", image: SampleOOTDImage, ootdImage: SampleOOTDImage },
+  "2024-10-05": { id: "2", name: "Monday", image: SampleOOTD2Image, ootdImage: SampleOOTD2Image },
+  "2024-10-08": { id: "3", name: "Sunny", image: SampleOOTD3Image, ootdImage: SampleOOTD3Image },
   "2024-09-30": {
     id: "4",
-    image: SampleOOTDImage,
-    ootdImage: SampleOOTDImage,
+    name: "GoodDay",
+    image: SampleOOTD4Image,
+    ootdImage: SampleOOTD4Image,
     fullShotImage: SampleFittingImage,
   },
 };

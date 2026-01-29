@@ -20,3 +20,7 @@ export { default as PGradImage } from "./gradation.png";
 export { default as PInkImage } from "./ink.png";
 export { default as PStarImage } from "./pstar.png";
 export { default as SampleFittingImage } from "./sampleftting.png";
+export { default as SampleOOTD2Image } from "./sampleootd2.png";
+export { default as SampleOOTD3Image } from "./sampleootd3.png";
+export { default as SampleOOTD4Image } from "./sampleootd4.png";
+export { default as SampleOOTD5Image } from "./sampleootd5.png";

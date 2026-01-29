@@ -66,15 +66,26 @@ export function CalendarScreen() {
     [updateModalData],
   );
 
-  const handleUpdateMainImage = (type: "ootd" | "fullShot") => {
-    const dateRaw = selectedDateInfo.raw;
+  const handleUpdateMainImage = (newImage: any) => {
+    const dateRaw = selectedDateInfo.raw; // 현재 선택된 날짜
+
+    if (!dateRaw) return;
+
     setOotdListData((prev: any) => {
-      const target = prev[dateRaw];
-      if (!target) return prev;
+      const target = prev[dateRaw] || {
+        id: String(Date.now()),
+        name: "새로운 OOTD",
+        image: null,
+      };
 
-      const newImg = type === "fullShot" ? target.fullShotImage : target.ootdImage || target.image;
+      const updated = {
+        ...prev,
+        [dateRaw]: {
+          ...target,
+          image: newImage,
+        },
+      };
 
-      const updated = { ...prev, [dateRaw]: { ...target, image: newImg } };
       setSelectedOotdData(updated[dateRaw]);
       return updated;
     });

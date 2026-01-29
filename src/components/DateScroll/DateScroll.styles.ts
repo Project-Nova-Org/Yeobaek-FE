@@ -11,7 +11,7 @@ export const dateStyles = StyleSheet.create({
   container: {
     position: "absolute",
     top: 130,
-    left: 20,
+    left: 30,
     width: 163,
     height: 211,
     backgroundColor: Colors.white,

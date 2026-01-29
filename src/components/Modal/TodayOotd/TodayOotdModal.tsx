@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { View, Modal, Pressable, Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { CalendarStackParamList } from "@/types/navigation/CalendarStackParamList";
 import Carousel from "react-native-reanimated-carousel";
 import { interpolate } from "react-native-reanimated";
 import { AppText as Text } from "@/components/common/AppText";
@@ -21,6 +24,7 @@ export function TodayOotdModal({
   onPrev,
   onNext,
 }: any) {
+  const navigation = useNavigation<StackNavigationProp<CalendarStackParamList>>();
   const [displayList, setDisplayList] = useState<any[]>([]);
   const [alertVisible, setAlertVisible] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<"ootd" | "fullShot" | null>(null);
@@ -162,9 +166,23 @@ export function TodayOotdModal({
               </View>
             ) : (
               <View style={styles.emptyContainer}>
-                <LoadOOTDButton onPress={() => {}} />
+                <LoadOOTDButton
+                  onPress={() => {
+                    onClose();
+                    navigation.navigate("LoadOotd", {
+                      onSelectOotd: (selectedImage: any) => {
+                        onSelectMainImage(selectedImage); // 모달/캘린더 데이터 업데이트
+                      },
+                    });
+                  }}
+                />
                 <View style={{ height: 9 }} />
-                <CreateOOTDButton onPress={() => {}} />
+                <CreateOOTDButton
+                  onPress={() => {
+                    onClose();
+                    navigation.navigate("OotdCreate");
+                  }}
+                />
               </View>
             )}
           </View>
