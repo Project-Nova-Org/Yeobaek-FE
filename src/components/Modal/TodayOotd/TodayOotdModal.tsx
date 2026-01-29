@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { View, Modal, Pressable, Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { CalendarStackParamList } from "@/types/navigation/CalendarStackParamList";
 import Carousel from "react-native-reanimated-carousel";
 import { interpolate } from "react-native-reanimated";
 import { AppText as Text } from "@/components/common/AppText";
@@ -13,6 +10,10 @@ import CameraButton from "@/components/Buttons/medium_button/CameraButton";
 import GalleryButton from "@/components/Buttons/medium_button/GalleryButton";
 import Alert from "@/components/Alert/Alert";
 import { todayOotdStyles as styles } from "./TodayOotdModal.styles";
+
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { CalendarStackParamList } from "@/types/navigation/CalendarStackParamList";
 
 export function TodayOotdModal({
   visible,
@@ -47,7 +48,7 @@ export function TodayOotdModal({
     } else if (visible && !ootdData) {
       setDisplayList([]);
     }
-  }, [visible, date]);
+  }, [visible, date, ootdData]);
 
   const handleOpenAlert = (id: "ootd" | "fullShot") => {
     setDeleteTarget(id);
@@ -171,7 +172,7 @@ export function TodayOotdModal({
                     onClose();
                     navigation.navigate("LoadOotd", {
                       onSelectOotd: (selectedImage: any) => {
-                        onSelectMainImage(selectedImage); // 모달/캘린더 데이터 업데이트
+                        onSelectMainImage(selectedImage);
                       },
                     });
                   }}

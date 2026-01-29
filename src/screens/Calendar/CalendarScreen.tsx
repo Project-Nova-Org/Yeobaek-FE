@@ -66,27 +66,44 @@ export function CalendarScreen() {
     [updateModalData],
   );
 
-  const handleUpdateMainImage = (newImage: any) => {
-    const dateRaw = selectedDateInfo.raw; // 현재 선택된 날짜
-
+  const handleUpdateMainImage = (input: any) => {
+    const dateRaw = selectedDateInfo.raw;
     if (!dateRaw) return;
 
     setOotdListData((prev: any) => {
-      const target = prev[dateRaw] || {
-        id: String(Date.now()),
-        name: "새로운 OOTD",
-        image: null,
-      };
+      const target = prev[dateRaw];
+
+      // 해당 날짜에 데이터가 아예 없는 경우 (새로 생성)
+      if (!target) {
+        const newData = {
+          id: String(Date.now()),
+          name: "새로운 OOTD",
+          image: input, // 불러온 이미지
+          ootdImage: input, // 기본 OOTD 이미지로도 설정
+        };
+        const updated = { ...prev, [dateRaw]: newData };
+        setSelectedOotdData(updated[dateRaw]); // 모달 데이터 동기화
+        return updated;
+      }
+
+      // 데이터가 있는 경우 (이미지 스위칭 또는 교체)
+      let newImg;
+      if (input === "ootd") {
+        newImg = target.ootdImage;
+      } else if (input === "fullShot") {
+        newImg = target.fullShotImage;
+      } else {
+        newImg = input;
+      }
+
+      if (!newImg) return prev;
 
       const updated = {
         ...prev,
-        [dateRaw]: {
-          ...target,
-          image: newImage,
-        },
+        [dateRaw]: { ...target, image: newImg },
       };
 
-      setSelectedOotdData(updated[dateRaw]);
+      setSelectedOotdData(updated[dateRaw]); // 모달 데이터 동기화
       return updated;
     });
   };
