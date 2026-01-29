@@ -58,6 +58,11 @@ export function CalendarScreen() {
     const nextD = String(current.getDate()).padStart(2, "0");
     const newDateStr = `${nextY}-${nextM}-${nextD}`;
 
+    setCurrentDate({
+      year: nextY,
+      month: current.getMonth() + 1,
+    });
+
     updateModalData(newDateStr);
   };
 
