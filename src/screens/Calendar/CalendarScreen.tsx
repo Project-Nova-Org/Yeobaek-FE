@@ -80,67 +80,63 @@ export function CalendarScreen() {
 
     setOotdListData((prev: any) => {
       const target = prev[dateRaw];
+      let updatedEntry;
 
-      // 해당 날짜에 데이터가 아예 없는 경우 (새로 생성)
+      // 1. 해당 날짜에 데이터가 아예 없는 경우 (새로 생성)
       if (!target) {
-        const newData = {
+        updatedEntry = {
           id: String(Date.now()),
           name: "새로운 OOTD",
-          image: input, // 불러온 이미지
-          ootdImage: input, // 기본 OOTD 이미지로도 설정
+          image: input,
+          ootdImage: input,
         };
-        const updated = { ...prev, [dateRaw]: newData };
-        setSelectedOotdData(updated[dateRaw]); // 모달 데이터 동기화
-        return updated;
-      }
-
-      // 데이터가 있는 경우 (이미지 스위칭 또는 교체)
-      let newImg;
-      if (input === "ootd") {
-        newImg = target.ootdImage;
-      } else if (input === "fullShot") {
-        newImg = target.fullShotImage;
       } else {
-        newImg = input;
+        // 2. 데이터가 있는 경우 (이미지 스위칭 또는 교체)
+        let newImg;
+        if (input === "ootd") newImg = target.ootdImage;
+        else if (input === "fullShot") newImg = target.fullShotImage;
+        else newImg = input;
+
+        if (!newImg) return prev;
+        updatedEntry = { ...target, image: newImg };
       }
 
-      if (!newImg) return prev;
+      const updatedList = { ...prev, [dateRaw]: updatedEntry };
 
-      const updated = {
-        ...prev,
-        [dateRaw]: { ...target, image: newImg },
-      };
-
-      setSelectedOotdData(updated[dateRaw]); // 모달 데이터 동기화
-      return updated;
+      setTimeout(() => setSelectedOotdData(updatedEntry), 0);
+      return updatedList;
     });
   };
 
+  // 💡 handleDeleteImage 수정
   const handleDeleteImage = (type: "ootd" | "fullShot") => {
     const dateRaw = selectedDateInfo.raw;
+    if (!dateRaw) return;
 
     setOotdListData((prev: any) => {
       const target = prev[dateRaw];
       if (!target) return prev;
 
-      let updatedData = { ...prev };
+      let updatedList = { ...prev };
+      let newSelectedData = null;
 
       if (type === "ootd") {
-        // 주인이 삭제되면 종속된 데이터 모두 삭제
-        delete updatedData[dateRaw];
-        setSelectedOotdData(null);
+        // 주인이 삭제되면 전체 삭제
+        delete updatedList[dateRaw];
+        newSelectedData = null;
       } else {
         // 전신사진만 삭제
         const newTarget = {
           ...target,
           fullShotImage: null,
-          image: target.ootdImage || target.image, // 대표이미지가 전신이었다면 OOTD로 복구
+          image: target.ootdImage || target.image,
         };
-        updatedData[dateRaw] = newTarget;
-        setSelectedOotdData(newTarget);
+        updatedList[dateRaw] = newTarget;
+        newSelectedData = newTarget;
       }
 
-      return { ...updatedData };
+      setTimeout(() => setSelectedOotdData(newSelectedData), 0);
+      return updatedList;
     });
   };
 
