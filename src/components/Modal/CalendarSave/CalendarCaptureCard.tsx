@@ -2,16 +2,18 @@ import React from "react";
 import { View, Image } from "react-native";
 import { AppText as Text } from "@/components/common/AppText";
 import { FirstLogoIcon } from "@/assets/icons";
-import { getCalendarDays } from "@/components/Calendar/CalendarData";
+import { getCalendarDays, OotdListData } from "@/components/Calendar/CalendarData";
 import { captureCardStyles as styles } from "./CalendarCaptureCard.styles";
 import { Colors } from "@/theme/colors.ts";
 
 interface CaptureCardProps {
   year: number;
   month: number;
-  selectedBg: any;
-  ootdListData: any;
+  selectedBg: BgItem;
+  ootdListData: OotdListData;
 }
+
+export type BgItem = string | { thumb: any; bg: any; isGrad?: boolean; isLight?: boolean };
 
 export function CalendarCaptureCard({ year, month, selectedBg, ootdListData }: CaptureCardProps) {
   const days = getCalendarDays(year, month);

@@ -18,8 +18,7 @@ const STYLE_LIST = ["캐주얼", "클래식", "빈티지", "스트릿", "스포�
 export default function LoadOotdScreen() {
   const navigation = useNavigation<StackNavigationProp<CalendarStackParamList>>();
   const route = useRoute<RouteProp<CalendarStackParamList, "LoadOotd">>();
-
-  const { onSelectOotd } = route.params || {};
+  const onSelectOotd = route.params?.onSelectOotd;
 
   const [keyword, setKeyword] = useState("");
   const [isRecentFilter, setIsRecentFilter] = useState(false); // TimeIcon 활성화 여부
@@ -52,15 +51,15 @@ export default function LoadOotdScreen() {
   };
 
   const handleSave = () => {
-    if (!selectedId) return;
+    if (selectedId) {
+      const selectedItem = Object.values(MOCK_OOTD_DATA).find((item) => item.id === selectedId);
 
-    const selectedItem = filteredOotdList.find((item) => item.id === selectedId);
+      if (selectedItem && onSelectOotd) {
+        onSelectOotd(selectedItem.image);
+      }
 
-    if (selectedItem && onSelectOotd) {
-      onSelectOotd(selectedItem.image);
+      navigation.goBack();
     }
-
-    navigation.goBack();
   };
 
   return (
@@ -73,7 +72,10 @@ export default function LoadOotdScreen() {
         <View style={styles.topRow}>
           <Pressable
             onPress={() => setIsRecentFilter((p) => !p)}
-            style={[styles.sortBtn, isRecentFilter && { backgroundColor: Colors.gray400 }]}
+            style={[
+              styles.sortBtn,
+              isRecentFilter ? { backgroundColor: Colors.gray400 } : undefined,
+            ]}
           >
             <TimeIcon width={20} color={isRecentFilter ? Colors.primary : Colors.black} />
           </Pressable>

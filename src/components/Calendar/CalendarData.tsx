@@ -1,3 +1,4 @@
+import { ImageSourcePropType } from "react-native";
 import {
   SampleOOTD2Image,
   SampleOOTD3Image,
@@ -6,17 +7,16 @@ import {
   SampleFittingImage,
 } from "@/assets/images";
 
-export interface OotdData {
-  [key: string]: {
-    id: string;
-    name: string;
-    image: any; // 달력 대표 이미지
-    ootdImage: any; // OOTD 조합 이미지
-    fullShotImage?: any; // 전신 사진
-  };
+export interface SingleOotdData {
+  id: string;
+  name: string;
+  image: ImageSourcePropType;
+  ootdImage: ImageSourcePropType;
+  fullShotImage?: ImageSourcePropType;
 }
+export type OotdListData = Record<string, SingleOotdData>;
 
-export const MOCK_OOTD_DATA: OotdData = {
+export const MOCK_OOTD_DATA: OotdListData = {
   "2024-10-02": {
     id: "1",
     name: "Library",

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Modal, Pressable, Image } from "react-native";
+import { View, Modal, Pressable, Image, ImageSourcePropType } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 import { interpolate } from "react-native-reanimated";
 import { AppText as Text } from "@/components/common/AppText";
@@ -10,11 +10,21 @@ import CameraButton from "@/components/Buttons/medium_button/CameraButton";
 import GalleryButton from "@/components/Buttons/medium_button/GalleryButton";
 import Alert from "@/components/Alert/Alert";
 import { todayOotdStyles as styles } from "./TodayOotdModal.styles";
-
+import { SingleOotdData } from "@/components/Calendar/CalendarData";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { CalendarStackParamList } from "@/types/navigation/CalendarStackParamList";
 
+interface TodayOotdModalProps {
+  visible: boolean;
+  onClose: () => void;
+  date: string;
+  ootdData: SingleOotdData | null;
+  onSelectMainImage: (input: "ootd" | "fullShot" | ImageSourcePropType) => void;
+  onDeleteImage: (type: "ootd" | "fullShot") => void;
+  onPrev: () => void;
+  onNext: () => void;
+}
 export function TodayOotdModal({
   visible,
   onClose,
@@ -24,9 +34,11 @@ export function TodayOotdModal({
   onDeleteImage,
   onPrev,
   onNext,
-}: any) {
+}: TodayOotdModalProps) {
+  const [displayList, setDisplayList] = useState<
+    { id: string; image: ImageSourcePropType | null }[]
+  >([]);
   const navigation = useNavigation<StackNavigationProp<CalendarStackParamList>>();
-  const [displayList, setDisplayList] = useState<any[]>([]);
   const [alertVisible, setAlertVisible] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<"ootd" | "fullShot" | null>(null);
   const [isAddMenuOpen, setIsAddMenuOpen] = useState(false);
@@ -124,8 +136,8 @@ export function TodayOotdModal({
                       <View
                         style={[
                           styles.cardWrapper,
-                          isSelected && styles.activeCardBorder,
-                          isEmpty && styles.emptyCardWrapper,
+                          isSelected ? styles.activeCardBorder : undefined,
+                          isEmpty ? styles.emptyCardWrapper : undefined,
                         ]}
                       >
                         {item.image ? (
@@ -143,7 +155,7 @@ export function TodayOotdModal({
                             </Pressable>
                             <Pressable
                               style={styles.checkIcon}
-                              onPress={() => onSelectMainImage(item.id)}
+                              onPress={() => onSelectMainImage(item.id as "ootd" | "fullShot")}
                             >
                               {isSelected ? (
                                 <CheckIcon width={20} height={16} color="#1B2A41" />

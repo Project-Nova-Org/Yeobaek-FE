@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { View, Pressable } from "react-native";
+import { View, Pressable, ImageSourcePropType } from "react-native";
 import { AppText as Text } from "@/components/common/AppText";
 import { Calendar } from "@/components/Calendar/Calendar";
 import { CalendarSave } from "@/components/Modal/CalendarSave/CalendarSave";
@@ -10,9 +10,11 @@ import { UndoIcon } from "@/assets/icons";
 import { calendarScreenStyles as styles } from "./CalendarScreen.styles";
 import { CalendarTop } from "@/components/Top/CalendarTop.tsx";
 import { MOCK_OOTD_DATA } from "@/components/Calendar/CalendarData";
+import { OotdListData, SingleOotdData } from "@/components/Calendar/CalendarData";
 
 export function CalendarScreen() {
-  const [ootdListData, setOotdListData] = useState(MOCK_OOTD_DATA);
+  const [ootdListData, setOotdListData] = useState<OotdListData>(MOCK_OOTD_DATA);
+  const [selectedOotdData, setSelectedOotdData] = useState<SingleOotdData | null>(null);
   const [saveModalVisible, setSaveModalVisible] = useState(false);
   const [ootdModalVisible, setOotdModalVisible] = useState(false);
   const [datePickerVisible, setDatePickerVisible] = useState(false);
@@ -22,7 +24,6 @@ export function CalendarScreen() {
   });
 
   const [selectedDateInfo, setSelectedDateInfo] = useState({ formatted: "", raw: "" });
-  const [selectedOotdData, setSelectedOotdData] = useState<any>(null);
 
   const updateModalData = useCallback(
     (dateStr: string) => {
@@ -74,30 +75,29 @@ export function CalendarScreen() {
     [updateModalData],
   );
 
-  const handleUpdateMainImage = (input: any) => {
+  const handleUpdateMainImage = (input: "ootd" | "fullShot" | ImageSourcePropType) => {
     const dateRaw = selectedDateInfo.raw;
     if (!dateRaw) return;
 
-    setOotdListData((prev: any) => {
+    setOotdListData((prev: OotdListData) => {
       const target = prev[dateRaw];
-      let updatedEntry;
+      let updatedEntry: SingleOotdData;
 
       // 1. 해당 날짜에 데이터가 아예 없는 경우 (새로 생성)
       if (!target) {
         updatedEntry = {
           id: String(Date.now()),
           name: "새로운 OOTD",
-          image: input,
-          ootdImage: input,
+          image: input as ImageSourcePropType,
+          ootdImage: input as ImageSourcePropType,
         };
       } else {
         // 2. 데이터가 있는 경우 (이미지 스위칭 또는 교체)
-        let newImg;
-        if (input === "ootd") newImg = target.ootdImage;
-        else if (input === "fullShot") newImg = target.fullShotImage;
-        else newImg = input;
+        let newImg: ImageSourcePropType;
 
-        if (!newImg) return prev;
+        if (input === "ootd") newImg = target.ootdImage;
+        else if (input === "fullShot") newImg = target.fullShotImage || target.ootdImage;
+        else newImg = input as ImageSourcePropType;
         updatedEntry = { ...target, image: newImg };
       }
 
@@ -108,7 +108,6 @@ export function CalendarScreen() {
     });
   };
 
-  // 💡 handleDeleteImage 수정
   const handleDeleteImage = (type: "ootd" | "fullShot") => {
     const dateRaw = selectedDateInfo.raw;
     if (!dateRaw) return;

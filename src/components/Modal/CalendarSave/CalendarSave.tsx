@@ -6,6 +6,7 @@ import { saveModalStyles as styles, BG_COLORS } from "./CalendarSave.styles";
 import { CloseIcon, DownloadIcon } from "@/assets/icons";
 import { CalendarCaptureCard } from "./CalendarCaptureCard";
 import { Colors } from "@/theme/colors.ts";
+import { OotdListData } from "@/components/Calendar/CalendarData.tsx";
 
 type BgItem = string | { thumb: any; bg: any; isGrad?: boolean; isLight?: boolean };
 
@@ -14,7 +15,7 @@ interface CalendarSaveProps {
   onClose: () => void;
   year: number;
   month: number;
-  ootdListData: any;
+  ootdListData: OotdListData;
 }
 
 export function CalendarSave({ visible, onClose, year, month, ootdListData }: CalendarSaveProps) {

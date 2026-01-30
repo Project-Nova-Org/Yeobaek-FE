@@ -4,12 +4,13 @@ import { AppText as Text } from "@/components/common/AppText";
 import { calendarStyles as styles } from "./Calendar.styles";
 import { getCalendarDays } from "./CalendarData";
 import { FlipIcon } from "@/assets/icons";
+import { OotdListData } from "./CalendarData";
 
 interface CalendarProps {
   year: number;
   month: number;
   onOpenOOTD: (date: string) => void;
-  ootdListData: any;
+  ootdListData: OotdListData;
 }
 
 const DAYS = ["일", "월", "화", "수", "목", "금", "토"];
@@ -39,7 +40,6 @@ export function Calendar({ year, month, onOpenOOTD, ootdListData }: CalendarProp
         {days.map((item, index) => {
           const dateString = `${item.year}-${String(item.month).padStart(2, "0")}-${String(item.day).padStart(2, "0")}`;
 
-          // 💡 전역 상태(ootdListData)에서 데이터를 가져와 체크된 이미지가 바로 뜨게 함
           const ootdData = ootdListData[dateString];
           const hasOotd = !!ootdData;
           const isFuture = new Date(item.year, item.month - 1, item.day) > todayOnlyDate;
@@ -72,7 +72,7 @@ export function Calendar({ year, month, onOpenOOTD, ootdListData }: CalendarProp
                 <View style={styles.itemWrapper}>
                   {hasOotd ? (
                     <Image
-                      source={ootdData.image} // 💡 체크 아이콘을 누른 이미지가 여기에 바로 반영됨
+                      source={ootdData.image}
                       style={[styles.ootdImage, !item.isCurrentMonth && { opacity: 0.5 }]}
                       resizeMode="cover"
                     />
