@@ -8,7 +8,7 @@ import { CalendarCaptureCard } from "./CalendarCaptureCard";
 import { Colors } from "@/theme/colors.ts";
 import { OotdListData } from "@/components/Calendar/CalendarData.tsx";
 
-type BgItem = string | { thumb: any; bg: any; isGrad?: boolean; isLight?: boolean };
+export type BgItem = string | { thumb: any; bg: any; isGrad?: boolean; isLight?: boolean };
 
 interface CalendarSaveProps {
   visible: boolean;

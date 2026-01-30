@@ -5,6 +5,7 @@ import { FirstLogoIcon } from "@/assets/icons";
 import { getCalendarDays, OotdListData } from "@/components/Calendar/CalendarData";
 import { captureCardStyles as styles } from "./CalendarCaptureCard.styles";
 import { Colors } from "@/theme/colors.ts";
+import { BgItem } from "./CalendarSave";
 
 interface CaptureCardProps {
   year: number;
@@ -13,12 +14,12 @@ interface CaptureCardProps {
   ootdListData: OotdListData;
 }
 
-export type BgItem = string | { thumb: any; bg: any; isGrad?: boolean; isLight?: boolean };
-
 export function CalendarCaptureCard({ year, month, selectedBg, ootdListData }: CaptureCardProps) {
   const days = getCalendarDays(year, month);
 
-  const isImageObj = typeof selectedBg === "object" && selectedBg !== null && "bg" in selectedBg;
+  if (!selectedBg) return null;
+
+  const isImageObj = typeof selectedBg === "object";
   const currentBgColor = isImageObj ? "transparent" : (selectedBg as string);
   const currentBgSource = isImageObj ? selectedBg.bg : null;
 
