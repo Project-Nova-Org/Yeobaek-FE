@@ -1,20 +1,30 @@
 import { View, TextInput, Pressable, ScrollView } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { styles } from "./OotdScreen.styles";
 import { AppText } from "@/components/common/AppText";
 import { Colors } from "@/theme/colors";
 import { OotdStackParamList } from "@/types/navigation/OotdStackParamList";
 import type { StackNavigationProp } from "@react-navigation/stack";
 
+import {
+  EmptyStarIcon,
+  StarIcon,
+  SortIcon,
+  SearchIcon,
+  ItemPlus,
+  FavoriteOnIcon,
+  FavoriteOffIcon,
+} from "@/assets/icons";
+import { OotdTop } from "@/components/Top/OotdTop.tsx";
+import { OotdLayoutPreview } from "@/components/Ootd/OotdLayoutPreview";
+import { TPO_LIST, STYLE_LIST } from "@/constants/ootd";
+import { getOotdList, subscribeOotdList, toggleOotdFavorite } from "@/stores/ootdStore";
+import type { SavedOotd } from "@/types/ootd";
+import { CARD_IMAGE_WIDTH } from "./OotdScreen.styles";
+
 type Props = {
   navigation: StackNavigationProp<OotdStackParamList, "OOTD">;
 };
-
-import { EmptyStarIcon, StarIcon, SortIcon, SearchIcon, ItemPlus } from "@/assets/icons/index";
-import { OotdTop } from "@/components/Top/OotdTop.tsx";
-
-const TPO_LIST = ["데일리", "포멀", "데이트", "여행", "레저", "파티", "하객룩", "기타"];
-const STYLE_LIST = ["캐주얼", "클래식", "빈티지", "스트릿", "스포티", "힙합", "기타"];
 
 export function OotdScreen({ navigation }: Props) {
   const [keyword, setKeyword] = useState("");
@@ -22,6 +32,27 @@ export function OotdScreen({ navigation }: Props) {
   const [isSortActive, setIsSortActive] = useState(false);
   const [selectedTpo, setSelectedTpo] = useState<string | null>(null);
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
+  const [ootdList, setOotdList] = useState<SavedOotd[]>(() => getOotdList());
+
+  useEffect(() => {
+    const unsub = subscribeOotdList(() => setOotdList(getOotdList()));
+    return unsub;
+  }, []);
+
+  const filteredList = ootdList
+    .filter((ootd) => {
+      if (!Array.isArray(ootd.items) || !ootd.canvasSize) return false;
+      if (keyword && !ootd.name.toLowerCase().includes(keyword.toLowerCase())) return false;
+      if (selectedTpo && ootd.tpo !== selectedTpo) return false;
+      if (selectedStyle && ootd.style !== selectedStyle) return false;
+      return true;
+    })
+    .sort((a, b) => {
+      if (!isStarred) return 0;
+      const aFav = a.isFavorite ? 1 : 0;
+      const bFav = b.isFavorite ? 1 : 0;
+      return bFav - aFav;
+    });
 
   return (
     <>
@@ -29,7 +60,7 @@ export function OotdScreen({ navigation }: Props) {
       <View style={styles.container}>
         <View style={styles.topRow}>
           <Pressable onPress={() => setIsStarred((p) => !p)} style={styles.iconBtn}>
-            {isStarred ? <StarIcon width={20} /> : <EmptyStarIcon width={20} />}
+            {isStarred ? <StarIcon width={20} height={20} /> : <EmptyStarIcon width={20} height={20} />}
           </Pressable>
 
           <View style={styles.searchWrapper}>
@@ -94,6 +125,49 @@ export function OotdScreen({ navigation }: Props) {
 
         <View style={styles.ootdBox}>
           <ScrollView contentContainerStyle={styles.grid} showsVerticalScrollIndicator={false}>
+            {filteredList.map((ootd) => (
+              <View key={ootd.id} style={styles.card}>
+                <Pressable
+                  style={{ flex: 1 }}
+                  onPress={() => navigation.navigate("OotdDetail", { ootdId: ootd.id })}
+                >
+                  <View
+                    style={[
+                      styles.cardImage,
+                      {
+                        backgroundColor:
+                          ootd.imageBgColor ?? Colors.border,
+                      },
+                    ]}
+                  >
+                    <OotdLayoutPreview
+                      items={ootd.items}
+                      width={CARD_IMAGE_WIDTH}
+                      height={CARD_IMAGE_WIDTH}
+                      sourceWidth={ootd.canvasSize.width}
+                      sourceHeight={ootd.canvasSize.height}
+                    />
+                  </View>
+                  <View style={styles.cardLabel}>
+                    <AppText style={styles.cardLabelText} numberOfLines={1}>
+                      {ootd.name}
+                    </AppText>
+                  </View>
+                </Pressable>
+                <View style={styles.favoriteButtonOuter}>
+                  <Pressable
+                    style={styles.favoriteButtonInner}
+                    onPress={() => toggleOotdFavorite(ootd.id)}
+                  >
+                    {ootd.isFavorite ? (
+                      <FavoriteOnIcon width={12} height={12} />
+                    ) : (
+                      <FavoriteOffIcon width={12} height={12} />
+                    )}
+                  </Pressable>
+                </View>
+              </View>
+            ))}
             <Pressable style={styles.card} onPress={() => navigation.navigate("OotdCreate")}>
               <View style={styles.cardImage}>
                 <ItemPlus width="100%" height="100%" />

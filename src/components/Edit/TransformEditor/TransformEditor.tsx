@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Animated, PanResponder, Pressable, View } from "react-native";
 import { styles } from "./TransformEditor.styles";
 import {
@@ -6,6 +6,7 @@ import {
     RotationIcon,
 } from "@/assets/icons";
 import { Colors } from "@/theme/colors";
+import type { OotdItemTransform } from "@/types/ootd";
 
 type Props = {
     children: React.ReactNode;
@@ -15,6 +16,10 @@ type Props = {
     active?: boolean;
     onActivate?: () => void;
     onDeactivate?: () => void;
+    /** 초기 배치 (저장된 OOTD 재렌더 시) */
+    initialTransform?: OotdItemTransform;
+    /** 배치 변경 시 콜백 (제스처 종료 시 호출) */
+    onTransformChange?: (transform: OotdItemTransform) => void;
 };
 
 function dist(a: { x: number; y: number }, b: { x: number; y: number }) {
@@ -27,6 +32,13 @@ function angle(a: { x: number; y: number }, b: { x: number; y: number }) {
     return Math.atan2(b.y - a.y, b.x - a.x);
 }
 
+const DEFAULT_SIZE = { width: 140, height: 140 };
+
+function getValueOffset(v: Animated.Value): number {
+    const node = v as any;
+    return (node._offset ?? 0) + (node._value ?? 0);
+}
+
 export function TransformEditor({
     children,
     enabled = true,
@@ -35,6 +47,8 @@ export function TransformEditor({
     active = true,
     onActivate,
     onDeactivate,
+    initialTransform,
+    onTransformChange,
 }: Props) {
     // 이동
     const translate = useRef(new Animated.ValueXY({ x: 0, y: 0 })).current;
@@ -43,7 +57,32 @@ export function TransformEditor({
     // 확대(스케일)
     const scale = useRef(new Animated.Value(1)).current;
     // 크기(리사이즈 핸들용)
-    const [size, setSize] = useState({ width: 140, height: 140 });
+    const [size, setSize] = useState(
+        initialTransform
+            ? { width: initialTransform.width, height: initialTransform.height }
+            : DEFAULT_SIZE
+    );
+    const sizeRef = useRef(size);
+    sizeRef.current = size;
+
+    useEffect(() => {
+        if (!initialTransform) return;
+        translate.setOffset({ x: initialTransform.x, y: initialTransform.y });
+        rotate.setOffset(initialTransform.rotation);
+        setSize({ width: initialTransform.width, height: initialTransform.height });
+        pinchState.current.baseSize = { width: initialTransform.width, height: initialTransform.height };
+        pinchState.current.baseRotate = initialTransform.rotation;
+        pinchState.current.lastRotate = initialTransform.rotation;
+    }, []);
+
+    const notifyTransform = () => {
+        if (!onTransformChange) return;
+        const x = getValueOffset(translate.x);
+        const y = getValueOffset(translate.y);
+        const rotation = getValueOffset(rotate);
+        const { width, height } = sizeRef.current;
+        onTransformChange({ x, y, width, height, rotation });
+    };
     const lastGesture = useRef({ dx: 0, dy: 0 });
 
     const pinchState = useRef<{
@@ -99,7 +138,6 @@ export function TransformEditor({
             onPanResponderGrant: () => {
                 isHandlingHandle.current = true;
                 lastGesture.current = { dx: 0, dy: 0 };
-                // translate 오프셋을 현재 값으로 고정
                 translate.extractOffset();
             },
             onPanResponderMove: (_, g) => {
@@ -111,15 +149,14 @@ export function TransformEditor({
             },
             onPanResponderRelease: () => {
                 isHandlingHandle.current = false;
-                // translate 오프셋 다시 고정
                 translate.extractOffset();
+                notifyTransform();
             },
             onPanResponderTerminate: () => {
                 isHandlingHandle.current = false;
             },
         });
 
-    // 회전 핸들용 초기 위치 저장
     const rotateHandleState = useRef<{
         startAngle: number | null;
         baseRotate: number;
@@ -164,11 +201,9 @@ export function TransformEditor({
                 // 최소 이동 거리 체크 (터치만 하고 움직이지 않으면 회전하지 않음)
                 const moveDistance = Math.sqrt(g.dx * g.dx + g.dy * g.dy);
                 if (moveDistance < 5) {
-                    // 최소 이동 거리 미만이면 무시
                     return;
                 }
 
-                // 첫 이동 시 startAngle 설정
                 if (!rotateHandleState.current.hasStarted) {
                     // 터치 시작 시점의 각도 (상대 이동량 기준)
                     const startAngle = Math.atan2(g.dy, g.dx);
@@ -347,15 +382,15 @@ export function TransformEditor({
                 translate.setValue({ x: g.dx, y: g.dy });
             },
 
-            onPanResponderRelease: (e) => {
+            onPanResponderRelease: () => {
                 translate.extractOffset();
                 rotate.extractOffset();
                 pinchState.current.baseRotate = pinchState.current.lastRotate;
-                // baseSize는 현재 size로 업데이트 (다음 제스처를 위해)
                 pinchState.current.baseSize = { ...size };
+                notifyTransform();
             },
         }),
-        [enabled, onActivate, onDeactivate]
+        [enabled, onActivate, onDeactivate, size]
     );
 
     // rotate 값(라디안)을 deg로 변환
