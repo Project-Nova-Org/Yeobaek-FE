@@ -5,10 +5,12 @@ import { useLayoutEffect } from "react";
 import { OotdStackParamList } from "@/types/navigation/OotdStackParamList";
 import { OotdScreen } from "@/screens/Ootd/OotdScreen";
 import OotdCreateScreen from "@/screens/Ootd/OotdCreateScreen";
+import OotdCreateInfoScreen from "@/screens/Ootd/OotdCreateInfoScreen";
+import OotdDetailScreen from "@/screens/Ootd/OotdDetailScreen";
 
 const Stack = createStackNavigator<OotdStackParamList>();
 
-const HIDE_TAB_ROUTES = ["OotdCreate", "OotdDetail", "OotdEdit"];
+const HIDE_TAB_ROUTES = ["OotdCreate", "OotdCreateInfo", "OotdDetail", "OotdEdit"];
 
 export default function OotdStack({ navigation, route }: any) {
   const routeName = getFocusedRouteNameFromRoute(route) ?? "OOTD";
@@ -24,7 +26,9 @@ export default function OotdStack({ navigation, route }: any) {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="OOTD" component={OotdScreen} />
+      <Stack.Screen name="OotdDetail" component={OotdDetailScreen} />
       <Stack.Screen name="OotdCreate" component={OotdCreateScreen} />
+      <Stack.Screen name="OotdCreateInfo" component={OotdCreateInfoScreen} />
     </Stack.Navigator>
   );
 }

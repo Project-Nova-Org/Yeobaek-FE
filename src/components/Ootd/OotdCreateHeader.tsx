@@ -9,6 +9,8 @@ interface Props {
     onBack: () => void;
     onNext?: () => void;
     disabled?: boolean;
+    /** 오른쪽 버튼 텍스트 (기본: "다음") */
+    rightLabel?: string;
 }
 
 export function OotdCreateHeader({
@@ -16,6 +18,7 @@ export function OotdCreateHeader({
                                      onBack,
                                      onNext,
                                      disabled = true,
+                                     rightLabel = "다음",
                                  }: Props) {
     return (
         <View style={styles.container}>
@@ -31,7 +34,7 @@ export function OotdCreateHeader({
                 style={[styles.nextBtn, disabled ? styles.nextBtnDisabled : styles.nextBtnEnabled]}
             >
                 <AppText style={[styles.nextText, { color: disabled ? Colors.gray400 : Colors.white }]}>
-                    다음
+                    {rightLabel}
                 </AppText>
             </Pressable>
         </View>
