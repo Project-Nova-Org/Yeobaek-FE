@@ -13,7 +13,8 @@ const OOTD_WIDTH = width - H_PADDING * 2;
 const GRID_COLUMNS = 3;
 const GRID_GAP = 12;
 
-const CARD_WIDTH = (OOTD_WIDTH - GRID_GAP * (GRID_COLUMNS - 1) - 16 * 2) / GRID_COLUMNS;
+export const CARD_IMAGE_WIDTH = (OOTD_WIDTH - GRID_GAP * (GRID_COLUMNS - 1) - 16 * 2) / GRID_COLUMNS;
+const CARD_WIDTH = CARD_IMAGE_WIDTH;
 
 // 세로로 길쭉 (이미지 + 이름 영역)
 const CARD_IMAGE_RATIO = 1; // 정사각 이미지
@@ -139,9 +140,48 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     overflow: "hidden",
+    position: "relative",
+  },
+  /** Dressroom과 동일: 안쪽 그라데이션(inset boxShadow) */
+  favoriteButtonOuter: {
+    position: "absolute",
+    top: 5,
+    right: 5,
+    width: 22,
+    height: 22,
+    borderRadius: 14,
+    justifyContent: "center",
+    alignItems: "center",
+    boxShadow: [
+      {
+        offsetX: 0,
+        offsetY: 0,
+        blurRadius: 10,
+        spreadDistance: 2,
+        color: Colors.shadow,
+        inset: true,
+      },
+    ],
+    zIndex: 10,
+  },
+  favoriteButtonInner: {
+    width: 12,
+    height: 12,
+    borderRadius: 14,
+    justifyContent: "center",
+    alignItems: "center",
   },
 
   cardLabel: {
     height: CARD_LABEL_HEIGHT,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  cardLabelText: {
+    fontSize: FontSize.xs,
+    color: Colors.primary,
+    fontWeight: "500",
+    textAlign: "center",
   },
 });

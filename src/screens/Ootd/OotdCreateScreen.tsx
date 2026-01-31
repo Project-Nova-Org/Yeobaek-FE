@@ -1,104 +1,113 @@
 import { useState, useCallback } from "react";
 import { View } from "react-native";
 import type { StackNavigationProp } from "@react-navigation/stack";
+import type { RouteProp } from "@react-navigation/native";
 
 import { OotdBottomSheet } from "@/components/Ootd/OotdBottomSheet.tsx";
 import { OotdCanvas } from "@/components/Ootd/OotdCanvas";
 import { OotdCreateHeader } from "@/components/Ootd/OotdCreateHeader";
 import { styles } from "./OotdCreateScreen.styles";
 import { OotdStackParamList } from "@/types/navigation/OotdStackParamList";
+import type { OotdCanvasItem, OotdItemTransform } from "@/types/ootd";
+import { DEFAULT_ITEM_TRANSFORM } from "@/types/ootd";
 
 import type { Item } from "@/mocks/items";
 import type { ClosetItem } from "@/screens/Dressroom/dressroom.mock";
 
+const DEFAULT_CANVAS_SIZE = { width: 360, height: 360 };
+
 type Props = {
   navigation: StackNavigationProp<OotdStackParamList, "OotdCreate">;
+  route: RouteProp<OotdStackParamList, "OotdCreate">;
 };
 
-export default function OotdCreateScreen({ navigation }: Props) {
-  /** ===== BottomSheet 상태 ===== */
-  // 0~2 : 최소(18%) ~ 완전 펼침(88%)
+export default function OotdCreateScreen({ navigation, route }: Props) {
+  const params = route.params;
+  const initialItems = params?.canvasItems ?? [];
+  const initialSize = params?.canvasSize ?? DEFAULT_CANVAS_SIZE;
+
   const [sheetIndex, setSheetIndex] = useState<number>(1);
-
-  /** ===== BottomSheet index 변경 핸들러 ===== */
-  const handleSheetIndexChange = useCallback((index: number) => {
-    // 최소 0 (18%) 유지
-    const minIndex = 0;
-    setSheetIndex(Math.max(minIndex, index));
-  }, []);
-
-  /** ===== 탭 / 필터 ===== */
   const [tab, setTab] = useState<"아이템" | "옷장">("아이템");
   const [category, setCategory] = useState("상의");
   const [detail, setDetail] = useState<string | null>(null);
-
-  /** ===== 옷장 선택 ===== */
   const [selectedWardrobeId, setSelectedWardrobeId] = useState<number | null>(null);
 
-  /** ===== 옷장 선택 ===== */
-  const handleSelectWardrobe = useCallback((wardrobe: ClosetItem) => {
-    setSelectedWardrobeId((prev) => {
-      // 이미 선택된 옷장을 다시 클릭하면 해제
-      if (prev === wardrobe.id) {
-        return null;
-      }
-      // 다른 옷장 선택
-      return wardrobe.id;
-    });
-  }, []);
-
-  /** ===== Canvas 아이템 ===== */
-  const [canvasItems, setCanvasItems] = useState<{ key: string; image: any }[]>([]);
+  const [canvasItems, setCanvasItems] = useState<OotdCanvasItem[]>(initialItems);
   const [selectedCanvasKey, setSelectedCanvasKey] = useState<string | null>(null);
+  const [canvasSize, setCanvasSize] = useState(initialSize);
+  const isEditCanvas = !!params;
 
-  /** ===== Canvas 제스처 활성 여부 ===== */
-  // 항상 편집 가능
   const canvasGestureEnabled = true;
 
-  /** ===== 아이템 토글 (선택/해제) ===== */
+  const handleSheetIndexChange = useCallback((index: number) => {
+    setSheetIndex(Math.max(0, index));
+  }, []);
+
+  const handleSelectWardrobe = useCallback((wardrobe: ClosetItem) => {
+    setSelectedWardrobeId((prev) => (prev === wardrobe.id ? null : wardrobe.id));
+  }, []);
+
   const handleToggleItem = useCallback((item: Item) => {
     setCanvasItems((prev) => {
       const existing = prev.find((p) => p.key.startsWith(`${item.id}-`));
-      if (existing) {
-        return prev.filter((p) => p.key !== existing.key);
-      }
+      if (existing) return prev.filter((p) => p.key !== existing.key);
       return [
         ...prev,
         {
           key: `${item.id}-${Date.now()}`,
           image: item.image,
+          transform: { ...DEFAULT_ITEM_TRANSFORM },
         },
       ];
     });
   }, []);
 
-  /** ===== 아이템 제거 ===== */
   const handleRemoveItem = useCallback((key: string) => {
     setCanvasItems((prev) => prev.filter((v) => v.key !== key));
     setSelectedCanvasKey((prev) => (prev === key ? null : prev));
   }, []);
 
+  const handleTransformChange = useCallback((key: string, transform: OotdItemTransform) => {
+    setCanvasItems((prev) =>
+      prev.map((it) => (it.key === key ? { ...it, transform } : it))
+    );
+  }, []);
+
   return (
     <View style={styles.container}>
-      {/* 상단 헤더 */}
       <OotdCreateHeader
-        title="OOTD 등록"
+        title={isEditCanvas ? "OOTD 수정" : "OOTD 등록"}
         disabled={canvasItems.length < 2}
         onBack={() => navigation.goBack()}
-        onNext={() => {}}
+        onNext={() => {
+          if (canvasItems.length < 2) return;
+          navigation.navigate("OotdCreateInfo", {
+            canvasItems,
+            canvasSize,
+            editOotdId: params?.editOotdId,
+          });
+        }}
       />
 
-      {/* 캔버스 */}
-      <OotdCanvas
-        items={canvasItems}
-        onRemove={handleRemoveItem}
-        editable={canvasGestureEnabled}
-        selectedKey={selectedCanvasKey}
-        onSelect={setSelectedCanvasKey}
-        onClearSelection={() => setSelectedCanvasKey(null)}
-      />
+      <View
+        style={{ flex: 1 }}
+        onLayout={(e) => {
+          if (isEditCanvas) return;
+          const { width, height } = e.nativeEvent.layout;
+          if (width > 0 && height > 0) setCanvasSize({ width, height });
+        }}
+      >
+        <OotdCanvas
+          items={canvasItems}
+          onRemove={handleRemoveItem}
+          onTransformChange={handleTransformChange}
+          editable={canvasGestureEnabled}
+          selectedKey={selectedCanvasKey}
+          onSelect={setSelectedCanvasKey}
+          onClearSelection={() => setSelectedCanvasKey(null)}
+        />
+      </View>
 
-      {/* BottomSheet */}
       <OotdBottomSheet
         index={sheetIndex}
         tab={tab}

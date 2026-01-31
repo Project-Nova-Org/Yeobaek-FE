@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     height: 10,
     alignItems: "center",
     justifyContent: "center",
-    zIndex: 15,
+    zIndex: 20, // handleTR(10)보다 높게 설정
     // 터치 영역 확대
     padding: 10,
     margin: -10,
