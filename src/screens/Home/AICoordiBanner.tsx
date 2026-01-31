@@ -1,12 +1,17 @@
 import React from "react";
 import { View, Image, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import type { StackNavigationProp } from "@react-navigation/stack";
 import { AppText as Text } from "@/components/common/AppText";
 import { UndoIcon } from "@/assets/icons";
 import { ChatbotImage, VirtualFittingImage, PersonalPairingImage } from "@/assets/images";
+import { HomeStackParamList } from "@/types/navigation/HomeStackParamList";
 import { fittingCount } from "./HomeData";
 import { homeStyles as styles } from "./HomeScreen.styles";
 
 export function AICoordiBanner() {
+  const navigation = useNavigation<StackNavigationProp<HomeStackParamList>>();
+
   return (
     <View>
       <Text style={styles.aiSectionTitle}>AI 퍼스널 스타일리스트</Text>
@@ -31,7 +36,7 @@ export function AICoordiBanner() {
         style={styles.aiBanner}
         accessibilityRole="button"
         accessibilityLabel={`가상피팅 열기, 현재 ${fittingCount.totalCount}회 중 ${fittingCount.currentCount}회 남음`}
-        onPress={() => console.log("가상피팅 화면으로 이동")}
+        onPress={() => navigation.navigate("VirtualFitting")}
       >
         <Image source={VirtualFittingImage} style={styles.aiImage} />
         <View style={styles.bannerTextContent}>
