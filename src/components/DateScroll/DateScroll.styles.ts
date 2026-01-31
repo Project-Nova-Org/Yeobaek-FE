@@ -9,6 +9,9 @@ export const dateStyles = StyleSheet.create({
     alignItems: "center",
   },
   container: {
+    position: "absolute",
+    top: 130,
+    left: 30,
     width: 163,
     height: 211,
     backgroundColor: Colors.white,

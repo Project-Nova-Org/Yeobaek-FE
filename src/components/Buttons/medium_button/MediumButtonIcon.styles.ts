@@ -17,6 +17,17 @@ export const MediumButtonIconStyles = StyleSheet.create({
     justifyContent: "center",
     gap: 7,
   },
+  cameraButton: {
+    backgroundColor: Colors.white,
+    borderWidth: 1,
+    borderColor: Colors.primary,
+  },
+  cameraText: {
+    color: Colors.primary,
+    fontWeight: "500",
+    fontSize: FontSize.xxs,
+    includeFontPadding: false,
+  },
 
   buttonText: {
     color: Colors.white,

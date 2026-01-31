@@ -31,7 +31,7 @@ export const alertStyles = StyleSheet.create({
 
   messageText: {
     fontSize: FontSize.md,
-    fontWeight: "700",
+    fontWeight: "600",
     color: Colors.black,
     textAlign: "center",
     lineHeight: 25,

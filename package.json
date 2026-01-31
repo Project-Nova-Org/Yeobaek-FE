@@ -13,6 +13,7 @@
   "dependencies": {
     "@gorhom/bottom-sheet": "^5.2.8",
     "@react-native-community/blur": "^4.4.1",
+    "@react-native-camera-roll/camera-roll": "^7.10.2",
     "@react-native-community/slider": "^5.1.1",
     "@react-native/new-app-screen": "0.83.1",
     "@react-navigation/bottom-tabs": "^7.10.1",
@@ -23,6 +24,7 @@
     "react-native": "0.83.1",
     "react-native-gesture-handler": "^2.30.0",
     "react-native-reanimated": "^4.2.1",
+    "react-native-reanimated-carousel": "^4.0.3",
     "react-native-safe-area-context": "^5.6.2",
     "react-native-screens": "^4.19.0",
     "react-native-shadow-2": "^7.1.2",

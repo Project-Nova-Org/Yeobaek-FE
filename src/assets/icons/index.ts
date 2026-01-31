@@ -51,3 +51,6 @@ export { default as FavoriteOffIcon } from "./favorite_off.svg";
 export { default as FavoriteOnIcon } from "./favorite_on.svg";
 export { default as RotationIcon } from "./rotation.svg";
 export { default as ClosetBaseIcon } from "./closet_base.svg";
+export { default as DownloadIcon } from "./download.svg";
+export { default as FlipIcon } from "./flip.svg";
+export { default as LogoIcon } from "./logo.svg";
