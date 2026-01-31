@@ -28,10 +28,36 @@ export function OotdLayoutPreview({
 }: Props) {
   if (items.length === 0) return <View style={[styles.container, { width, height }]} />;
 
-  const minX = Math.min(...items.map((it) => it.transform.x));
-  const minY = Math.min(...items.map((it) => it.transform.y));
-  const maxX = Math.max(...items.map((it) => it.transform.x + it.transform.width));
-  const maxY = Math.max(...items.map((it) => it.transform.y + it.transform.height));
+  /** 회전된 사각형의 축정렬 바운딩 박스(AABB). 회전 시 실제 차지하는 영역을 반영한다. */
+  const getRotatedBounds = (
+    x: number,
+    y: number,
+    w: number,
+    h: number,
+    rotation: number
+  ) => {
+    const cos = Math.abs(Math.cos(rotation));
+    const sin = Math.abs(Math.sin(rotation));
+    const rotatedW = w * cos + h * sin;
+    const rotatedH = w * sin + h * cos;
+    const cx = x + w / 2;
+    const cy = y + h / 2;
+    return {
+      minX: cx - rotatedW / 2,
+      minY: cy - rotatedH / 2,
+      maxX: cx + rotatedW / 2,
+      maxY: cy + rotatedH / 2,
+    };
+  };
+
+  const boundsList = items.map((it) => {
+    const t = it.transform;
+    return getRotatedBounds(t.x, t.y, t.width, t.height, t.rotation);
+  });
+  const minX = Math.min(...boundsList.map((b) => b.minX));
+  const minY = Math.min(...boundsList.map((b) => b.minY));
+  const maxX = Math.max(...boundsList.map((b) => b.maxX));
+  const maxY = Math.max(...boundsList.map((b) => b.maxY));
   const layoutW = maxX - minX;
   const layoutH = maxY - minY;
   const scale = Math.min(

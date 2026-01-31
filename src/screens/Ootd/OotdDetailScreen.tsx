@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { View, ScrollView, Image, Pressable, FlatList, Alert } from "react-native";
 import type { StackNavigationProp } from "@react-navigation/stack";
 import type { RouteProp } from "@react-navigation/native";
@@ -40,6 +40,24 @@ export default function OotdDetailScreen({ navigation, route }: Props) {
   const { ootdId } = route.params;
   const ootd = getOotdById(ootdId);
   const [isFavorite, setIsFavorite] = useState(() => ootd?.isFavorite ?? false);
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  const slides = useMemo(
+    () =>
+      ootd
+        ? chunk(ootd.items ?? [], REGISTERED_ITEMS_PER_SLIDE)
+        : [],
+    [ootd?.items]
+  );
+
+  const onViewableItemsChanged = useRef(
+    ({ viewableItems }: { viewableItems: Array<{ index: number | null }> }) => {
+      if (viewableItems.length > 0 && viewableItems[0].index != null) {
+        setActiveSlide(viewableItems[0].index);
+      }
+    }
+  ).current;
+  const viewabilityConfig = useRef({ itemVisiblePercentThreshold: 50 }).current;
 
   if (!ootd) {
     return null;
@@ -77,11 +95,6 @@ export default function OotdDetailScreen({ navigation, route }: Props) {
     });
   };
 
-  const slides = useMemo(
-    () => chunk(items, REGISTERED_ITEMS_PER_SLIDE),
-    [items]
-  );
-
   return (
     <View style={styles.container}>
       <View style={ootdDetailHeaderStyles.container}>
@@ -91,10 +104,10 @@ export default function OotdDetailScreen({ navigation, route }: Props) {
         <AppText style={ootdDetailHeaderStyles.title}>OOTD 정보</AppText>
         <View style={ootdDetailHeaderStyles.rightIconGroup}>
           <Pressable onPress={showDeleteConfirm}>
-            <DeleteIcon width={20} height={20} />
+            <DeleteIcon width={20} height={20} color={Colors.primary}/>
           </Pressable>
           <Pressable onPress={handleEdit}>
-            <EditIcon width={20} height={20} />
+            <EditIcon width={20} height={20} color={Colors.primary}/>
           </Pressable>
         </View>
       </View>
@@ -163,6 +176,8 @@ export default function OotdDetailScreen({ navigation, route }: Props) {
             snapToAlignment="start"
             decelerationRate="fast"
             showsHorizontalScrollIndicator={false}
+            onViewableItemsChanged={onViewableItemsChanged}
+            viewabilityConfig={viewabilityConfig}
             renderItem={({
               item: slideItems,
               index: slideIndex,
@@ -198,7 +213,7 @@ export default function OotdDetailScreen({ navigation, route }: Props) {
               {slides.map((_, i) => (
                 <View
                   key={i}
-                  style={[styles.paginationDot, i === 0 && styles.paginationDotActive]}
+                  style={[styles.paginationDot, i === activeSlide && styles.paginationDotActive]}
                 />
               ))}
             </View>

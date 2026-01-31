@@ -1,7 +1,3 @@
-/**
- * OOTD 이미지 저장 시 presigned URL로 업로드하는 API/유틸.
- * 백엔드에서 presigned URL을 받아 S3 등에 직접 업로드한 뒤, 최종 이미지 URL로 저장합니다.
- */
 
 import type { OotdCanvasItem } from "@/types/ootd";
 
@@ -27,10 +23,6 @@ export interface PresignedUrlResponse {
 
 const API_BASE = ""; // TODO: 환경변수 또는 constants로 설정 (예: process.env.API_BASE)
 
-/**
- * 백엔드에서 OOTD 이미지용 presigned URL 목록을 받습니다.
- * 실제 엔드포인트/파라미터는 백엔드 스펙에 맞게 수정하세요.
- */
 export async function getPresignedUrls(count: number): Promise<PresignedUrlEntry[]> {
   if (!API_BASE) {
     // 백엔드 미연동 시 빈 배열 반환 → 업로드 스킵 후 기존 데이터로 저장
@@ -46,9 +38,6 @@ export async function getPresignedUrls(count: number): Promise<PresignedUrlEntry
   return data.urls ?? [];
 }
 
-/**
- * 이미지 Blob을 presigned URL로 PUT 업로드합니다.
- */
 export async function uploadToPresignedUrl(uploadUrl: string, blob: Blob): Promise<void> {
   const res = await fetch(uploadUrl, {
     method: "PUT",
@@ -59,10 +48,7 @@ export async function uploadToPresignedUrl(uploadUrl: string, blob: Blob): Promi
 }
 
 /**
- * 이미지 소스(uri 또는 require)를 Blob으로 변환합니다.
- * - { uri: 'http...' | 'https...' }: fetch로 Blob 반환
- * - { uri: 'file://...' }: fetch 시도 (Android에서는 react-native-blob-util 등 필요할 수 있음)
- * - require() (number): RN에서 직접 Blob 변환 불가 → null 반환 (업로드 스킵)
+ * 이미지 소스(uri 또는 require)를 Blob으로 변환
  */
 export async function imageSourceToBlob(image: unknown): Promise<Blob | null> {
   if (image && typeof image === "object" && "uri" in image && typeof (image as { uri: string }).uri === "string") {
@@ -78,11 +64,6 @@ export async function imageSourceToBlob(image: unknown): Promise<Blob | null> {
   return null;
 }
 
-/**
- * OOTD 캔버스 아이템 이미지들을 presigned URL로 업로드하고,
- * 각 아이템의 image를 최종 imageUrl로 치환한 새 배열을 반환합니다.
- * - presigned URL을 받지 못하거나 이미지를 Blob으로 만들 수 없으면 해당 아이템은 원본 image 유지.
- */
 export async function uploadOotdImagesAndGetUrls(
   items: OotdCanvasItem[]
 ): Promise<OotdCanvasItem[]> {
