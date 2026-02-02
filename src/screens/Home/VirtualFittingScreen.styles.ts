@@ -74,6 +74,11 @@ export const styles = StyleSheet.create({
     borderRadius: 16,
     overflow: "hidden",
   },
+  modelAreaImage: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 16,
+  },
   changePhotoBtn: {
     backgroundColor: Colors.primary,
     paddingVertical: 10,

@@ -9,6 +9,7 @@ import { UndoIcon, HelpIcon, ItemPlus } from "@/assets/icons";
 import { AddItemBottomSheet } from "@/components/Modal/AddItemBottomSheet/AddItemBottomSheet";
 import { Colors } from "@/theme/colors";
 import { MOCK_ITEMS, type FashionItem } from "@/screens/Dressroom/dressroom.mock";
+import { useCustomInfo } from "@/context/CustomInfoContext";
 import { styles, headerStyles } from "./VirtualFittingScreen.styles";
 
 const H_PADDING = 20;
@@ -23,8 +24,16 @@ export function VirtualFittingScreen() {
   const { width: windowWidth } = useWindowDimensions();
   const navigation = useNavigation<NavigationProp>();
   const route = useRoute<VirtualFittingRouteProp>();
+  const { savedCustomInfo } = useCustomInfo();
   const [fullBodySheetVisible, setFullBodySheetVisible] = useState(false);
   const [selectedItemIds, setSelectedItemIds] = useState<number[]>([]);
+  const [fullBodyImageUri, setFullBodyImageUri] = useState<string | null>(
+    savedCustomInfo?.image ?? null
+  );
+
+  useEffect(() => {
+    if (savedCustomInfo?.image != null) setFullBodyImageUri(savedCustomInfo.image);
+  }, [savedCustomInfo?.image]);
 
   const { slotSize, gridWidth } = useMemo(() => {
     const innerGridWidth =
@@ -84,7 +93,15 @@ export function VirtualFittingScreen() {
       >
         <View style={styles.modelAreaWrap}>
           <AppText style={styles.modelAreaLabel}>전신사진</AppText>
-          <View style={styles.modelArea} />
+          <View style={styles.modelArea}>
+            {fullBodyImageUri ? (
+              <Image
+                source={{ uri: fullBodyImageUri }}
+                style={styles.modelAreaImage}
+                resizeMode="cover"
+              />
+            ) : null}
+          </View>
         </View>
 
         <Pressable style={styles.changePhotoBtn} onPress={openFullBodySheet}>

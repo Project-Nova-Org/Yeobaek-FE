@@ -1,5 +1,13 @@
 import React, { useState, useRef } from "react";
-import { View, Pressable, ScrollView, Animated, Easing } from "react-native";
+import {
+  View,
+  Pressable,
+  ScrollView,
+  Animated,
+  Easing,
+  BackHandler,
+} from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 import { AppText as Text } from "@/components/common/AppText";
 import { MyPageStyles as styles } from "./MypageScreen.styles";
 import { AppHeader } from "@/components/Header/AppHeader";
@@ -20,14 +28,34 @@ import {
 } from "@/assets/icons";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MypageStackParamList } from "@/types/navigation/MypageStackParamList";
+import { useCustomInfo } from "@/context/CustomInfoContext";
 import { INITIAL_USER_DATA } from "./MypageData";
 
 type Props = NativeStackScreenProps<MypageStackParamList, "Mypage">;
 
+const goToHome = (navigation: Props["navigation"]) => {
+  navigation.getParent()?.navigate("MainTab" as never);
+};
+
 const MyPageScreen = ({ navigation }: Props) => {
+  const { savedCustomInfo } = useCustomInfo();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isLogoutAlertVisible, setIsLogoutAlertVisible] = useState(false);
   const slideAnim = useRef(new Animated.Value(0)).current;
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const onHardwareBack = () => {
+        goToHome(navigation);
+        return true;
+      };
+      const sub = BackHandler.addEventListener(
+        "hardwareBackPress",
+        onHardwareBack
+      );
+      return () => sub.remove();
+    }, [navigation])
+  );
 
   const toggleDarkMode = () => {
     const toValue = isDarkMode ? 0 : 1;
@@ -60,7 +88,9 @@ const MyPageScreen = ({ navigation }: Props) => {
     <View style={styles.container}>
       <AppHeader
         title="마이페이지"
-        left={<HeaderLeft type="icon" onPress={() => navigation.goBack()} />}
+        left={
+          <HeaderLeft type="icon" onPress={() => goToHome(navigation)} />
+        }
       />
 
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -121,12 +151,15 @@ const MyPageScreen = ({ navigation }: Props) => {
 
           <Pressable
             style={styles.menuItem}
-            onPress={() =>
-              navigation.navigate({
-                name: "Myinfo",
-                params: { initialData: userData },
-              })
-            }
+            onPress={() => {
+              if (savedCustomInfo) {
+                navigation.navigate("MyinfoComplete", {
+                  savedData: savedCustomInfo,
+                });
+              } else {
+                navigation.navigate({ name: "Myinfo", params: {} });
+              }
+            }}
           >
             <Text style={styles.menuLabel}>맞춤 정보</Text>
             <View style={styles.chevronRotate}>

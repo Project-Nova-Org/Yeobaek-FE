@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { View, ScrollView, Pressable, Image, TextInput } from "react-native";
+import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import { AppHeader } from "@/components/Header/AppHeader";
 import { HeaderLeft } from "@/components/Header/HeaderLeft";
 import { HeaderRight } from "@/components/Header/HeaderRight";
@@ -13,10 +14,12 @@ import FullbodyRegisterButton from "@/components/Buttons/medium_button/FullbodyR
 import AddLongButton from "@/components/Buttons/long_button/AddLongButton";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MypageStackParamList } from "@/types/navigation/MypageStackParamList";
+import { useCustomInfo } from "@/context/CustomInfoContext";
 
 type Props = NativeStackScreenProps<MypageStackParamList, "Myinfo">;
 
-const InfoScreen = ({ navigation, route }: Props) => {
+function MyinfoScreen({ navigation, route }: Props) {
+  const { setSavedCustomInfo } = useCustomInfo();
   const initialData = route.params?.initialData;
 
   const defaultData = useMemo(
@@ -36,7 +39,7 @@ const InfoScreen = ({ navigation, route }: Props) => {
   const [gender, setGender] = useState<"male" | "female" | null>(defaultData.gender);
   const [height, setHeight] = useState(defaultData.height);
   const [weight, setWeight] = useState(defaultData.weight);
-  const [image, _setImage] = useState<string | null>(defaultData.image);
+  const [image, setImage] = useState<string | null>(defaultData.image);
 
   const isDataChanged =
     gender !== defaultData.gender ||
@@ -57,6 +60,27 @@ const InfoScreen = ({ navigation, route }: Props) => {
     } else {
       navigation.goBack();
     }
+  };
+
+  const handleCamera = () => {
+    setIsSheetVisible(false);
+    launchCamera({ mediaType: "photo" }, (res) => {
+      if (res.didCancel || res.errorCode) return;
+      const uri = res.assets?.[0]?.uri;
+      if (uri) setImage(uri);
+    });
+  };
+
+  const handleGallery = () => {
+    setIsSheetVisible(false);
+    launchImageLibrary(
+      { mediaType: "photo", selectionLimit: 1 },
+      (res) => {
+        if (res.didCancel || res.errorCode) return;
+        const uri = res.assets?.[0]?.uri;
+        if (uri) setImage(uri);
+      }
+    );
   };
 
   return (
@@ -164,8 +188,9 @@ const InfoScreen = ({ navigation, route }: Props) => {
             label="등 록"
             isActive={canSubmit}
             onPress={() => {
-              console.log("저장 데이터:", { height, weight, gender, image });
-              navigation.goBack(); // 저장 후 이동
+              const savedData = { height, weight, gender, image };
+              setSavedCustomInfo(savedData);
+              navigation.navigate("MyinfoComplete", { savedData });
             }}
           />
         </View>
@@ -184,12 +209,11 @@ const InfoScreen = ({ navigation, route }: Props) => {
       <AddItemBottomSheet
         visible={isSheetVisible}
         onClose={() => setIsSheetVisible(false)}
-        // ESLint 오류 방지를 위해 임시로 setImage 연결
-        onCamera={() => setIsSheetVisible(false)}
-        onGallery={() => setIsSheetVisible(false)}
+        onCamera={handleCamera}
+        onGallery={handleGallery}
       />
     </View>
   );
-};
+}
 
-export default InfoScreen;
+export default MyinfoScreen;
