@@ -29,6 +29,8 @@ const HIDE_TAB_ROUTES = [
   "OotdCreate",
   "OotdCreateInfo",
   "OotdDetail",
+  "VirtualFitting",
+  "VirtualFittingItemSelect",
 ];
 
 export default function MainTabNavigator() {
