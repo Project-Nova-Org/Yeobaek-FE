@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { View, ScrollView, Pressable, Image, useWindowDimensions } from "react-native";
+import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import type { StackNavigationProp } from "@react-navigation/stack";
 
@@ -7,15 +8,17 @@ import { HomeStackParamList } from "@/types/navigation/HomeStackParamList";
 import { AppText } from "@/components/common/AppText";
 import { UndoIcon, HelpIcon, ItemPlus } from "@/assets/icons";
 import { AddItemBottomSheet } from "@/components/Modal/AddItemBottomSheet/AddItemBottomSheet";
+import FullbodyRegisterButton from "@/components/Buttons/medium_button/FullbodyRegisterButton";
 import { Colors } from "@/theme/colors";
 import { MOCK_ITEMS, type FashionItem } from "@/screens/Dressroom/dressroom.mock";
 import { useCustomInfo } from "@/context/CustomInfoContext";
 import { styles, headerStyles } from "./VirtualFittingScreen.styles";
 
 const H_PADDING = 20;
-const WRAPPER_PADDING = 16;
-const SLOT_GAP = 12;
+const WRAPPER_PADDING = 12;
+const SLOT_GAP = 8;
 const SLOTS_PER_ROW = 3;
+const GRID_SCALE = 1;
 
 type NavigationProp = StackNavigationProp<HomeStackParamList, "VirtualFitting">;
 type VirtualFittingRouteProp = RouteProp<HomeStackParamList, "VirtualFitting">;
@@ -26,6 +29,7 @@ export function VirtualFittingScreen() {
   const route = useRoute<VirtualFittingRouteProp>();
   const { savedCustomInfo } = useCustomInfo();
   const [fullBodySheetVisible, setFullBodySheetVisible] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
   const [selectedItemIds, setSelectedItemIds] = useState<number[]>([]);
   const [fullBodyImageUri, setFullBodyImageUri] = useState<string | null>(
     savedCustomInfo?.image ?? null
@@ -40,7 +44,9 @@ export function VirtualFittingScreen() {
       windowWidth - H_PADDING * 2 - WRAPPER_PADDING * 2;
     const size =
       (innerGridWidth - SLOT_GAP * (SLOTS_PER_ROW - 1)) / SLOTS_PER_ROW;
-    return { slotSize: size, gridWidth: innerGridWidth };
+    const scaled = size * GRID_SCALE;
+    const scaledGridWidth = scaled * SLOTS_PER_ROW + SLOT_GAP * (SLOTS_PER_ROW - 1);
+    return { slotSize: scaled, gridWidth: scaledGridWidth };
   }, [windowWidth]);
 
   useEffect(() => {
@@ -61,12 +67,23 @@ export function VirtualFittingScreen() {
 
   const handleCamera = () => {
     closeFullBodySheet();
-    // TODO: 카메라로 전신 사진 촬영
+    launchCamera({ mediaType: "photo" }, (res) => {
+      if (res.didCancel || res.errorCode) return;
+      const uri = res.assets?.[0]?.uri;
+      if (uri) setFullBodyImageUri(uri);
+    });
   };
 
   const handleGallery = () => {
     closeFullBodySheet();
-    // TODO: 갤러리에서 전신 사진 선택
+    launchImageLibrary(
+      { mediaType: "photo", selectionLimit: 1 },
+      (res) => {
+        if (res.didCancel || res.errorCode) return;
+        const uri = res.assets?.[0]?.uri;
+        if (uri) setFullBodyImageUri(uri);
+      }
+    );
   };
 
   return (
@@ -80,11 +97,20 @@ export function VirtualFittingScreen() {
         </Pressable>
         <AppText style={headerStyles.title}>가상 피팅</AppText>
         <View style={headerStyles.rightIconGroup}>
-          <Pressable onPress={() => {}}>
+          <Pressable onPress={() => setShowTooltip(!showTooltip)}>
             <HelpIcon width={20} height={20} color={Colors.primary} />
           </Pressable>
         </View>
       </View>
+
+      {showTooltip && (
+        <View style={styles.tooltipContainer} pointerEvents="box-none">
+          <AppText style={styles.tooltipText}>
+            전신 사진과 입어 볼 아이템을 선택한 뒤{"\n"}
+            피팅하기를 눌러주세요!
+          </AppText>
+        </View>
+      )}
 
       <ScrollView
         style={{ flex: 1 }}
@@ -92,7 +118,6 @@ export function VirtualFittingScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.modelAreaWrap}>
-          <AppText style={styles.modelAreaLabel}>전신사진</AppText>
           <View style={styles.modelArea}>
             {fullBodyImageUri ? (
               <Image
@@ -102,13 +127,13 @@ export function VirtualFittingScreen() {
               />
             ) : null}
           </View>
+          <View style={{ marginTop: 12, width: "100%" }}>
+            <FullbodyRegisterButton
+              onPress={openFullBodySheet}
+              label={fullBodyImageUri ? "전신 사진 변경하기" : "전신 사진 등록하기"}
+            />
+          </View>
         </View>
-
-        <Pressable style={styles.changePhotoBtn} onPress={openFullBodySheet}>
-          <AppText style={styles.changePhotoBtnText}>
-            전신 사진 변경하기
-          </AppText>
-        </Pressable>
 
         <AppText style={styles.sectionTitle}>입어 볼 아이템</AppText>
         <View style={styles.itemGridWrapper}>
@@ -179,8 +204,18 @@ export function VirtualFittingScreen() {
         </View>
 
         <View style={styles.fittingBtnWrap}>
-          <Pressable style={styles.fittingBtn} disabled>
-            <AppText style={styles.fittingBtnText}>피팅하기</AppText>
+          <Pressable
+            style={[styles.fittingBtn, itemCount >= 1 && styles.fittingBtnActive]}
+            disabled={itemCount < 1}
+          >
+            <AppText
+              style={[
+                styles.fittingBtnText,
+                itemCount >= 1 && styles.fittingBtnTextActive,
+              ]}
+            >
+              피팅하기
+            </AppText>
           </Pressable>
         </View>
       </ScrollView>
