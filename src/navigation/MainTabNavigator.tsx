@@ -26,6 +26,7 @@ const HIDE_TAB_ROUTES = [
   "MakeItem",
   "EditCloset",
   "EditItem",
+  "LoadOotd",
   "OotdCreate",
   "OotdCreateInfo",
   "OotdDetail",
@@ -41,8 +42,10 @@ export default function MainTabNavigator() {
       screenOptions={({ route }) => {
         const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
-        // DressroomTab, OotdTab 등 어떤 탭이든 포커스된 화면이 목록에 있으면 탭 바 숨김
-        const shouldHideTabBar = HIDE_TAB_ROUTES.includes(routeName);
+        const shouldHideTabBar =
+          (route.name === "DressroomTab" || route.name === "CalendarTab") &&
+          HIDE_TAB_ROUTES.includes(routeName);
+
 
         return {
           headerShown: false,
