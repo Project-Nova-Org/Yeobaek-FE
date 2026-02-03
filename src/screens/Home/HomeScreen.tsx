@@ -13,7 +13,11 @@ export function HomeScreen() {
     <View style={styles.container}>
       <HomeTop />
 
-      <View style={styles.fixedContent}>
+      <ScrollView
+        style={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
         <View style={styles.sectionHeader}>
           <Pressable style={styles.sectionTitleRow} onPress={() => console.log("옷장 전체보기")}>
             <Text style={styles.sectionTitle}>즐겨찾기 옷장</Text>
@@ -68,7 +72,7 @@ export function HomeScreen() {
         </View>
 
         <AICoordiBanner />
-      </View>
+      </ScrollView>
     </View>
   );
 }

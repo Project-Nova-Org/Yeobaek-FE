@@ -5,10 +5,11 @@ const { width } = Dimensions.get("window");
 const cellWidth = width / 7;
 export const calendarStyles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: Colors.white,
-    width: width,
-    paddingVertical: 20,
+    paddingHorizontal: 0,
     paddingTop: 10,
+    marginBottom: 40,
   },
   weekRow: {
     flexDirection: "row",
@@ -28,13 +29,14 @@ export const calendarStyles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     width: "100%",
+    flex: 1,
   },
   dateCell: {
     width: cellWidth,
     height: cellWidth * 1.6,
     paddingLeft: 3,
     position: "relative",
-    marginBottom: 15,
+    marginBottom: 10,
   },
   contentArea: {
     flex: 1,

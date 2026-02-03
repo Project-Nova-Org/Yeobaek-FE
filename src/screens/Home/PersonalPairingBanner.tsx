@@ -4,15 +4,19 @@ import { AppText as Text } from "@/components/common/AppText";
 import { UndoIcon } from "@/assets/icons";
 import { PersonalPairingImage } from "@/assets/images";
 import { homeStyles as styles } from "./HomeScreen.styles";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 export function PersonalPairingBanner() {
+  const navigation = useNavigation<StackNavigationProp<any>>();
+
   return (
     <View>
       <Pressable
         style={styles.aiBanner}
         accessibilityRole="button"
         accessibilityLabel="퍼스널 페어링 열기"
-        onPress={() => console.log("퍼스널 페어링 화면으로 이동")}
+        onPress={() => navigation.navigate("PersonalPairing")}
       >
         <Image source={PersonalPairingImage} style={styles.aiImage} />
         <View style={styles.bannerTextContent}>

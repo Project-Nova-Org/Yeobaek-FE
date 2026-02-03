@@ -12,8 +12,6 @@ import Alert from "@/components/Alert/Alert";
 import { todayOotdStyles as styles } from "./TodayOotdModal.styles";
 import { SingleOotdData } from "@/components/Calendar/CalendarData";
 import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { CalendarStackParamList } from "@/types/navigation/CalendarStackParamList";
 
 interface TodayOotdModalProps {
   visible: boolean;
@@ -38,7 +36,7 @@ export function TodayOotdModal({
   const [displayList, setDisplayList] = useState<
     { id: string; image: ImageSourcePropType | null }[]
   >([]);
-  const navigation = useNavigation<StackNavigationProp<CalendarStackParamList>>();
+  const navigation = useNavigation<any>();
   const [alertVisible, setAlertVisible] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<"ootd" | "fullShot" | null>(null);
   const [isAddMenuOpen, setIsAddMenuOpen] = useState(false);
@@ -203,7 +201,13 @@ export function TodayOotdModal({
                 <CreateOOTDButton
                   onPress={() => {
                     onClose();
-                    navigation.navigate("OotdCreate");
+                    navigation.navigate("OotdTab", {
+                      screen: "OotdCreate",
+                      params: {
+                        canvasItems: [],
+                        canvasSize: { width: 360, height: 360 },
+                      },
+                    });
                   }}
                 />
               </View>
