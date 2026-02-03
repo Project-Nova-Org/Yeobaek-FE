@@ -32,9 +32,10 @@ export function ChatBot() {
   const getNextMessageId = () => nextMessageIdRef.current++;
 
   useEffect(() => {
+    const currentTimers = timerRefs.current;
     return () => {
-      timerRefs.current.forEach((t) => clearTimeout(t));
-      timerRefs.current.clear();
+      currentTimers.forEach((timer) => clearTimeout(timer));
+      currentTimers.clear();
     };
   }, []);
 
