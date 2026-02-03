@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import {
   View,
   ScrollView,
@@ -20,17 +20,21 @@ import { createInitialMessages, Message, getCurrentTime, AI_RESPONSES } from "./
 
 export function ChatBot() {
   const navigation = useNavigation();
-  const [messages, setMessages] = useState<Message[]>(() => createInitialMessages());
+  const initialMessages = useMemo(() => createInitialMessages(), []);
+  const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [inputText, setInputText] = useState("");
   const [showTooltip, setShowTooltip] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const nextMessageIdRef = useRef(1);
+  const timerRefs = useRef<Set<ReturnType<typeof setTimeout>>>(new Set());
+  const nextMessageIdRef = useRef(
+    initialMessages.length ? Math.max(...initialMessages.map((m) => m.id)) + 1 : 1,
+  );
   const getNextMessageId = () => nextMessageIdRef.current++;
 
   useEffect(() => {
     return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRefs.current.forEach((t) => clearTimeout(t));
+      timerRefs.current.clear();
     };
   }, []);
 
@@ -49,7 +53,7 @@ export function ChatBot() {
     setInputText("");
 
     // AI 자동 응답 시뮬레이션
-    timerRef.current = setTimeout(() => {
+    const timer = setTimeout(() => {
       const randomResponse = AI_RESPONSES[Math.floor(Math.random() * AI_RESPONSES.length)];
       const aiMsg: Message = {
         id: getNextMessageId(),
@@ -59,7 +63,9 @@ export function ChatBot() {
       };
 
       setMessages((prev) => [...prev, aiMsg]);
+      timerRefs.current.delete(timer);
     }, 1000);
+    timerRefs.current.add(timer);
   };
 
   return (
