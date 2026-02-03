@@ -25,6 +25,8 @@ export function ChatBot() {
   const [showTooltip, setShowTooltip] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const nextMessageIdRef = useRef(1);
+  const getNextMessageId = () => nextMessageIdRef.current++;
 
   useEffect(() => {
     return () => {
@@ -37,7 +39,7 @@ export function ChatBot() {
 
     // 사용자 메시지 생성
     const userMsg: Message = {
-      id: Date.now(),
+      id: getNextMessageId(),
       text: inputText,
       sender: "user",
       time: getCurrentTime(),
@@ -50,7 +52,7 @@ export function ChatBot() {
     timerRef.current = setTimeout(() => {
       const randomResponse = AI_RESPONSES[Math.floor(Math.random() * AI_RESPONSES.length)];
       const aiMsg: Message = {
-        id: Date.now() + 1,
+        id: getNextMessageId(),
         text: randomResponse,
         sender: "ai",
         time: getCurrentTime(),
@@ -149,16 +151,27 @@ export function ChatBot() {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Message..."
+            placeholder="메시지를 입력하세요..."
             value={inputText}
             onChangeText={setInputText}
             multiline
+            accessibilityLabel="메시지 입력"
           />
-          <Pressable style={styles.galleryButton} onPress={() => console.log("갤러리 열기")}>
+          <Pressable
+            style={styles.galleryButton}
+            onPress={() => console.log("갤러리 열기")}
+            accessibilityRole="button"
+            accessibilityLabel="갤러리 열기"
+          >
             <GalleryIcon width={30} height={30} color="#828282" />
           </Pressable>
 
-          <Pressable style={styles.sendButton} onPress={handleSend}>
+          <Pressable
+            style={styles.sendButton}
+            onPress={handleSend}
+            accessibilityRole="button"
+            accessibilityLabel="메시지 전송"
+          >
             <SendIcon width={35} height={35} color="#FFF" />
           </Pressable>
         </View>
