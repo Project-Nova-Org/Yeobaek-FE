@@ -4,4 +4,5 @@ export type HomeStackParamList = {
   RecommendOotd: undefined;
   PersonalPairing: undefined;
   PersonalPairingResult: { itemId: number };
+  ChatBot: undefined;
 };

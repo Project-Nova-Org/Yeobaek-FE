@@ -54,3 +54,4 @@ export { default as ClosetBaseIcon } from "./closet_base.svg";
 export { default as DownloadIcon } from "./download.svg";
 export { default as FlipIcon } from "./flip.svg";
 export { default as LogoIcon } from "./logo.svg";
+export { default as SendIcon } from "./send.svg";

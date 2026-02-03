@@ -32,6 +32,7 @@ const HIDE_TAB_ROUTES = [
   "OotdDetail",
   "PersonalPairing",
   "PersonalPairingResult",
+  "ChatBot",
 ];
 
 export default function MainTabNavigator() {

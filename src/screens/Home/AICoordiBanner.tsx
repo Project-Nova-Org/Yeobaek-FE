@@ -19,7 +19,7 @@ export function AICoordiBanner() {
         style={styles.aiBanner}
         accessibilityRole="button"
         accessibilityLabel="AI 퍼스널 스타일리스트 백여사 열기"
-        onPress={() => console.log("백여사 채팅으로 이동")}
+        onPress={() => navigation.navigate("ChatBot")}
       >
         <Image source={ChatbotImage} style={styles.aiImage} />
         <View style={styles.bannerTextContent}>

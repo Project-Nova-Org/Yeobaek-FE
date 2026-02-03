@@ -12,6 +12,8 @@ export const Colors = {
   textDisabled: "#999999",
   shadow: "#757575",
   placeholder: "#767676",
+  messageBubble: "#EEEEEE",
+  messageText: "#828282",
   error: "#E50000",
   border: "#E5E6E8",
   help: "#D5D5D5",
