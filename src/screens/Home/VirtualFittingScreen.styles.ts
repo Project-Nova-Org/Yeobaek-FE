@@ -69,9 +69,10 @@ export const styles = StyleSheet.create({
 
   tooltipContainer: {
     position: "absolute",
-    top: 70,
+    top: 50,
     right: 10,
-    backgroundColor: Colors.help,
+    backgroundColor: Colors.border,
+    marginRight: 10,
     padding: 15,
     borderRadius: 8,
     zIndex: 1000,
