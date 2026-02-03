@@ -15,10 +15,10 @@ export const getCurrentTime = () => {
   return `${ampm} ${hours}:${minutesStr}`;
 };
 
-export const INITIAL_MESSAGES: Message[] = [
+export const createInitialMessages = (): Message[] => [
   {
     id: 1,
-    text: "안녕 구리야! 오늘은 어떤 스타일 고민이 있니? 옷장 데이터를 기반으로 추천줄게. ",
+    text: "안녕구리야! 오늘 어떤 스타일 고민이 있니?",
     sender: "ai",
     time: getCurrentTime(),
   },

@@ -16,7 +16,7 @@ export function PersonalPairing() {
   const navigation = useNavigation<StackNavigationProp<any>>();
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [, setCategoryFilter] = useState<CategoryState | null>(null);
+  const [categoryFilter, setCategoryFilter] = useState<CategoryState | null>(null);
 
   const handleItemPress = (id: number) => {
     setSelectedId((prev) => (prev === id ? null : id));
@@ -24,11 +24,18 @@ export function PersonalPairing() {
 
   const filteredItems = useMemo(() => {
     return MOCK_ITEMS.filter((item) => {
-      return (
-        searchQuery.length === 0 || item.brand.toLowerCase().includes(searchQuery.toLowerCase())
-      );
+      const matchesSearch = item.brand.toLowerCase().includes(searchQuery.toLowerCase());
+      let matchesCategory = true;
+
+      if (categoryFilter) {
+        if (categoryFilter.typeCategory && categoryFilter.typeCategory !== "전체") {
+          matchesCategory = item.category === categoryFilter.typeCategory;
+        }
+      }
+
+      return matchesSearch && matchesCategory;
     });
-  }, [searchQuery]);
+  }, [searchQuery, categoryFilter]);
 
   const handleSelectComplete = () => {
     if (selectedId !== null) {

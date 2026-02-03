@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   ScrollView,
@@ -16,14 +16,21 @@ import { AppText as Text } from "@/components/common/AppText";
 import { GalleryIcon, HelpIcon, SendIcon } from "@/assets/icons";
 import { ChatbotImage } from "@/assets/images";
 import { chatBotStyles as styles } from "./ChatBot.styles";
-import { INITIAL_MESSAGES, Message, getCurrentTime, AI_RESPONSES } from "./ChatBotData";
+import { createInitialMessages, Message, getCurrentTime, AI_RESPONSES } from "./ChatBotData";
 
 export function ChatBot() {
   const navigation = useNavigation();
-  const [messages, setMessages] = useState<Message[]>(INITIAL_MESSAGES);
+  const [messages, setMessages] = useState<Message[]>(() => createInitialMessages());
   const [inputText, setInputText] = useState("");
   const [showTooltip, setShowTooltip] = useState(false);
   const scrollViewRef = useRef<ScrollView>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   const handleSend = () => {
     if (inputText.trim() === "") return;
@@ -40,7 +47,7 @@ export function ChatBot() {
     setInputText("");
 
     // AI 자동 응답 시뮬레이션
-    setTimeout(() => {
+    timerRef.current = setTimeout(() => {
       const randomResponse = AI_RESPONSES[Math.floor(Math.random() * AI_RESPONSES.length)];
       const aiMsg: Message = {
         id: Date.now() + 1,
@@ -48,6 +55,7 @@ export function ChatBot() {
         sender: "ai",
         time: getCurrentTime(),
       };
+
       setMessages((prev) => [...prev, aiMsg]);
     }, 1000);
   };

@@ -1,4 +1,3 @@
-import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import { AppHeader } from "@/components/Header/AppHeader";
 import { HeaderLeft } from "@/components/Header/HeaderLeft";
 import { AppText as Text } from "@/components/common/AppText";
@@ -8,12 +7,33 @@ import { personalPairingStyles as styles } from "./PersonalPairing.styles";
 import { useMemo } from "react";
 import { Image, Pressable, ScrollView, View } from "react-native";
 
+import {
+  useNavigation,
+  useRoute,
+  RouteProp,
+  CompositeNavigationProp,
+} from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { MainTabParamList } from "@/types/navigation/MainTabParamList";
+import { OotdStackParamList } from "@/types/navigation/OotdStackParamList";
+import { DressroomStackParamList } from "@/types/navigation/DressroomStackParamList";
+import { HomeStackParamList } from "@/types/navigation/HomeStackParamList";
+
 type RouteParams = {
   PersonalPairingResult: { itemId: number };
 };
 
+type NavigationProp = CompositeNavigationProp<
+  StackNavigationProp<HomeStackParamList>,
+  CompositeNavigationProp<
+    BottomTabNavigationProp<MainTabParamList>,
+    StackNavigationProp<OotdStackParamList & DressroomStackParamList>
+  >
+>;
+
 export function PersonalPairingResult() {
-  const navigation = useNavigation<any>();
+  const navigation = useNavigation<NavigationProp>();
   const route = useRoute<RouteProp<RouteParams, "PersonalPairingResult">>();
   const itemId = route.params?.itemId;
 
@@ -85,7 +105,11 @@ export function PersonalPairingResult() {
                 key={mItem.id}
                 style={styles.matchingThreeCard}
                 onPress={() => {
-                  const numericId = parseInt(mItem.id.replace(/[^0-9]/g, "")) || 0;
+                  const numericId = parseInt(mItem.id.replace(/[^0-9]/g, ""));
+                  if (!numericId || numericId <= 0) {
+                    console.warn("유효하지 않은 아이템 ID입니다:", mItem.id);
+                    return;
+                  }
                   navigation.navigate("DressroomTab", {
                     screen: "ItemDetail",
                     params: { itemId: numericId },
