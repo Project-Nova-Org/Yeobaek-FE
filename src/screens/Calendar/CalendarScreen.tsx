@@ -21,13 +21,7 @@ import { getOotdList, subscribeOotdList } from "@/stores/ootdStore";
 import { SampleOOTD2Image } from "@/assets/images";
 import type { SavedOotd } from "@/types/ootd";
 
-function savedOotdToSingleOotdData(ootd: {
-  id: string;
-  name: string;
-  items: { image: unknown }[];
-  canvasSize: { width: number; height: number };
-  imageBgColor?: string;
-}): SingleOotdData {
+function savedOotdToSingleOotdData(ootd: SavedOotd): SingleOotdData {
   const image = (ootd.items[0]?.image as ImageSourcePropType) ?? SampleOOTD2Image;
   return {
     id: ootd.id,
