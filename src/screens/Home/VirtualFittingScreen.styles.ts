@@ -17,7 +17,6 @@ const SCALED_SLOT_SIZE = SLOT_SIZE * GRID_SCALE;
 const GRID_HEIGHT =
   ROWS_COUNT * SCALED_SLOT_SIZE + SLOT_GAP * (ROWS_COUNT - 1);
 
-/** OotdDetailScreen 등 다른 페이지와 동일한 헤더 레이아웃(사이즈, padding, 글씨 크기) */
 export const headerStyles = StyleSheet.create({
   container: {
     height: 70,
