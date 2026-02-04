@@ -188,7 +188,6 @@ export function CalendarScreen() {
         if (input === "ootd") newImg = target.ootdImage;
         else if (input === "fullShot") newImg = target.fullShotImage || target.ootdImage;
         else newImg = input as ImageSourcePropType;
-        // LoadOotd에서 이미지 선택 시 ootd 슬롯에도 반영해 선택 상태/체크 아이콘이 올바르게 표시되도록 함
         const isExternalImage = input !== "ootd" && input !== "fullShot";
         updatedEntry = {
           ...target,
@@ -215,7 +214,6 @@ export function CalendarScreen() {
       let newSelectedData = null;
 
       if (type === "ootd") {
-        // 주인이 삭제되면 전체 삭제 + 달력 날짜-OOTD 연결 해제 (OOTD 생성으로 등록한 것도 삭제 반영)
         removeOotdForDate(dateRaw);
         delete updatedList[dateRaw];
         newSelectedData = null;
@@ -240,7 +238,6 @@ export function CalendarScreen() {
       <CalendarTop />
 
       <View style={styles.fixedContent}>
-        {/* 월 선택 및 저장 버튼 영역 */}
         <View style={styles.monthSelectorRow}>
           <View style={styles.arrowControls}>
             <Pressable

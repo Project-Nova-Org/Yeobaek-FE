@@ -84,7 +84,6 @@ export const styles = StyleSheet.create({
     color: Colors.primary,
     textAlign: "center",
   },
-  /** 전신사진 컨테이너 (한 화면 내 표시용 축소) */
   modelArea: {
     width: 130,
     height: 230,
@@ -129,7 +128,6 @@ export const styles = StyleSheet.create({
     gap: SLOT_GAP,
     justifyContent: "flex-start",
   },
-  /** 빈 칸 레이아웃용(투명, 모양/디자인 없음) */
   itemSlotSpacer: {
     width: SLOT_SIZE,
     height: SLOT_SIZE,
