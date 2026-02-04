@@ -42,7 +42,7 @@ export function ChatBot() {
   const handleSend = () => {
     if (inputText.trim() === "") return;
 
-    // 사용자 메시지 생성
+    // 사용자 메시지
     const userMsg: Message = {
       id: getNextMessageId(),
       text: inputText,
