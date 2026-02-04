@@ -25,9 +25,17 @@ import type { SavedOotd } from "@/types/ootd";
 
 const CAROUSEL_WIDTH = 254;
 const CAROUSEL_HEIGHT = 370;
-import { useNavigation } from "@react-navigation/native";
+
+import { useNavigation, CompositeNavigationProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { CalendarStackParamList } from "@/types/navigation/CalendarStackParamList";
+import { MainTabParamList } from "@/types/navigation/MainTabParamList";
+
+type NavigationProp = CompositeNavigationProp<
+  StackNavigationProp<CalendarStackParamList>,
+  BottomTabNavigationProp<MainTabParamList>
+>;
 
 interface TodayOotdModalProps {
   visible: boolean;
@@ -227,18 +235,16 @@ export function TodayOotdModal({
                             >
                               <DeleteIcon width={20} height={20} color="#1B2A41" />
                             </Pressable>
-                            {showRepresentativeCheck && (
-                              <Pressable
-                                style={styles.checkIconWrap}
-                                onPress={() => onSelectMainImage(item.id as "ootd" | "fullShot")}
-                              >
+                            <Pressable
+                              style={styles.checkIcon}
+                              onPress={() => onSelectMainImage(item.id as "ootd" | "fullShot")}
+                            >
                                 {isSelected ? (
-                                  <CheckSelectedIcon width={20} height={16} />
+                                    <CheckSelectedIcon width={20} height={16} />
                                 ) : (
-                                  <CheckUnselectedIcon width={20} height={16} />
+                                    <CheckUnselectedIcon width={20} height={16} />
                                 )}
-                              </Pressable>
-                            )}
+                            </Pressable>
                           </>
                         ) : (
                           <View style={styles.addMenuContainer}>

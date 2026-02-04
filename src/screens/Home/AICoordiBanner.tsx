@@ -9,8 +9,10 @@ import { HomeStackParamList } from "@/types/navigation/HomeStackParamList";
 import { fittingCount } from "./HomeData";
 import { homeStyles as styles } from "./HomeScreen.styles";
 
+
 export function AICoordiBanner() {
   const navigation = useNavigation<StackNavigationProp<HomeStackParamList>>();
+
 
   return (
     <View>
@@ -20,7 +22,7 @@ export function AICoordiBanner() {
         style={styles.aiBanner}
         accessibilityRole="button"
         accessibilityLabel="AI 퍼스널 스타일리스트 백여사 열기"
-        onPress={() => console.log("백여사 채팅으로 이동")}
+        onPress={() => navigation.navigate({ name: "ChatBot", params: undefined })}
       >
         <Image source={ChatbotImage} style={styles.aiImage} />
         <View style={styles.bannerTextContent}>
@@ -36,7 +38,7 @@ export function AICoordiBanner() {
         style={styles.aiBanner}
         accessibilityRole="button"
         accessibilityLabel={`가상피팅 열기, 현재 ${fittingCount.totalCount}회 중 ${fittingCount.currentCount}회 남음`}
-        onPress={() => navigation.navigate("VirtualFitting")}
+        onPress={() => navigation.navigate({ name: "VirtualFitting", params: {} })}
       >
         <Image source={VirtualFittingImage} style={styles.aiImage} />
         <View style={styles.bannerTextContent}>
@@ -57,7 +59,7 @@ export function AICoordiBanner() {
         style={styles.aiBanner}
         accessibilityRole="button"
         accessibilityLabel="퍼스널 페어링 열기"
-        onPress={() => console.log("퍼스널 페어링 화면으로 이동")}
+        onPress={() => navigation.navigate({ name: "PersonalPairing", params: undefined })}
       >
         <Image source={PersonalPairingImage} style={styles.aiImage} />
         <View style={styles.bannerTextContent}>
