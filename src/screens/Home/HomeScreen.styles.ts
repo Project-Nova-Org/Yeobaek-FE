@@ -7,10 +7,12 @@ export const homeStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.background,
   },
-  fixedContent: {
+  scrollContainer: {
     flex: 1,
+  },
+  scrollContent: {
     paddingTop: 5,
-    paddingBottom: 20,
+    paddingBottom: 80,
   },
   sectionHeader: {
     paddingHorizontal: 20,

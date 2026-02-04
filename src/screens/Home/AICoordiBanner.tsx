@@ -5,8 +5,12 @@ import { UndoIcon } from "@/assets/icons";
 import { ChatbotImage, VirtualFittingImage, PersonalPairingImage } from "@/assets/images";
 import { fittingCount } from "./HomeData";
 import { homeStyles as styles } from "./HomeScreen.styles";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 export function AICoordiBanner() {
+  const navigation = useNavigation<StackNavigationProp<any>>();
+
   return (
     <View>
       <Text style={styles.aiSectionTitle}>AI 퍼스널 스타일리스트</Text>
@@ -15,7 +19,7 @@ export function AICoordiBanner() {
         style={styles.aiBanner}
         accessibilityRole="button"
         accessibilityLabel="AI 퍼스널 스타일리스트 백여사 열기"
-        onPress={() => console.log("백여사 채팅으로 이동")}
+        onPress={() => navigation.navigate("ChatBot")}
       >
         <Image source={ChatbotImage} style={styles.aiImage} />
         <View style={styles.bannerTextContent}>
@@ -52,7 +56,7 @@ export function AICoordiBanner() {
         style={styles.aiBanner}
         accessibilityRole="button"
         accessibilityLabel="퍼스널 페어링 열기"
-        onPress={() => console.log("퍼스널 페어링 화면으로 이동")}
+        onPress={() => navigation.navigate("PersonalPairing")}
       >
         <Image source={PersonalPairingImage} style={styles.aiImage} />
         <View style={styles.bannerTextContent}>
