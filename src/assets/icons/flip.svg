@@ -14,7 +14,7 @@
             <feGaussianBlur stdDeviation="1"/>
             <feComposite in2="hardAlpha" operator="out"/>
             <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"/>
-            <feBlend mode="plus-darker" in2="BackgroundImageFix" result="effect1_dropShadow_224_909"/>
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_224_909"/>
             <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_224_909" result="shape"/>
         </filter>
     </defs>
