@@ -81,11 +81,16 @@ export default function OotdCreateScreen({ navigation, route }: Props) {
         onBack={() => navigation.goBack()}
         onNext={() => {
           if (canvasItems.length < 2) return;
-          navigation.navigate("OotdCreateInfo", {
+          const payload = {
             canvasItems,
             canvasSize,
             editOotdId: params?.editOotdId,
-          });
+            calendarDate: params?.calendarDate,
+          };
+          const serializable = JSON.parse(
+            JSON.stringify(payload)
+          ) as typeof payload;
+          navigation.navigate("OotdCreateInfo", serializable);
         }}
       />
 

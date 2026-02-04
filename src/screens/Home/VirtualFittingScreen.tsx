@@ -5,6 +5,8 @@ import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
 import type { StackNavigationProp } from "@react-navigation/stack";
 
 import { HomeStackParamList } from "@/types/navigation/HomeStackParamList";
+import type { OotdCanvasItem } from "@/types/ootd";
+import { DEFAULT_ITEM_TRANSFORM } from "@/types/ootd";
 import { AppText } from "@/components/common/AppText";
 import { UndoIcon, HelpIcon, ItemPlus } from "@/assets/icons";
 import { AddItemBottomSheet } from "@/components/Modal/AddItemBottomSheet/AddItemBottomSheet";
@@ -84,6 +86,23 @@ export function VirtualFittingScreen() {
         if (uri) setFullBodyImageUri(uri);
       }
     );
+  };
+
+  const handleFittingPress = () => {
+    if (itemCount < 1) return;
+    const canvasItems: OotdCanvasItem[] = displayItems.map((item, idx) => ({
+      key: `${item.id}-${idx}-${Date.now()}`,
+      image: item.imageUrl,
+      transform: { ...DEFAULT_ITEM_TRANSFORM },
+    }));
+    const canvasSize = { width: 360, height: 360 };
+    const tabNav = navigation.getParent();
+    if (tabNav) {
+      (tabNav as { navigate: (a: string, b?: object) => void }).navigate(
+        "OotdTab",
+        { screen: "OotdCreate", params: { canvasItems, canvasSize } }
+      );
+    }
   };
 
   return (
@@ -207,6 +226,7 @@ export function VirtualFittingScreen() {
           <Pressable
             style={[styles.fittingBtn, itemCount >= 1 && styles.fittingBtnActive]}
             disabled={itemCount < 1}
+            onPress={handleFittingPress}
           >
             <AppText
               style={[

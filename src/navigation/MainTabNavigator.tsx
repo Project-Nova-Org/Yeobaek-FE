@@ -43,7 +43,9 @@ export default function MainTabNavigator() {
         const routeName = getFocusedRouteNameFromRoute(route) ?? "";
 
         const shouldHideTabBar =
-          (route.name === "DressroomTab" || route.name === "CalendarTab") &&
+          (route.name === "DressroomTab" ||
+            route.name === "CalendarTab" ||
+            route.name === "OotdTab") &&
           HIDE_TAB_ROUTES.includes(routeName);
 
 

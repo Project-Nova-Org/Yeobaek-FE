@@ -61,16 +61,15 @@ export const todayOotdStyles = StyleSheet.create({
     borderWidth: 1,
   },
   emptyCardWrapper: {
-    borderStyle: "dashed",
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: Colors.primary,
     backgroundColor: Colors.white,
     elevation: 0,
     shadowOpacity: 0,
   },
   cardImage: {
-    width: "100%",
-    height: "100%",
+    width: 254,
+    height: 370,
     backgroundColor: Colors.white,
   },
 
@@ -91,6 +90,27 @@ export const todayOotdStyles = StyleSheet.create({
     top: 15,
     right: 15,
     zIndex: 110,
+  },
+  checkIconWrap: {
+    position: "absolute",
+    top: 15,
+    right: 15,
+    zIndex: 110,
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  /** 선택됨: 테두리 흰색, 속 남색 */
+  checkIconWrapSelected: {
+    borderWidth: 1,
+    borderColor: Colors.white,
+  },
+  /** 비선택: 테두리 남색, 속 흰색 */
+  checkIconWrapUnselected: {
+    borderWidth: 1,
+    borderColor: Colors.primary,
   },
   emptyContainer: {
     alignItems: "center",

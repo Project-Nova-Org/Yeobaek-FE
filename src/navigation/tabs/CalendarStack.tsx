@@ -4,6 +4,7 @@ import { CalendarStackParamList } from "@/types/navigation/CalendarStackParamLis
 import { CalendarScreen } from "@/screens/Calendar/CalendarScreen";
 import LoadOotdScreen from "@/screens/Calendar/LoadOotdScreen";
 import OotdCreateScreen from "@/screens/Ootd/OotdCreateScreen";
+import OotdCreateInfoScreen from "@/screens/Ootd/OotdCreateInfoScreen";
 
 const Stack = createStackNavigator<CalendarStackParamList>();
 
@@ -13,6 +14,7 @@ export default function CalendarStack() {
       <Stack.Screen name="Calendar" component={CalendarScreen} />
       <Stack.Screen name="LoadOotd" component={LoadOotdScreen} />
       <Stack.Screen name="OotdCreate" component={OotdCreateScreen} />
+      <Stack.Screen name="OotdCreateInfo" component={OotdCreateInfoScreen} />
     </Stack.Navigator>
   );
 }

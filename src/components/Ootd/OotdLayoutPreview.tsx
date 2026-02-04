@@ -13,6 +13,10 @@ type Props = {
   /** 배치가 기록된 캔버스 크기 (스케일 계산용) */
   sourceWidth: number;
   sourceHeight: number;
+  /** OOTD 생성 시 선택한 배경색 (달력/모달 미리보기용) */
+  imageBgColor?: string;
+  /** 아이템별 borderRadius (0이면 직각, 달력 저장 모달 등에서 셀만 둥글게 할 때 사용) */
+  itemBorderRadius?: number;
 };
 
 /**
@@ -25,8 +29,15 @@ export function OotdLayoutPreview({
   height,
   sourceWidth,
   sourceHeight,
+  imageBgColor,
+  itemBorderRadius = 12,
 }: Props) {
-  if (items.length === 0) return <View style={[styles.container, { width, height }]} />;
+  const containerStyle = [
+    styles.container,
+    { width, height },
+    imageBgColor ? { backgroundColor: imageBgColor } : undefined,
+  ];
+  if (items.length === 0) return <View style={containerStyle} />;
 
   /** 회전된 사각형의 축정렬 바운딩 박스(AABB). 회전 시 실제 차지하는 영역을 반영한다. */
   const getRotatedBounds = (
@@ -60,17 +71,21 @@ export function OotdLayoutPreview({
   const maxY = Math.max(...boundsList.map((b) => b.maxY));
   const layoutW = maxX - minX;
   const layoutH = maxY - minY;
-  const scale = Math.min(
+  const scale = Math.max(
     width / Math.max(layoutW, 1),
     height / Math.max(layoutH, 1)
   );
+  const scaledW = layoutW * scale;
+  const scaledH = layoutH * scale;
+  const offsetX = (width - scaledW) / 2;
+  const offsetY = (height - scaledH) / 2;
 
   return (
-    <View style={[styles.container, { width, height }]}>
+    <View style={containerStyle}>
       {items.map((item) => {
         const { x, y, width: w, height: h, rotation } = item.transform;
-        const left = (x - minX) * scale;
-        const top = (y - minY) * scale;
+        const left = (x - minX) * scale + offsetX;
+        const top = (y - minY) * scale + offsetY;
         const itemW = w * scale;
         const itemH = h * scale;
         return (
@@ -84,12 +99,13 @@ export function OotdLayoutPreview({
                 width: itemW,
                 height: itemH,
                 transform: [{ rotate: `${rotation}rad` }],
+                borderRadius: itemBorderRadius,
               },
             ]}
           >
             <Image
               source={item.image}
-              style={styles.itemImage}
+              style={[styles.itemImage, { borderRadius: itemBorderRadius }]}
               resizeMode="cover"
             />
           </View>

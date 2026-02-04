@@ -3,6 +3,8 @@ export { default as AllDeleteIcon } from "./all_delete.svg";
 export { default as AppleIcon } from "./apple.svg";
 export { default as CameraIcon } from "./camera.svg";
 export { default as CheckIcon } from "./check.svg";
+export { default as CheckSelectedIcon } from "./check-selected.svg";
+export { default as CheckUnselectedIcon } from "./check-unselected.svg";
 export { default as CloseIcon } from "./close.svg";
 export { default as ClosetIcon } from "./closet.svg";
 export { default as DarkModeOffIcon } from "./darkmode_off.svg";
