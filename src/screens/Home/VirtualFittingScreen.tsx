@@ -1,10 +1,17 @@
 import { useState, useEffect, useMemo } from "react";
 import { View, ScrollView, Pressable, Image, useWindowDimensions } from "react-native";
 import { launchCamera, launchImageLibrary } from "react-native-image-picker";
-import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
+import {
+  useNavigation,
+  useRoute,
+  RouteProp,
+  CompositeNavigationProp,
+} from "@react-navigation/native";
+import type { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import type { StackNavigationProp } from "@react-navigation/stack";
 
 import { HomeStackParamList } from "@/types/navigation/HomeStackParamList";
+import type { MainTabParamList } from "@/types/navigation/MainTabParamList";
 import type { OotdCanvasItem } from "@/types/ootd";
 import { DEFAULT_ITEM_TRANSFORM } from "@/types/ootd";
 import { AppText } from "@/components/common/AppText";
@@ -22,7 +29,10 @@ const SLOT_GAP = 8;
 const SLOTS_PER_ROW = 3;
 const GRID_SCALE = 1;
 
-type NavigationProp = StackNavigationProp<HomeStackParamList, "VirtualFitting">;
+type NavigationProp = CompositeNavigationProp<
+  StackNavigationProp<HomeStackParamList, "VirtualFitting">,
+  BottomTabNavigationProp<MainTabParamList>
+>;
 type VirtualFittingRouteProp = RouteProp<HomeStackParamList, "VirtualFitting">;
 
 export function VirtualFittingScreen() {
@@ -96,13 +106,10 @@ export function VirtualFittingScreen() {
       transform: { ...DEFAULT_ITEM_TRANSFORM },
     }));
     const canvasSize = { width: 360, height: 360 };
-    const tabNav = navigation.getParent();
-    if (tabNav) {
-      (tabNav as { navigate: (a: string, b?: object) => void }).navigate(
-        "OotdTab",
-        { screen: "OotdCreate", params: { canvasItems, canvasSize } }
-      );
-    }
+    navigation.navigate("OotdTab", {
+      screen: "OotdCreate",
+      params: { canvasItems, canvasSize },
+    });
   };
 
   return (

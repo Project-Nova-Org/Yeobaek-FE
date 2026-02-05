@@ -31,6 +31,7 @@ export async function uploadOotdImagesAndGetUrls(
         image: { uri: urls[i].imageUrl },
       });
     } else {
+      console.warn(`아이템 ${i} 업로드 실패: blob=${!!blob}, url=${!!urls[i]}`);
       result.push(item);
     }
   }
