@@ -1,4 +1,5 @@
 import { ImageSourcePropType } from "react-native";
+import type { OotdCanvasItem } from "@/types/ootd";
 import {
   SampleOOTD2Image,
   SampleOOTD3Image,
@@ -13,6 +14,10 @@ export interface SingleOotdData {
   image: ImageSourcePropType;
   ootdImage: ImageSourcePropType;
   fullShotImage?: ImageSourcePropType;
+  /** 저장된 OOTD 캔버스 배치(있으면 OotdLayoutPreview로 표시) */
+  items?: OotdCanvasItem[];
+  canvasSize?: { width: number; height: number };
+  imageBgColor?: string;
 }
 export type OotdListData = Record<string, SingleOotdData>;
 

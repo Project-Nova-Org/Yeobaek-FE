@@ -4,6 +4,7 @@ import { MypageStackParamList } from "@/types/navigation/MypageStackParamList";
 import MypageScreen from "@/screens/Mypage/MypageScreen";
 import HelpScreen from "@/screens/Mypage/HelpScreen";
 import MyinfoScreen from "@/screens/Mypage/MyinfoScreen";
+import MyinfoCompleteScreen from "@/screens/Mypage/MyinfoCompleteScreen";
 import NicknameEditScreen from "@/screens/Mypage/NicknameChangeScreen";
 
 const Stack = createStackNavigator<MypageStackParamList>();
@@ -14,6 +15,7 @@ export default function MypageStackNavigator() {
       <Stack.Screen name="Mypage" component={MypageScreen} />
       <Stack.Screen name="Help" component={HelpScreen} />
       <Stack.Screen name="Myinfo" component={MyinfoScreen} />
+      <Stack.Screen name="MyinfoComplete" component={MyinfoCompleteScreen} />
       <Stack.Screen name="NicknameEdit" component={NicknameEditScreen} />
     </Stack.Navigator>
   );

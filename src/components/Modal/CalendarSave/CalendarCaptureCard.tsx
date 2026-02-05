@@ -3,9 +3,12 @@ import { View, Image } from "react-native";
 import { AppText as Text } from "@/components/common/AppText";
 import { FirstLogoIcon } from "@/assets/icons";
 import { getCalendarDays, OotdListData } from "@/components/Calendar/CalendarData";
+import { OotdLayoutPreview } from "@/components/Ootd/OotdLayoutPreview";
 import { captureCardStyles as styles } from "./CalendarCaptureCard.styles";
 import { Colors } from "@/theme/colors.ts";
 import { BgItem } from "./CalendarSave";
+
+const CAPTURE_PREVIEW_SIZE = 28;
 
 interface CaptureCardProps {
   year: number;
@@ -79,7 +82,24 @@ export function CalendarCaptureCard({ year, month, selectedBg, ootdListData }: C
                   </Text>
                 </View>
                 <View style={styles.imageWrapper}>
-                  {ootdData?.image ? (
+                  {ootdData?.items != null &&
+                  ootdData?.canvasSize != null &&
+                  ootdData.items.length > 0 ? (
+                    <View
+                        style={[
+                            styles.ootdImage,
+                          { width: CAPTURE_PREVIEW_SIZE, height: CAPTURE_PREVIEW_SIZE,
+                          }]}
+                    >
+                      <OotdLayoutPreview
+                        items={ootdData.items}
+                        width={CAPTURE_PREVIEW_SIZE}
+                        height={CAPTURE_PREVIEW_SIZE}
+                        sourceWidth={ootdData.canvasSize.width}
+                        sourceHeight={ootdData.canvasSize.height}
+                      />
+                    </View>
+                  ) : ootdData?.image ? (
                     <Image source={ootdData.image} style={styles.ootdImage} resizeMode="cover" />
                   ) : (
                     <View style={styles.emptyFill} />

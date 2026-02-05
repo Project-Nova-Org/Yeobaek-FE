@@ -1,9 +1,10 @@
 import React from "react";
 import { View, Pressable, Image } from "react-native";
 import { AppText as Text } from "@/components/common/AppText";
-import { calendarStyles as styles } from "./Calendar.styles";
+import { calendarStyles as styles, cardWidth, cardHeight } from "./Calendar.styles";
 import { getCalendarDays } from "./CalendarData";
 import { FlipIcon } from "@/assets/icons";
+import { OotdLayoutPreview } from "@/components/Ootd/OotdLayoutPreview";
 import { OotdListData } from "./CalendarData";
 
 interface CalendarProps {
@@ -54,7 +55,7 @@ export function Calendar({ year, month, onOpenOOTD, ootdListData }: CalendarProp
               }}
               disabled={!canPress}
             >
-              <View style={styles.dateNumberOverlay}>
+              <View style={styles.dateNumberRow}>
                 <Text
                   style={[
                     styles.dateText,
@@ -69,15 +70,52 @@ export function Calendar({ year, month, onOpenOOTD, ootdListData }: CalendarProp
               </View>
 
               <View style={styles.contentArea}>
-                <View style={styles.itemWrapper}>
+                <View
+                  style={[styles.itemWrapper, !hasOotd && styles.itemWrapperFlip]}
+                >
                   {hasOotd ? (
-                    <Image
-                      source={ootdData.image}
-                      style={[styles.ootdImage, !item.isCurrentMonth && { opacity: 0.5 }]}
-                      resizeMode="cover"
-                    />
+                    (() => {
+                      const isFullShotRepresentative =
+                        ootdData.fullShotImage != null && ootdData.image === ootdData.fullShotImage;
+                      const hasOotdLayout =
+                        ootdData.items != null &&
+                        ootdData.canvasSize != null &&
+                        ootdData.items.length > 0;
+                      if (isFullShotRepresentative) {
+                        return (
+                          <Image
+                            source={ootdData.fullShotImage!}
+                            style={[styles.ootdImage, !item.isCurrentMonth && { opacity: 0.5 }]}
+                            resizeMode="cover"
+                          />
+                        );
+                      }
+                      if (hasOotdLayout) {
+                        return (
+                          <OotdLayoutPreview
+                            items={ootdData.items!}
+                            width={cardWidth - 2}
+                            height={cardHeight - 2}
+                            sourceWidth={ootdData.canvasSize!.width}
+                            sourceHeight={ootdData.canvasSize!.height}
+                            imageBgColor={ootdData.imageBgColor}
+                            itemBorderRadius={5}
+                          />
+                        );
+                      }
+                      return (
+                        <Image
+                          source={ootdData.image}
+                          style={[styles.ootdImage, !item.isCurrentMonth && { opacity: 0.5 }]}
+                          resizeMode="cover"
+                        />
+                      );
+                    })()
                   ) : (
-                    item.isCurrentMonth && !isFuture && <FlipIcon width="100%" height="100%" />
+                    item.isCurrentMonth &&
+                      !isFuture && (
+                        <FlipIcon width={cardWidth - 2} height={cardHeight - 2} />
+                      )
                   )}
                 </View>
               </View>

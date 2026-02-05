@@ -2,19 +2,52 @@ import { StyleSheet } from "react-native";
 import { Colors } from "@/theme/colors";
 import { FontSize } from "@/theme/typography";
 
+/** 가상피팅과 동일한 헤더 레이아웃(높이 70, padding, 제목 23px·900) */
+export const headerStyles = StyleSheet.create({
+  container: {
+    height: 70,
+    paddingHorizontal: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  backBtn: {
+    width: 44,
+    height: 44,
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
+  title: {
+    flex: 1,
+    textAlign: "center",
+    fontSize: 23,
+    color: Colors.primary,
+    fontWeight: "900",
+    marginRight: -25,
+    justifyContent: "center",
+  },
+  rightIconGroup: {
+    flexDirection: "row",
+    marginRight: 10,
+    alignItems: "center",
+    justifyContent: "flex-end",
+    minWidth: 68,
+  },
+});
+
 export const MyinfoScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.background,
   },
   scrollContent: {
-    paddingBottom: 40,
+    paddingBottom: 20,
     paddingHorizontal: 30,
   },
   imageSection: {
     alignItems: "center",
-    marginTop: 30,
-    marginBottom: 40,
+    marginTop: 12,
+    marginBottom: 12,
   },
   imagePlaceholder: {
     width: 180,
@@ -50,13 +83,13 @@ export const MyinfoScreenStyles = StyleSheet.create({
     fontSize: FontSize.lg,
     fontWeight: "700",
     color: Colors.black,
-    marginBottom: 30,
+    marginBottom: 10,
   },
   inputRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 20,
+    marginBottom: 8,
   },
   inputLabel: {
     fontSize: FontSize.md,
@@ -85,7 +118,7 @@ export const MyinfoScreenStyles = StyleSheet.create({
   genderContainer: {
     flexDirection: "row",
     gap: 10,
-    marginTop: 10,
+    marginTop: 4,
   },
   genderButton: {
     flexDirection: "row",
@@ -108,17 +141,18 @@ export const MyinfoScreenStyles = StyleSheet.create({
     color: Colors.white,
   },
   addButton: {
-    marginTop: 45,
+    marginTop: 16,
   },
 
   tooltipContainer: {
     position: "absolute",
-    top: -20,
+    top: 50,
     right: 10,
-    backgroundColor: Colors.help,
+    backgroundColor: Colors.border,
+    marginRight:10,
     padding: 15,
     borderRadius: 8,
-    zIndex: 10,
+    zIndex: 1000,
     maxWidth: 240,
   },
   tooltipText: {

@@ -1,16 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { View, Modal, Pressable, Image, ImageSourcePropType } from "react-native";
+import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import Carousel from "react-native-reanimated-carousel";
 import { interpolate } from "react-native-reanimated";
 import { AppText as Text } from "@/components/common/AppText";
-import { CloseIcon, DeleteIcon, CheckIcon, UnCheckIcon, UndoIcon, AddIcon } from "@/assets/icons";
+import {
+  CloseIcon,
+  DeleteIcon,
+  CheckSelectedIcon,
+  CheckUnselectedIcon,
+  UndoIcon,
+  AddIcon,
+} from "@/assets/icons";
+import { Colors } from "@/theme/colors";
 import LoadOOTDButton from "@/components/Buttons/medium_button/LoadOOTDButton";
 import CreateOOTDButton from "@/components/Buttons/medium_button/CreateOOTDButton";
 import CameraButton from "@/components/Buttons/medium_button/CameraButton";
 import GalleryButton from "@/components/Buttons/medium_button/GalleryButton";
 import Alert from "@/components/Alert/Alert";
+import { OotdLayoutPreview } from "@/components/Ootd/OotdLayoutPreview";
 import { todayOotdStyles as styles } from "./TodayOotdModal.styles";
 import { SingleOotdData } from "@/components/Calendar/CalendarData";
+import type { SavedOotd } from "@/types/ootd";
+
+const CAROUSEL_WIDTH = 254;
+const CAROUSEL_HEIGHT = 370;
 
 import { useNavigation, CompositeNavigationProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -27,8 +41,14 @@ interface TodayOotdModalProps {
   visible: boolean;
   onClose: () => void;
   date: string;
+  /** YYYY-MM-DD (달력에서 OOTD 생성 시 전달용) */
+  rawDate?: string;
   ootdData: SingleOotdData | null;
-  onSelectMainImage: (input: "ootd" | "fullShot" | ImageSourcePropType) => void;
+  /** slotForNewImage: 카메라/갤러리에서 새 이미지 추가 시 어느 슬롯(ootd/fullShot)에 넣을지. LoadOotd에서 저장된 OOTD 선택 시 SavedOotd 전달 */
+  onSelectMainImage: (
+    input: "ootd" | "fullShot" | ImageSourcePropType | SavedOotd,
+    slotForNewImage?: "ootd" | "fullShot"
+  ) => void;
   onDeleteImage: (type: "ootd" | "fullShot") => void;
   onPrev: () => void;
   onNext: () => void;
@@ -37,6 +57,7 @@ export function TodayOotdModal({
   visible,
   onClose,
   date,
+  rawDate,
   ootdData,
   onSelectMainImage,
   onDeleteImage,
@@ -46,7 +67,7 @@ export function TodayOotdModal({
   const [displayList, setDisplayList] = useState<
     { id: string; image: ImageSourcePropType | null }[]
   >([]);
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigation<StackNavigationProp<CalendarStackParamList>>();
   const [alertVisible, setAlertVisible] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState<"ootd" | "fullShot" | null>(null);
   const [isAddMenuOpen, setIsAddMenuOpen] = useState(false);
@@ -82,14 +103,24 @@ export function TodayOotdModal({
       setDeleteTarget(null);
     }
   };
-  const handleImagePick = async (source: "camera" | "gallery") => {
-    try {
-      console.log(`${source} 실행 중...`);
-
-      // ImagePicker.launchCamera 또는 launchImageLibrary 호출 로직이 들어갈 자리
-      setIsAddMenuOpen(false); // 메뉴 닫기
-    } catch (error) {
-      console.error("이미지를 가져오는 중 에러 발생:", error);
+  const handleImagePick = (source: "camera" | "gallery", slotId: "ootd" | "fullShot") => {
+    if (source === "camera") {
+      launchCamera({ mediaType: "photo" }, (res) => {
+        setIsAddMenuOpen(false);
+        if (res.didCancel || res.errorCode) return;
+        const uri = res.assets?.[0]?.uri;
+        if (uri) onSelectMainImage({ uri }, slotId);
+      });
+    } else {
+      launchImageLibrary(
+        { mediaType: "photo", selectionLimit: 1 },
+        (res) => {
+          setIsAddMenuOpen(false);
+          if (res.didCancel || res.errorCode) return;
+          const uri = res.assets?.[0]?.uri;
+          if (uri) onSelectMainImage({ uri }, slotId);
+        }
+      );
     }
   };
 
@@ -119,7 +150,7 @@ export function TodayOotdModal({
             {displayList.length > 0 && (displayList[0].image || displayList[1]?.image) ? (
               <View style={styles.carouselContainer}>
                 <Carousel
-                  key={date}
+                  key={`${date}-rep-${ootdData?.image === ootdData?.fullShotImage ? "fullShot" : "ootd"}`}
                   loop={false}
                   width={254}
                   height={370}
@@ -137,8 +168,20 @@ export function TodayOotdModal({
                     };
                   }}
                   renderItem={({ item }) => {
-                    const isSelected = item.image && ootdData?.image === item.image;
-                    const isEmpty = !item.image;
+                    const isOotdLayout =
+                      item.id === "ootd" &&
+                      ootdData?.items != null &&
+                      ootdData?.canvasSize != null &&
+                      ootdData.items.length > 0;
+                    const hasOotd = !!(ootdData?.ootdImage || (ootdData?.items && ootdData.items.length > 0));
+                    const hasFullShot = !!ootdData?.fullShotImage;
+                    const showRepresentativeCheck = hasOotd && hasFullShot;
+                    const isSelected = showRepresentativeCheck
+                      ? item.id === "ootd"
+                        ? ootdData?.image !== ootdData?.fullShotImage
+                        : ootdData?.image === ootdData?.fullShotImage
+                      : false;
+                    const isEmpty = !item.image && !isOotdLayout;
 
                     return (
                       <View
@@ -148,16 +191,47 @@ export function TodayOotdModal({
                           isEmpty ? styles.emptyCardWrapper : undefined,
                         ]}
                       >
-                        {item.image ? (
+                        {isOotdLayout ? (
+                          <>
+                            <View style={[styles.cardImage, { width: CAROUSEL_WIDTH, height: CAROUSEL_HEIGHT }]}>
+                              <OotdLayoutPreview
+                                items={ootdData!.items!}
+                                width={CAROUSEL_WIDTH}
+                                height={CAROUSEL_HEIGHT}
+                                sourceWidth={ootdData!.canvasSize!.width}
+                                sourceHeight={ootdData!.canvasSize!.height}
+                                imageBgColor={ootdData!.imageBgColor}
+                              />
+                            </View>
+                            <Pressable
+                              style={styles.deleteIcon}
+                              onPress={() => handleOpenAlert("ootd")}
+                            >
+                              <DeleteIcon width={20} height={20} color="#1B2A41" />
+                            </Pressable>
+                            {showRepresentativeCheck && (
+                              <Pressable
+                                style={styles.checkIconWrap}
+                                onPress={() => onSelectMainImage("ootd")}
+                              >
+                                {isSelected ? (
+                                  <CheckSelectedIcon width={20} height={16} />
+                                ) : (
+                                  <CheckUnselectedIcon width={20} height={16} />
+                                )}
+                              </Pressable>
+                            )}
+                          </>
+                        ) : item.image ? (
                           <>
                             <Image
                               source={item.image}
                               style={styles.cardImage}
-                              resizeMode="contain"
+                              resizeMode="cover"
                             />
                             <Pressable
                               style={styles.deleteIcon}
-                              onPress={() => handleOpenAlert(item.id as any)}
+                              onPress={() => handleOpenAlert(item.id as "ootd" | "fullShot")}
                             >
                               <DeleteIcon width={20} height={20} color="#1B2A41" />
                             </Pressable>
@@ -165,11 +239,11 @@ export function TodayOotdModal({
                               style={styles.checkIcon}
                               onPress={() => onSelectMainImage(item.id as "ootd" | "fullShot")}
                             >
-                              {isSelected ? (
-                                <CheckIcon width={20} height={16} color="#1B2A41" />
-                              ) : (
-                                <UnCheckIcon width={20} height={16} color="#CCC" />
-                              )}
+                                {isSelected ? (
+                                    <CheckSelectedIcon width={20} height={16} />
+                                ) : (
+                                    <CheckUnselectedIcon width={20} height={16} />
+                                )}
                             </Pressable>
                           </>
                         ) : (
@@ -180,10 +254,12 @@ export function TodayOotdModal({
                               </Pressable>
                             ) : (
                               <>
-                                <CameraButton onPress={() => handleImagePick("camera")} />
+                                <CameraButton
+                                  onPress={() => handleImagePick("camera", item.id as "ootd" | "fullShot")}
+                                />
                                 <View style={{ height: 12 }} />
                                 <GalleryButton
-                                  onPress={() => handleImagePick("gallery")}
+                                  onPress={() => handleImagePick("gallery", item.id as "ootd" | "fullShot")}
                                   label="갤러리"
                                 />
                               </>
@@ -211,13 +287,7 @@ export function TodayOotdModal({
                 <CreateOOTDButton
                   onPress={() => {
                     onClose();
-                    navigation.navigate("OotdTab", {
-                      screen: "OotdCreate",
-                      params: {
-                        canvasItems: [],
-                        canvasSize: { width: 360, height: 360 },
-                      },
-                    });
+                    navigation.navigate("OotdCreate", rawDate ? { calendarDate: rawDate } : undefined);
                   }}
                 />
               </View>

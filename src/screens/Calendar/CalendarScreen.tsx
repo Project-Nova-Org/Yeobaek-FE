@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import { View, Pressable, ImageSourcePropType } from "react-native";
 import { AppText as Text } from "@/components/common/AppText";
 import { Calendar } from "@/components/Calendar/Calendar";
@@ -11,9 +11,60 @@ import { calendarScreenStyles as styles } from "./CalendarScreen.styles";
 import { CalendarTop } from "@/components/Top/CalendarTop.tsx";
 import { MOCK_OOTD_DATA } from "@/components/Calendar/CalendarData";
 import { OotdListData, SingleOotdData } from "@/components/Calendar/CalendarData";
+import {
+  getAllDateToOotdIds,
+  removeOotdForDate,
+  setOotdForDate,
+  subscribeCalendarDates,
+} from "@/stores/calendarStore";
+import { getOotdList, subscribeOotdList } from "@/stores/ootdStore";
+import { SampleOOTD2Image } from "@/assets/images";
+import type { SavedOotd } from "@/types/ootd";
+
+function savedOotdToSingleOotdData(ootd: SavedOotd): SingleOotdData {
+  const image = (ootd.items[0]?.image as ImageSourcePropType) ?? SampleOOTD2Image;
+  return {
+    id: ootd.id,
+    name: ootd.name,
+    image,
+    ootdImage: image,
+    items: ootd.items,
+    canvasSize: ootd.canvasSize,
+    imageBgColor: ootd.imageBgColor,
+  };
+}
+
+function getCalendarSavedEntries(): OotdListData {
+  const dateToOotdId = getAllDateToOotdIds();
+  const ootdList = getOotdList();
+  const entries: OotdListData = {};
+  for (const [dateStr, ootdId] of Object.entries(dateToOotdId)) {
+    const ootd = ootdList.find((o) => o.id === ootdId);
+    if (ootd) entries[dateStr] = savedOotdToSingleOotdData(ootd);
+  }
+  return entries;
+}
 
 export function CalendarScreen() {
-  const [ootdListData, setOotdListData] = useState<OotdListData>(MOCK_OOTD_DATA);
+  const [ootdListData, setOotdListData] = useState<OotdListData>(() => ({
+    ...MOCK_OOTD_DATA,
+    ...getCalendarSavedEntries(),
+  }));
+  const [calendarVersion, setCalendarVersion] = useState(0);
+
+  useEffect(() => {
+    const unsubCal = subscribeCalendarDates(() => setCalendarVersion((v) => v + 1));
+    const unsubOotd = subscribeOotdList(() => setCalendarVersion((v) => v + 1));
+    return () => {
+      unsubCal();
+      unsubOotd();
+    };
+  }, []);
+
+  const mergedOotdListData = useMemo(
+    () => ({ ...getCalendarSavedEntries(), ...ootdListData }),
+    [ootdListData, calendarVersion]
+  );
   const [selectedOotdData, setSelectedOotdData] = useState<SingleOotdData | null>(null);
   const [saveModalVisible, setSaveModalVisible] = useState(false);
   const [ootdModalVisible, setOotdModalVisible] = useState(false);
@@ -36,10 +87,10 @@ export function CalendarScreen() {
       });
 
       // 상태에서 직접 조회하여 모달 데이터 동기화
-      const data = ootdListData[dateStr] || null;
+      const data = mergedOotdListData[dateStr] || null;
       setSelectedOotdData(data);
     },
-    [ootdListData],
+    [mergedOotdListData],
   );
 
   const handleMoveDate = (direction: "prev" | "next") => {
@@ -75,16 +126,57 @@ export function CalendarScreen() {
     [updateModalData],
   );
 
-  const handleUpdateMainImage = (input: "ootd" | "fullShot" | ImageSourcePropType) => {
+  const handleUpdateMainImage = (
+    input: "ootd" | "fullShot" | ImageSourcePropType | SavedOotd,
+    slotForNewImage?: "ootd" | "fullShot"
+  ) => {
     const dateRaw = selectedDateInfo.raw;
     if (!dateRaw) return;
+
+    // 이미 만들어진 OOTD를 달력에 등록한 경우: 전체 레이아웃(items/canvasSize)을 반영해 모달·달력 셀 모두 동일하게 표시
+    const isSavedOotd =
+      input &&
+      typeof input === "object" &&
+      "items" in input &&
+      Array.isArray((input as SavedOotd).items) &&
+      "canvasSize" in input &&
+      "id" in input;
+    if (isSavedOotd) {
+      const ootd = input as SavedOotd;
+      const entry = savedOotdToSingleOotdData(ootd);
+      setOotdListData((prev) => ({ ...prev, [dateRaw]: entry }));
+      setSelectedOotdData(entry);
+      setOotdForDate(dateRaw, ootd.id);
+      return;
+    }
 
     setOotdListData((prev: OotdListData) => {
       const target = prev[dateRaw];
       let updatedEntry: SingleOotdData;
 
-      // 1. 해당 날짜에 데이터가 아예 없는 경우 (새로 생성)
-      if (!target) {
+      // 카메라/갤러리에서 새 이미지를 특정 슬롯에 추가하는 경우
+      if (typeof input === "object" && slotForNewImage != null) {
+        const newImg = input as ImageSourcePropType;
+        if (!target) {
+          updatedEntry = {
+            id: String(Date.now()),
+            name: "새로운 OOTD",
+            image: newImg,
+            ootdImage: slotForNewImage === "ootd" ? newImg : newImg,
+            fullShotImage: slotForNewImage === "fullShot" ? newImg : undefined,
+          };
+        } else {
+          if (slotForNewImage === "ootd") {
+            updatedEntry = { ...target, image: newImg, ootdImage: newImg };
+          } else {
+            updatedEntry = {
+              ...target,
+              image: newImg,
+              fullShotImage: newImg,
+            };
+          }
+        }
+      } else if (!target) {
         updatedEntry = {
           id: String(Date.now()),
           name: "새로운 OOTD",
@@ -92,17 +184,19 @@ export function CalendarScreen() {
           ootdImage: input as ImageSourcePropType,
         };
       } else {
-        // 2. 데이터가 있는 경우 (이미지 스위칭 또는 교체)
         let newImg: ImageSourcePropType;
-
         if (input === "ootd") newImg = target.ootdImage;
         else if (input === "fullShot") newImg = target.fullShotImage || target.ootdImage;
         else newImg = input as ImageSourcePropType;
-        updatedEntry = { ...target, image: newImg };
+        const isExternalImage = input !== "ootd" && input !== "fullShot";
+        updatedEntry = {
+          ...target,
+          image: newImg,
+          ootdImage: isExternalImage ? newImg : target.ootdImage,
+        };
       }
 
       const updatedList = { ...prev, [dateRaw]: updatedEntry };
-
       setTimeout(() => setSelectedOotdData(updatedEntry), 0);
       return updatedList;
     });
@@ -120,7 +214,7 @@ export function CalendarScreen() {
       let newSelectedData = null;
 
       if (type === "ootd") {
-        // 주인이 삭제되면 전체 삭제
+        removeOotdForDate(dateRaw);
         delete updatedList[dateRaw];
         newSelectedData = null;
       } else {
@@ -144,7 +238,6 @@ export function CalendarScreen() {
       <CalendarTop />
 
       <View style={styles.fixedContent}>
-        {/* 월 선택 및 저장 버튼 영역 */}
         <View style={styles.monthSelectorRow}>
           <View style={styles.arrowControls}>
             <Pressable
@@ -183,7 +276,7 @@ export function CalendarScreen() {
           year={currentDate.year}
           month={currentDate.month}
           onOpenOOTD={handleOpenOOTD}
-          ootdListData={ootdListData}
+          ootdListData={mergedOotdListData}
         />
       </View>
 
@@ -192,6 +285,7 @@ export function CalendarScreen() {
         visible={ootdModalVisible}
         onClose={() => setOotdModalVisible(false)}
         date={selectedDateInfo.formatted}
+        rawDate={selectedDateInfo.raw}
         ootdData={selectedOotdData}
         onPrev={() => handleMoveDate("prev")}
         onNext={() => handleMoveDate("next")}
@@ -215,7 +309,7 @@ export function CalendarScreen() {
         onClose={() => setSaveModalVisible(false)}
         year={currentDate.year}
         month={currentDate.month}
-        ootdListData={ootdListData}
+        ootdListData={mergedOotdListData}
       />
     </View>
   );

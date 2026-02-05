@@ -11,6 +11,7 @@ import { AppText } from "@/components/common/AppText";
 import { EditIcon } from "@/assets/icons";
 import { TPO_LIST, STYLE_LIST, type TpoOption, type StyleOption } from "@/constants/ootd";
 import { saveOotd, getOotdById, updateOotd } from "@/stores/ootdStore";
+import { setOotdForDate } from "@/stores/calendarStore";
 import { uploadOotdImagesAndGetUrls } from "@/api/ootdUpload";
 import { Colors } from "@/theme/colors";
 import {
@@ -30,7 +31,7 @@ type Props = {
 };
 
 export default function OotdCreateInfoScreen({ navigation, route }: Props) {
-  const { canvasItems, canvasSize, editOotdId } = route.params;
+  const { canvasItems, canvasSize, editOotdId, calendarDate } = route.params;
 
   const [name, setName] = useState("");
   const [tpo, setTpo] = useState<TpoOption | null>(null);
@@ -105,7 +106,7 @@ export default function OotdCreateInfoScreen({ navigation, route }: Props) {
       setIsUploading(true);
       try {
         const itemsWithUrls = await uploadOotdImagesAndGetUrls(canvasItems);
-        saveOotd({
+        const saved = saveOotd({
           name: name.trim(),
           tpo,
           style,
@@ -114,7 +115,15 @@ export default function OotdCreateInfoScreen({ navigation, route }: Props) {
           canvasSize,
           imageBgColor: previewBgColor,
         });
-        navigation.navigate("OOTD");
+        if (calendarDate) {
+          setOotdForDate(calendarDate, saved.id);
+        }
+        const rootRouteName = navigation.getState().routes[0]?.name;
+        if (rootRouteName === "Calendar") {
+          navigation.reset({ index: 0, routes: [{ name: "Calendar" }] });
+        } else {
+          navigation.navigate("OOTD");
+        }
       } catch (e) {
         Alert.alert(
           "저장 실패",

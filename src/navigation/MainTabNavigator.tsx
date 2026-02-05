@@ -30,6 +30,8 @@ const HIDE_TAB_ROUTES = [
   "OotdCreate",
   "OotdCreateInfo",
   "OotdDetail",
+  "VirtualFitting",
+  "VirtualFittingItemSelect",
   "PersonalPairing",
   "PersonalPairingResult",
   "ChatBot",
@@ -46,7 +48,7 @@ export default function MainTabNavigator() {
         const shouldHideTabBar =
           (route.name === "DressroomTab" ||
             route.name === "CalendarTab" ||
-            route.name === "HomeTab") &&
+            route.name === "OotdTab" || route.name === "HomeTab") &&
           HIDE_TAB_ROUTES.includes(routeName);
 
         return {

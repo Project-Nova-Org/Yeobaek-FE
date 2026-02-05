@@ -1,15 +1,18 @@
 import React from "react";
 import { View, Image, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import type { StackNavigationProp } from "@react-navigation/stack";
 import { AppText as Text } from "@/components/common/AppText";
 import { UndoIcon } from "@/assets/icons";
 import { ChatbotImage, VirtualFittingImage, PersonalPairingImage } from "@/assets/images";
+import { HomeStackParamList } from "@/types/navigation/HomeStackParamList";
 import { fittingCount } from "./HomeData";
 import { homeStyles as styles } from "./HomeScreen.styles";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
+
 
 export function AICoordiBanner() {
-  const navigation = useNavigation<StackNavigationProp<any>>();
+  const navigation = useNavigation<StackNavigationProp<HomeStackParamList>>();
+
 
   return (
     <View>
@@ -19,7 +22,7 @@ export function AICoordiBanner() {
         style={styles.aiBanner}
         accessibilityRole="button"
         accessibilityLabel="AI 퍼스널 스타일리스트 백여사 열기"
-        onPress={() => navigation.navigate("ChatBot")}
+        onPress={() => navigation.navigate({ name: "ChatBot", params: undefined })}
       >
         <Image source={ChatbotImage} style={styles.aiImage} />
         <View style={styles.bannerTextContent}>
@@ -35,7 +38,7 @@ export function AICoordiBanner() {
         style={styles.aiBanner}
         accessibilityRole="button"
         accessibilityLabel={`가상피팅 열기, 현재 ${fittingCount.totalCount}회 중 ${fittingCount.currentCount}회 남음`}
-        onPress={() => console.log("가상피팅 화면으로 이동")}
+        onPress={() => navigation.navigate({ name: "VirtualFitting", params: {} })}
       >
         <Image source={VirtualFittingImage} style={styles.aiImage} />
         <View style={styles.bannerTextContent}>
@@ -56,7 +59,7 @@ export function AICoordiBanner() {
         style={styles.aiBanner}
         accessibilityRole="button"
         accessibilityLabel="퍼스널 페어링 열기"
-        onPress={() => navigation.navigate("PersonalPairing")}
+        onPress={() => navigation.navigate({ name: "PersonalPairing", params: undefined })}
       >
         <Image source={PersonalPairingImage} style={styles.aiImage} />
         <View style={styles.bannerTextContent}>
