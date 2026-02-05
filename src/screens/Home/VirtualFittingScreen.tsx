@@ -59,10 +59,10 @@ export function VirtualFittingScreen() {
   const selectedItems: FashionItem[] = selectedItemIds
     .map((id) => MOCK_ITEMS.find((i) => i.id === id))
     .filter((i): i is FashionItem => i != null);
-  const displayItems = selectedItems.slice(0, 6);
-  const itemCount = displayItems.length;
-  const showItemPlus = itemCount < 6;
   const GRID_SLOT_COUNT = 6;
+  const displayItems = selectedItems.slice(0, GRID_SLOT_COUNT);
+  const itemCount = displayItems.length;
+  const showItemPlus = itemCount < GRID_SLOT_COUNT;
 
   const openFullBodySheet = () => setFullBodySheetVisible(true);
   const closeFullBodySheet = () => setFullBodySheetVisible(false);

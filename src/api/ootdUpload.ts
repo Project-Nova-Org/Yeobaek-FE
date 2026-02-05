@@ -14,6 +14,11 @@ export async function uploadOotdImagesAndGetUrls(
     count: items.length,
   });
   if (urls.length === 0) return items;
+  if (urls.length < items.length) {
+    throw new Error(
+      `presigned URL 부족: 요청 ${items.length}개, 수신 ${urls.length}개. 모든 아이템을 업로드할 수 없습니다.`
+    );
+  }
 
   const result: OotdCanvasItem[] = [];
   for (let i = 0; i < items.length; i++) {

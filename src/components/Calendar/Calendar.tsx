@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Pressable, Image } from "react-native";
 import { AppText as Text } from "@/components/common/AppText";
-import { calendarStyles as styles, cellWidth, cardWidth, cardHeight } from "./Calendar.styles";
+import { calendarStyles as styles, cardWidth, cardHeight } from "./Calendar.styles";
 import { getCalendarDays } from "./CalendarData";
 import { FlipIcon } from "@/assets/icons";
 import { OotdLayoutPreview } from "@/components/Ootd/OotdLayoutPreview";

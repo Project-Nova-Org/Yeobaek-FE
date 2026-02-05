@@ -1,7 +1,7 @@
 import { TYPE_CATEGORIES, TYPE_DETAILS } from "@/theme/itemCategories";
 import type { FashionItem } from "@/screens/Dressroom/dressroom.mock";
 
-const MAIN_CATEGORIES = TYPE_CATEGORIES as readonly string[];
+const MAIN_CATEGORIES = TYPE_CATEGORIES;
 
 /** 아이템의 category(세부 종류)를 대분류(상의/하의/한벌 옷 등)로 변환 */
 export function getMainCategory(item: FashionItem): string {

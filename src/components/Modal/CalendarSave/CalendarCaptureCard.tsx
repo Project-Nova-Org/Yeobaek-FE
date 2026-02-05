@@ -85,7 +85,12 @@ export function CalendarCaptureCard({ year, month, selectedBg, ootdListData }: C
                   {ootdData?.items != null &&
                   ootdData?.canvasSize != null &&
                   ootdData.items.length > 0 ? (
-                    <View style={[styles.ootdImage, { width: CAPTURE_PREVIEW_SIZE, height: CAPTURE_PREVIEW_SIZE }]}>
+                    <View
+                        style={[
+                            styles.ootdImage,
+                          { width: CAPTURE_PREVIEW_SIZE, height: CAPTURE_PREVIEW_SIZE,
+                          }]}
+                    >
                       <OotdLayoutPreview
                         items={ootdData.items}
                         width={CAPTURE_PREVIEW_SIZE}

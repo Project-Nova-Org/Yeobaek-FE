@@ -2,7 +2,6 @@ import { StyleSheet } from "react-native";
 import { Colors } from "@/theme/colors";
 import { FontSize } from "@/theme/typography";
 
-/** VirtualFittingScreen과 동일한 헤더 레이아웃 */
 export const headerStyles = StyleSheet.create({
   container: {
     height: 70,
@@ -89,7 +88,6 @@ export const styles = StyleSheet.create({
     aspectRatio: 1,
     borderRadius: 10,
   },
-  /** OOTD ItemGrid selectIconContainer와 동일: 남색 바탕에 흰 체크 */
   checkBadge: {
     position: "absolute",
     top: 6,

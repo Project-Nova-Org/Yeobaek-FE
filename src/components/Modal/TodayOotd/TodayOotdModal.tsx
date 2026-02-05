@@ -231,7 +231,7 @@ export function TodayOotdModal({
                             />
                             <Pressable
                               style={styles.deleteIcon}
-                              onPress={() => handleOpenAlert(item.id as any)}
+                              onPress={() => handleOpenAlert(item.id as "ootd" | "fullShot")}
                             >
                               <DeleteIcon width={20} height={20} color="#1B2A41" />
                             </Pressable>

@@ -87,9 +87,9 @@ export default function OotdCreateScreen({ navigation, route }: Props) {
             editOotdId: params?.editOotdId,
             calendarDate: params?.calendarDate,
           };
-          const serializable = JSON.parse(
-            JSON.stringify(payload)
-          ) as typeof payload;
+          // 네비게이션 params는 직렬화되어 전달됨. image는 { uri: string }일 때만 유지됨.
+          // require() 결과(에셋 번호)는 숫자로 직렬화되며, OotdCreateInfo의 업로드/미리보기는 uri 기반만 지원하므로 이 화면 진입 전에 uri 형태로 두는 것이 안전함.
+          const serializable = JSON.parse(JSON.stringify(payload)) as typeof payload;
           navigation.navigate("OotdCreateInfo", serializable);
         }}
       />

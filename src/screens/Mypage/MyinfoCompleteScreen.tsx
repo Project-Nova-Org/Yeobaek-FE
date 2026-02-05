@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   View,
   ScrollView,
@@ -20,9 +20,9 @@ export default function MyinfoCompleteScreen({ navigation, route }: Props) {
   const { savedData } = route.params;
   const { height, weight, gender, image } = savedData;
 
-  const goToMypage = () => {
+  const goToMypage = useCallback(() => {
     navigation.navigate("Mypage");
-  };
+  }, [navigation]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -35,7 +35,7 @@ export default function MyinfoCompleteScreen({ navigation, route }: Props) {
         onHardwareBack
       );
       return () => sub.remove();
-    }, [navigation])
+    }, [goToMypage])
   );
 
   const genderLabel =
