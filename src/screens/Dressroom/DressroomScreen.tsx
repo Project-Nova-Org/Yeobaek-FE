@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, ScrollView, Pressable, TextInput, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -16,7 +16,13 @@ import {
 import ImagePlusIcon from "@/assets/icons/itemplus.svg";
 
 import ButtonScroll from "@/components/ButtonScroll/ButtonScroll";
-import { MOCK_CLOSETS, MOCK_ITEMS, type ClosetItem, type FashionItem } from "./dressroom.mock";
+import { MOCK_ITEMS, type ClosetItem, type FashionItem } from "./dressroom.mock";
+import {
+  getClosetList,
+  setClosetList,
+  toggleClosetFavorite as storeToggleClosetFavorite,
+  subscribeClosetList,
+} from "@/stores/closetStore";
 import { DressroomTop } from "@/components/Top/DressroomTop";
 import Alert from "@/components/Alert/Alert";
 import ToastMessage from "@/components/ToastMessage/ToastMessage";
@@ -32,9 +38,14 @@ export function DressroomScreen() {
   const [activeTab, setActiveTab] = useState<TabType>("closet");
   const [onlyFavorite, setOnlyFavorite] = useState(false);
   const [isItemSearchOpen, setIsItemSearchOpen] = useState(false);
-  const [closets, setClosets] = useState<ClosetItem[]>(MOCK_CLOSETS);
+  const [closets, setClosets] = useState<ClosetItem[]>(() => getClosetList());
   const [items, setItems] = useState<FashionItem[]>(MOCK_ITEMS);
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const unsub = subscribeClosetList(() => setClosets(getClosetList()));
+    return unsub;
+  }, []);
 
   const { isDeleteMode, enterDeleteMode, exitDeleteMode } = useDeleteMode();
 
@@ -51,16 +62,11 @@ export function DressroomScreen() {
   const data = activeTab === "closet" ? filteredClosets : filteredItems;
 
   const toggleClosetFavorite = (id: number) => {
-    setClosets((prev) =>
-      prev.map((c) => {
-        if (c.id === id) {
-          const nextValue = !c.isFavorite;
-          closetFlow.showToast(nextValue ? "star" : "unstar");
-          return { ...c, isFavorite: nextValue };
-        }
-        return c;
-      }),
-    );
+    const c = closets.find((x) => x.id === id);
+    if (c) {
+      closetFlow.showToast(!c.isFavorite ? "star" : "unstar");
+      storeToggleClosetFavorite(id);
+    }
   };
 
   const handleCardPress = (item: ClosetItem | FashionItem) => {
@@ -264,7 +270,7 @@ export function DressroomScreen() {
         }}
         onConfirm={() => {
           if (closetFlow.selected) {
-            closetFlow.confirmDelete((id) => setClosets((prev) => prev.filter((c) => c.id !== id)));
+            closetFlow.confirmDelete((id) => setClosetList((prev) => prev.filter((c) => c.id !== id)));
           } else if (itemFlow.selected) {
             itemFlow.confirmDelete((id) => setItems((prev) => prev.filter((i) => i.id !== id)));
           }
