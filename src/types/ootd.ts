@@ -4,7 +4,6 @@ export interface OotdItemTransform {
   y: number;
   width: number;
   height: number;
-  /** 라디안 */
   rotation: number;
 }
 
