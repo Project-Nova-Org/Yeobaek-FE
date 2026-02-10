@@ -18,6 +18,7 @@ import {
 } from "@/assets/icons";
 import { OotdTop } from "@/components/Top/OotdTop.tsx";
 import { OotdLayoutPreview } from "@/components/Ootd/OotdLayoutPreview";
+import Alert from "@/components/Alert/Alert";
 import { TPO_LIST, STYLE_LIST } from "@/constants/ootd";
 import { getOotdList, subscribeOotdList, toggleOotdFavorite, deleteOotd } from "@/stores/ootdStore";
 import type { SavedOotd } from "@/types/ootd";
@@ -35,19 +36,25 @@ export function OotdScreen({ navigation }: Props) {
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
   const [ootdList, setOotdList] = useState<SavedOotd[]>(() => getOotdList());
   const [isDeleteMode, setIsDeleteMode] = useState(false);
+  const [ootdToDelete, setOotdToDelete] = useState<{ id: string; name: string } | null>(null);
+
+  const cardImageSize = CARD_IMAGE_WIDTH;
 
   useEffect(() => {
-    const unsub = subscribeOotdList(() => setOotdList(getOotdList()));
-    return unsub;
+    return subscribeOotdList(() => setOotdList(getOotdList()));
   }, []);
 
   const filteredList = ootdList
     .filter((ootd) => {
       if (!Array.isArray(ootd.items) || !ootd.canvasSize) return false;
-      if (keyword && !ootd.name.toLowerCase().includes(keyword.toLowerCase())) return false;
-      if (selectedTpo && ootd.tpo !== selectedTpo) return false;
-      if (selectedStyle && ootd.style !== selectedStyle) return false;
-      return true;
+
+      const lowerName = ootd.name.toLowerCase();
+      const keywordOk =
+        !keyword || lowerName.includes(keyword.toLowerCase());
+      const tpoOk = !selectedTpo || ootd.tpo === selectedTpo;
+      const styleOk = !selectedStyle || ootd.style === selectedStyle;
+
+      return keywordOk && tpoOk && styleOk;
     })
     .sort((a, b) => {
       if (!isStarred) return 0;
@@ -63,206 +70,221 @@ export function OotdScreen({ navigation }: Props) {
       <OotdTop />
       <Pressable style={{ flex: 1 }} onPress={() => isDeleteMode && exitDeleteMode()}>
         <View style={styles.container} pointerEvents="box-none">
-            <View style={styles.topRow} pointerEvents="box-none">
-              <Pressable
-                onPress={() => {
-                  if (isDeleteMode) {
-                    exitDeleteMode();
-                    return;
-                  }
-                  setIsStarred((p) => !p);
-                }}
-                style={styles.iconBtn}
-              >
-                {isStarred ? <StarIcon width={20} height={20} /> : <EmptyStarIcon width={20} height={20} />}
-              </Pressable>
+          <View style={styles.topRow} pointerEvents="box-none">
+            <Pressable
+              onPress={() => {
+                if (isDeleteMode) {
+                  exitDeleteMode();
+                  return;
+                }
+                setIsStarred((p) => !p);
+              }}
+              style={styles.iconBtn}
+            >
+              {isStarred ? (
+                <StarIcon width={20} height={20} />
+              ) : (
+                <EmptyStarIcon width={20} height={20} />
+              )}
+            </Pressable>
 
-              <View style={styles.searchWrapper}>
-                <SearchIcon width={18} height={18} color={Colors.gray400} />
-                <TextInput
-                  placeholder="검색.."
-                  value={keyword}
-                  onChangeText={setKeyword}
-                  style={styles.searchInput}
-                  placeholderTextColor={Colors.gray400}
-                />
-              </View>
-
-              <Pressable
-                onPress={() => {
-                  if (isDeleteMode) {
-                    exitDeleteMode();
-                    return;
-                  }
-                  setIsSortActive((p) => !p);
-                }}
-                style={styles.sortBtn}
-              >
-                <SortIcon width={20} color={isSortActive ? Colors.primary : Colors.gray400} />
-              </Pressable>
+            <View style={styles.searchWrapper}>
+              <SearchIcon width={18} height={18} color={Colors.gray400} />
+              <TextInput
+                placeholder="검색.."
+                value={keyword}
+                onChangeText={setKeyword}
+                style={styles.searchInput}
+                placeholderTextColor={Colors.gray400}
+              />
             </View>
 
-            <View style={styles.filterRow} pointerEvents="box-none">
-              <AppText style={styles.filterTitle}>TPO</AppText>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <View style={styles.chipRow}>
-                  {TPO_LIST.map((label) => {
-                    const active = selectedTpo === label;
-                    return (
-                      <Pressable
-                        key={label}
-                        onPress={() => {
-                          if (isDeleteMode) {
-                            exitDeleteMode();
-                            return;
-                          }
-                          setSelectedTpo((prev) => (prev === label ? null : label));
-                        }}
-                        style={[styles.chip, active && styles.chipActive]}
-                      >
-                        <AppText style={[styles.chipText, active && styles.chipTextActive]}>
-                          {label}
-                        </AppText>
-                      </Pressable>
-                    );
-                  })}
-                </View>
-              </ScrollView>
-            </View>
+            <Pressable
+              onPress={() => {
+                if (isDeleteMode) {
+                  exitDeleteMode();
+                  return;
+                }
+                setIsSortActive((p) => !p);
+              }}
+              style={styles.sortBtn}
+            >
+              <SortIcon width={20} color={isSortActive ? Colors.primary : Colors.gray400} />
+            </Pressable>
+          </View>
 
-            <View style={styles.filterRow} pointerEvents="box-none">
-              <AppText style={styles.filterTitle}>Style</AppText>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-                <View style={styles.chipRow}>
-                  {STYLE_LIST.map((label) => {
-                    const active = selectedStyle === label;
-                    return (
-                      <Pressable
-                        key={label}
-                        onPress={() => {
-                          if (isDeleteMode) {
-                            exitDeleteMode();
-                            return;
-                          }
-                          setSelectedStyle((prev) => (prev === label ? null : label));
-                        }}
-                        style={[styles.chip, active && styles.chipActive]}
-                      >
-                        <AppText style={[styles.chipText, active && styles.chipTextActive]}>
-                          {label}
-                        </AppText>
-                      </Pressable>
-                    );
-                  })}
-                </View>
-              </ScrollView>
-            </View>
-
-            <View style={styles.ootdBox} pointerEvents="box-none">
-              <ScrollView
-                contentContainerStyle={[styles.grid, { flexGrow: 1 }]}
-                showsVerticalScrollIndicator={false}
-              >
-                {isDeleteMode && (
-                  <Pressable
-                    style={[StyleSheet.absoluteFillObject, { zIndex: -1 }]}
-                    onPress={exitDeleteMode}
-                  />
-                )}
-            {filteredList.map((ootd) => (
-              <View key={ootd.id} style={styles.card}>
-                <View style={{ flex: 1 }}>
-                  <Pressable
-                    style={{ flex: 1 }}
-                    onPress={() =>
-                      !isDeleteMode && navigation.navigate("OotdDetail", { ootdId: ootd.id })
-                    }
-                    onLongPress={() => setIsDeleteMode(true)}
-                  >
-                    <View
-                      style={{
-                        position: "relative",
-                        width: "100%",
-                        height: CARD_IMAGE_WIDTH,
+          <View style={styles.filterRow} pointerEvents="box-none">
+            <AppText style={styles.filterTitle}>TPO</AppText>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <View style={styles.chipRow}>
+                {TPO_LIST.map((label) => {
+                  const active = selectedTpo === label;
+                  return (
+                    <Pressable
+                      key={label}
+                      onPress={() => {
+                        if (isDeleteMode) {
+                          exitDeleteMode();
+                          return;
+                        }
+                        setSelectedTpo((prev) => (prev === label ? null : label));
                       }}
+                      style={[styles.chip, active && styles.chipActive]}
+                    >
+                      <AppText style={[styles.chipText, active && styles.chipTextActive]}>
+                        {label}
+                      </AppText>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            </ScrollView>
+          </View>
+
+          <View style={styles.filterRow} pointerEvents="box-none">
+            <AppText style={styles.filterTitle}>Style</AppText>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+              <View style={styles.chipRow}>
+                {STYLE_LIST.map((label) => {
+                  const active = selectedStyle === label;
+                  return (
+                    <Pressable
+                      key={label}
+                      onPress={() => {
+                        if (isDeleteMode) {
+                          exitDeleteMode();
+                          return;
+                        }
+                        setSelectedStyle((prev) => (prev === label ? null : label));
+                      }}
+                      style={[styles.chip, active && styles.chipActive]}
+                    >
+                      <AppText style={[styles.chipText, active && styles.chipTextActive]}>
+                        {label}
+                      </AppText>
+                    </Pressable>
+                  );
+                })}
+              </View>
+            </ScrollView>
+          </View>
+
+          <View style={styles.ootdBox} pointerEvents="box-none">
+            <ScrollView
+              contentContainerStyle={[styles.grid, { flexGrow: 1 }]}
+              showsVerticalScrollIndicator={false}
+            >
+              {isDeleteMode && (
+                <Pressable
+                  style={[StyleSheet.absoluteFillObject, { zIndex: -1 }]}
+                  onPress={exitDeleteMode}
+                />
+              )}
+              {filteredList.map((ootd) => (
+                <View key={ootd.id} style={styles.card}>
+                  <View style={{ flex: 1 }}>
+                    <Pressable
+                      style={{ flex: 1 }}
+                      onPress={() =>
+                        !isDeleteMode && navigation.navigate("OotdDetail", { ootdId: ootd.id })
+                      }
+                      onLongPress={() => setIsDeleteMode(true)}
                     >
                       <View
-                        style={[
-                          styles.cardImage,
-                          {
-                            backgroundColor:
-                              ootd.imageBgColor ?? Colors.border,
-                          },
-                        ]}
+                        style={{
+                          position: "relative",
+                          width: "100%",
+                          height: cardImageSize,
+                        }}
                       >
-                        <OotdLayoutPreview
-                          items={ootd.items}
-                          width={CARD_IMAGE_WIDTH}
-                          height={CARD_IMAGE_WIDTH}
-                          sourceWidth={ootd.canvasSize.width}
-                          sourceHeight={ootd.canvasSize.height}
-                        />
-                      </View>
-                      {isDeleteMode && (
                         <View
                           style={[
-                            StyleSheet.absoluteFillObject,
-                            { borderRadius: 12, overflow: "hidden" },
+                            styles.cardImage,
+                            {
+                              backgroundColor: ootd.imageBgColor ?? Colors.border,
+                            },
                           ]}
-                          pointerEvents="box-none"
                         >
-                          <Pressable
-                            style={styles.deleteOverlay}
-                            onPress={() => setIsDeleteMode(false)}
+                          <OotdLayoutPreview
+                            items={ootd.items}
+                            width={CARD_IMAGE_WIDTH}
+                            height={CARD_IMAGE_WIDTH}
+                            sourceWidth={ootd.canvasSize.width}
+                            sourceHeight={ootd.canvasSize.height}
+                          />
+                        </View>
+                        {isDeleteMode && (
+                          <View
+                            style={[
+                              StyleSheet.absoluteFillObject,
+                              { borderRadius: 12, overflow: "hidden" },
+                            ]}
+                            pointerEvents="box-none"
                           >
                             <Pressable
-                              style={styles.deleteCircle}
-                              onPress={() => deleteOotd(ootd.id)}
+                              style={styles.deleteOverlay}
+                              onPress={() => setIsDeleteMode(false)}
                             >
-                              <DeleteIcon width={20} height={20} color={Colors.primary} />
+                              <Pressable
+                                style={styles.deleteCircle}
+                                onPress={() => setOotdToDelete({ id: ootd.id, name: ootd.name })}
+                              >
+                                <DeleteIcon width={20} height={20} color={Colors.primary} />
+                              </Pressable>
                             </Pressable>
-                          </Pressable>
-                        </View>
-                      )}
-                    </View>
-                    <View style={styles.cardLabel}>
-                      <AppText style={styles.cardLabelText} numberOfLines={1}>
-                        {ootd.name}
-                      </AppText>
-                    </View>
-                  </Pressable>
-                </View>
-                {!isDeleteMode && (
-                  <View style={styles.favoriteButtonOuter}>
-                    <Pressable
-                      style={styles.favoriteButtonInner}
-                      onPress={() => toggleOotdFavorite(ootd.id)}
-                    >
-                      {ootd.isFavorite ? (
-                        <FavoriteOnIcon width={12} height={12} />
-                      ) : (
-                        <FavoriteOffIcon width={12} height={12} />
-                      )}
+                          </View>
+                        )}
+                      </View>
+                      <View style={styles.cardLabel}>
+                        <AppText style={styles.cardLabelText} numberOfLines={1}>
+                          {ootd.name}
+                        </AppText>
+                      </View>
                     </Pressable>
                   </View>
-                )}
-              </View>
-            ))}
-            <Pressable
-              style={styles.card}
-              onPress={() =>
-                isDeleteMode ? setIsDeleteMode(false) : navigation.navigate("OotdCreate")
-              }
-            >
-              <View style={styles.cardImage}>
-                <ItemPlus width="100%" height="100%" />
-              </View>
-              <View style={styles.cardLabel} />
-            </Pressable>
-          </ScrollView>
-        </View>
+                  {!isDeleteMode && (
+                    <View style={styles.favoriteButtonOuter}>
+                      <Pressable
+                        style={styles.favoriteButtonInner}
+                        onPress={() => toggleOotdFavorite(ootd.id)}
+                      >
+                        {ootd.isFavorite ? (
+                          <FavoriteOnIcon width={12} height={12} />
+                        ) : (
+                          <FavoriteOffIcon width={12} height={12} />
+                        )}
+                      </Pressable>
+                    </View>
+                  )}
+                </View>
+              ))}
+              <Pressable
+                style={styles.card}
+                onPress={() =>
+                  isDeleteMode ? setIsDeleteMode(false) : navigation.navigate("OotdCreate")
+                }
+              >
+                <View style={styles.cardImage}>
+                  <ItemPlus width="100%" height="100%" />
+                </View>
+                <View style={styles.cardLabel} />
+              </Pressable>
+            </ScrollView>
+          </View>
         </View>
       </Pressable>
+
+      <Alert
+        visible={!!ootdToDelete}
+        message={ootdToDelete ? `${ootdToDelete.name}\n삭제하시겠습니까?` : ""}
+        onCancel={() => setOotdToDelete(null)}
+        onConfirm={() => {
+          if (ootdToDelete) {
+            deleteOotd(ootdToDelete.id);
+            setOotdToDelete(null);
+          }
+        }}
+      />
     </>
   );
 }

@@ -6,7 +6,9 @@ let closets: ClosetItem[] = [...MOCK_CLOSETS];
 const listeners = new Set<() => void>();
 
 function notify() {
-  listeners.forEach((cb) => cb());
+  listeners.forEach((cb) => {
+    cb();
+  });
 }
 
 export function getClosetList(): ClosetItem[] {

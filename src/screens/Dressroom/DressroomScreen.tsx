@@ -43,8 +43,7 @@ export function DressroomScreen() {
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    const unsub = subscribeClosetList(() => setClosets(getClosetList()));
-    return unsub;
+    return subscribeClosetList(() => setClosets(getClosetList()));
   }, []);
 
   const { isDeleteMode, enterDeleteMode, exitDeleteMode } = useDeleteMode();
@@ -270,7 +269,9 @@ export function DressroomScreen() {
         }}
         onConfirm={() => {
           if (closetFlow.selected) {
-            closetFlow.confirmDelete((id) => setClosetList((prev) => prev.filter((c) => c.id !== id)));
+            closetFlow.confirmDelete((id) =>
+              setClosetList((prev) => prev.filter((c) => c.id !== id)),
+            );
           } else if (itemFlow.selected) {
             itemFlow.confirmDelete((id) => setItems((prev) => prev.filter((i) => i.id !== id)));
           }
