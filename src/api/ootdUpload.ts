@@ -1,14 +1,10 @@
-import {
-  getPresignedUrls,
-  uploadToPresignedUrl,
-  imageSourceToBlob,
-} from "@/api/presignedUrl";
+import {getPresignedUrls, uploadToPresignedUrl, imageSourceToBlob,} from "@/api/presignedUrl";
 import type { OotdCanvasItem } from "@/types/ootd";
 
-const OOTD_PRESIGNED_PATH = "/api/ootd/presigned-urls";
+const OOTD_PRESIGNED_PATH = "/api/presignedUrl";
 
 export async function uploadOotdImagesAndGetUrls(
-  items: OotdCanvasItem[]
+  items: OotdCanvasItem[],
 ): Promise<OotdCanvasItem[]> {
   const urls = await getPresignedUrls(OOTD_PRESIGNED_PATH, {
     count: items.length,
@@ -16,7 +12,7 @@ export async function uploadOotdImagesAndGetUrls(
   if (urls.length === 0) return items;
   if (urls.length < items.length) {
     throw new Error(
-      `presigned URL 부족: 요청 ${items.length}개, 수신 ${urls.length}개. 모든 아이템을 업로드할 수 없습니다.`
+      `presigned URL 부족: 요청 ${items.length}개, 수신 ${urls.length}개. 모든 아이템을 업로드할 수 없습니다.`,
     );
   }
 

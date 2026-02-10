@@ -184,4 +184,56 @@ export const styles = StyleSheet.create({
     fontWeight: "500",
     textAlign: "center",
   },
+
+  /** 삭제 모드: 카드 위 반투명 레이어 */
+  deleteOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    borderRadius: 12,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  /** 삭제 모드: 흰색 동그라미 + delete 아이콘 */
+  deleteCircle: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: Colors.white,
+    justifyContent: "center",
+    alignItems: "center",
+    elevation: 4,
+  },
+
+  deleteCircleSelected: {
+    borderWidth: 2,
+    borderColor: Colors.primary,
+  },
+
+  deleteModeBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 12,
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+  },
+
+  deleteModeHint: {
+    fontSize: FontSize.s,
+    color: Colors.gray400,
+  },
+
+  deleteConfirmBtn: {
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    borderRadius: 20,
+    backgroundColor: Colors.primary,
+  },
+
+  deleteConfirmBtnText: {
+    fontSize: FontSize.s,
+    color: Colors.white,
+    fontWeight: "600",
+  },
 });
